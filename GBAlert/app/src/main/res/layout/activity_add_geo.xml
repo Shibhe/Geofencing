@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.josephsibiya.gbalert.AddGeoActivity"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="20dp"
+    app:layout_constraintGuide_percent="@integer/google_play_services_version"
+    android:background="#F2FAF8">
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/geoName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the name of the Geofence"
+            android:imeActionId="@+id/btnAddGeofence"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/geolati"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the Latitude of Geofence"
+            android:imeActionId="@+id/btnAddGeofence"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/geolongi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the Longitude of Geofence"
+            android:imeActionId="@+id/btnAddGeofence"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/geoRadius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the radius of Geofence (Km)"
+            android:imeActionId="@+id/btnAddGeofence"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/btnAddGeofence"
+    android:background="#1BE76E"
+    android:layout_marginTop="16dp"
+    android:text="Add Geofence"
+    android:textStyle="bold" />
+</LinearLayout>

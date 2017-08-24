@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">GBAlert</string>
+    <string name="title_activity_loginctivity">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_dashboard">Dashboard</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="title_activity_geo_map">Geofence</string>
+    <string name="title_activity_botton">Dashboard Menu</string>
+    <string name="title_add_student">Add Student</string>
+    <string name="title_view_student">View Students</string>
+    <string name="title_manage_geo">Manage Geofence</string>
+    <string name="title_activity_main_activityd">MainActivityd</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>

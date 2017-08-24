@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.josephsibiya.gbalert.AddStudentActivity"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="20dp"
+    app:layout_constraintGuide_percent="@integer/google_play_services_version"
+    android:background="#D4F8EF">
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Surname"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/initials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Student Initials"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/IDNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter ID Number"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/Gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Gender"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/studNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Student Number"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/MacAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter phone's Mac Address"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAddStudent"
+        android:background="#1BE76E"
+        android:layout_marginTop="16dp"
+        android:text="Add Student"
+        android:textStyle="bold" />
+</LinearLayout>
