@@ -17,10 +17,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
+import com.example.josephsibiya.geoalert.services.FetchGeofence;
 import com.example.josephsibiya.geoalert.services.GeofenceTransitionIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -61,6 +62,7 @@ public class GeoMapsActivity extends FragmentActivity
     private Location lastLocation;
     private ArrayList<GeofenceLocations> locationsArrayList = new ArrayList<>();
     private TextView textLat, textLong;
+    private GeofenceAdapter geofenceAdapter;
     private GeofenceLocations locations;
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
@@ -99,15 +101,19 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     protected void onStart() {
         super.onStart();
-        // Call GoogleApiClient connection when starting the Activity
+        // Call GoogleApiClient connection and fetch Geofence locations when starting the Activity
         googleApiClient.connect();
+        geofenceAdapter = new GeofenceAdapter(locationsArrayList, GeoMapsActivity.this);
+        new FetchGeofence(geofenceAdapter, GeoMapsActivity.this).execute();
+        startGeofence();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        // Disconnect GoogleApiClient when stopping Activity
+        // Disconnect GoogleApiClient and clear Geofence when stopping Activity
         googleApiClient.disconnect();
+        clearGeofence();
     }
 
     @Override
@@ -117,7 +123,7 @@ public class GeoMapsActivity extends FragmentActivity
         return true;
     }
 
-    @Override
+    /**(@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.geofence: {
@@ -130,7 +136,7 @@ public class GeoMapsActivity extends FragmentActivity
             }
         }
         return super.onOptionsItemSelected(item);
-    }
+    }**/
 
     private final int REQ_PERMISSION = 999;
 
@@ -198,7 +204,7 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     public void onMapClick(LatLng latLng) {
         Log.d(TAG, "onMapClick("+latLng +")");
-        markerForGeofence(latLng);
+        markerForGeofence(latLng, 0);
     }
 
     @Override
@@ -284,6 +290,7 @@ public class GeoMapsActivity extends FragmentActivity
 
     private Marker locationMarker;
     private void markerLocation(LatLng latLng) {
+
         Log.i(TAG, "markerLocation("+latLng+")");
         String title = latLng.latitude + ", " + latLng.longitude;
         MarkerOptions markerOptions = new MarkerOptions()
@@ -300,10 +307,12 @@ public class GeoMapsActivity extends FragmentActivity
     }
 
 
-    //private ArrayList<LatLng> arrayList = new ArrayList<>();
     private Marker geoFenceMarker;
-    private void markerForGeofence(LatLng latLng) {
+    private void markerForGeofence(LatLng latLng, int pos) {
         Log.i(TAG, "markerForGeofence("+latLng+")");
+
+        GeofenceLocations locations = locationsArrayList.get(pos);
+        latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         String title = latLng.latitude + ", " + latLng.longitude;
         // Define marker options
@@ -311,7 +320,6 @@ public class GeoMapsActivity extends FragmentActivity
                 .position(latLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
                 .title("Geofence: " + title);
-
 
         if ( map!=null ) {
             // Remove last geoFenceMarker
@@ -341,6 +349,10 @@ public class GeoMapsActivity extends FragmentActivity
     // Create a Geofence
     private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
+
+        GeofenceLocations locations = locationsArrayList.get(0);
+        latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
+
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
                 .setCircularRegion(latLng.latitude, latLng.longitude, radius)
@@ -435,7 +447,7 @@ public class GeoMapsActivity extends FragmentActivity
             //l//ocations = new GeofenceLocations();
             //locations.setLatitude(lat);
             //locations.setLognitude(lon);
-            markerForGeofence(latLng);
+            markerForGeofence(latLng, 0);
             drawGeofence();
         }
     }
