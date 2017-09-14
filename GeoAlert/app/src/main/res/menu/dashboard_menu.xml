@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addGeofence"
+        android:orderInCategory="100"
+        android:title="Add Geofence"
+        app:showAsAction="never" />
+
+    <item android:title="Add Student"
+        android:id="@+id/addStudent"
+        app:showAsAction="never"/>
+
+    <item android:title="View Students"
+        android:id="@+id/vStudent"
+        app:showAsAction="never"/>
+
+    <item android:title="View Geofence"
+        android:id="@+id/vGeofence"
+        app:showAsAction="never"/>
+
+</menu>
