@@ -44,6 +44,13 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         holder.longitude.setText((int) locations.getLognitude());
         holder.name.setText(locations.getName());
 
+
+        locations.setLognitude(28.084);
+        locations.setLatitude(-26.422);
+        locations.setLognitude(27.084);
+        locations.setLatitude(-28.422);
+
+
     }
 
     @Override
