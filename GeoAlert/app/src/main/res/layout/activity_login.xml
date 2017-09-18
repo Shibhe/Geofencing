@@ -13,6 +13,12 @@
     app:layout_constraintGuide_percent="@integer/google_play_services_version"
     android:background="#F6F5F3">
 
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:src="@drawable/dowoad"
+        android:paddingBottom="30dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

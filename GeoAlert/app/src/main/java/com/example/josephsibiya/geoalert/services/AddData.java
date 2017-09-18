@@ -3,6 +3,7 @@ package com.example.josephsibiya.geoalert.services;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,15 +17,15 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Created by josephsibiya on 2017/09/12.
+ * Created by hp on 2017/09/18.
  */
 
-/**public class AddStudentService extends AsyncTask<String, Void, String> {
+public class AddData extends AsyncTask<String, Void, String> {
 
     private Context context;
     private ProgressDialog pDialog;
 
-    public AddStudentService(Context context) {
+    public AddData(Context context) {
         this.context = context;
     }
 
@@ -32,9 +33,9 @@ import java.net.URLEncoder;
     protected String doInBackground(String...params) {
 
         String type = params[0];
-        String url_login = "http://172.31.120.181/addStudent.php";
+        String url_login = "";
 
-        if (type == "AddStud") {
+        if (type == "AddStudent") {
             try {
                 String stud_name = params[1];
                 String initials = params[2];
@@ -79,7 +80,7 @@ import java.net.URLEncoder;
                 e.printStackTrace();
             }
         }
-        else if(type == "AddGeo"){
+        else if(type == "AddGeofence"){
             try {
                 String name = params[1];
                 String latitude = params[2];
@@ -129,15 +130,16 @@ import java.net.URLEncoder;
     protected void onPreExecute() {
         super.onPreExecute();
 
-        ProgressDialog pDialog = new ProgressDialog(context);
+        /**ProgressDialog pDialog = new ProgressDialog(context);
         pDialog.setMessage("Please wait ...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(true);
-        pDialog.show();
+        pDialog.show();**/
+        Toast.makeText(context, "Successfully Added", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
     }
-}**/
+}

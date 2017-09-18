@@ -204,7 +204,7 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     public void onMapClick(LatLng latLng) {
         Log.d(TAG, "onMapClick("+latLng +")");
-        markerForGeofence(latLng, 0);
+        markerForGeofence(latLng);
     }
 
     @Override
@@ -308,10 +308,10 @@ public class GeoMapsActivity extends FragmentActivity
 
 
     private Marker geoFenceMarker;
-    private void markerForGeofence(LatLng latLng, int pos) {
+    private void markerForGeofence(LatLng latLng) {
         Log.i(TAG, "markerForGeofence("+latLng+")");
 
-        GeofenceLocations locations = locationsArrayList.get(pos);
+        GeofenceLocations locations = locationsArrayList.get(locationsArrayList.size());
         latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         String title = latLng.latitude + ", " + latLng.longitude;
@@ -447,7 +447,7 @@ public class GeoMapsActivity extends FragmentActivity
             //l//ocations = new GeofenceLocations();
             //locations.setLatitude(lat);
             //locations.setLognitude(lon);
-            markerForGeofence(latLng, 0);
+            markerForGeofence(latLng);
             drawGeofence();
         }
     }

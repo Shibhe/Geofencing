@@ -1,6 +1,7 @@
 package com.example.josephsibiya.geoalert.services;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -79,10 +80,11 @@ public class LoginService extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Login Status");
-        Intent intent = new Intent(context, DashboardActivity.class);
-        context.startActivity(intent);
+        ProgressDialog pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Logging in...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        pDialog.show();
     }
 
     @Override

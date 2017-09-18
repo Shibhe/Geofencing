@@ -32,7 +32,7 @@ public class GeofenceActivity extends AppCompatActivity {
         addGeofence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(GeofenceActivity.this, AddGeoActivity.class);
+                Intent intent = new Intent(GeofenceActivity.this, AddGeoActivity.class);
                 startActivity(intent);
             }
         });

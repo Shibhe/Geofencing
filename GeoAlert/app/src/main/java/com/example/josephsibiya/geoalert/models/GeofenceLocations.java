@@ -6,6 +6,14 @@ package com.example.josephsibiya.geoalert.models;
 
 public class GeofenceLocations {
 
+    public GeofenceLocations(int id, String name, double latitude, double lognitude, double radius) {
+        Id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.lognitude = lognitude;
+        this.radius = radius;
+    }
+
     public String getName() {
         return name;
     }
