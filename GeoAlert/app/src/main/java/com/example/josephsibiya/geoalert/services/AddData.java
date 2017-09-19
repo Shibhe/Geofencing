@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.example.josephsibiya.geoalert.Configuration.Config;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -33,7 +35,8 @@ public class AddData extends AsyncTask<String, Void, String> {
     protected String doInBackground(String...params) {
 
         String type = params[0];
-        String url_login = "";
+       // String url_addStudent = "http://192.168.2.198/geofence/addStudent.php";
+       // String url_addGeofence = "http://192.168.2.198/geofence/addGeofence.php";
 
         if (type == "AddStudent") {
             try {
@@ -44,7 +47,7 @@ public class AddData extends AsyncTask<String, Void, String> {
                 String studNum = params[5];
                 String studMac = params[6];
 
-                URL url = new URL(url_login);
+                URL url = new URL(Config.URL_ADDSTU);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -52,12 +55,12 @@ public class AddData extends AsyncTask<String, Void, String> {
 
                 OutputStream outputStream = connection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("stud_name", "UTF-8") + "=" + URLEncoder.encode(stud_name, "UTF-8") + "&"
-                        + URLEncoder.encode("initials", "UTF-8") + "=" + URLEncoder.encode(initials, "UTF-8") + "&"
-                        + URLEncoder.encode("IDNo", "UTF-8") + "=" + URLEncoder.encode(IDNo, "UTF-8") + "&"
-                        + URLEncoder.encode("Gender", "UTF-8") + "=" + URLEncoder.encode(Gender, "UTF-8") + "&"
-                        + URLEncoder.encode("studNum", "UTF-8") + "=" + URLEncoder.encode(studNum, "UTF-8") + "&"
-                        + URLEncoder.encode("studMac", "UTF-8") + "=" + URLEncoder.encode(studMac, "UTF-8");
+                String post_data = URLEncoder.encode("Surname", "UTF-8") + "=" + URLEncoder.encode(stud_name, "UTF-8")+"&"
+                        + URLEncoder.encode("Initials", "UTF-8") + "=" + URLEncoder.encode(initials, "UTF-8")+"&"
+                        + URLEncoder.encode("IDNo", "UTF-8") + "=" + URLEncoder.encode(IDNo, "UTF-8")+"&"
+                        + URLEncoder.encode("Gender", "UTF-8") + "=" + URLEncoder.encode(Gender, "UTF-8")+"&"
+                        + URLEncoder.encode("StudNum", "UTF-8") + "=" + URLEncoder.encode(studNum, "UTF-8")+"&"
+                        + URLEncoder.encode("MacAddress", "UTF-8") + "=" + URLEncoder.encode(studMac, "UTF-8");
 
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
@@ -82,13 +85,13 @@ public class AddData extends AsyncTask<String, Void, String> {
         }
         else if(type == "AddGeofence"){
             try {
-                String name = params[1];
-                String latitude = params[2];
-                String longitude = params[3];
-                String radius = params[4];
+                String geo_name = params[1];
+                String geo_lati = params[2];
+                String geo_longi = params[3];
+                String geo_radius = params[4];
 
 
-                URL url = new URL(url_login);
+                URL url = new URL(Config.URL_ADDGEO);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -96,10 +99,10 @@ public class AddData extends AsyncTask<String, Void, String> {
 
                 OutputStream outputStream = connection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
-                        + URLEncoder.encode("latitude", "UTF-8") + "=" + URLEncoder.encode(latitude, "UTF-8") + "&"
-                        + URLEncoder.encode("longitude", "UTF-8") + "=" + URLEncoder.encode(longitude, "UTF-8") + "&"
-                        + URLEncoder.encode("radius", "UTF-8") + "=" + URLEncoder.encode(radius, "UTF-8");
+                String post_data = URLEncoder.encode("GeoName", "UTF-8") + "=" + URLEncoder.encode(geo_name, "UTF-8") + "&"
+                        + URLEncoder.encode("GeoLatitude", "UTF-8") + "=" + URLEncoder.encode(geo_lati, "UTF-8") + "&"
+                        + URLEncoder.encode("GeoLongitude", "UTF-8") + "=" + URLEncoder.encode(geo_longi, "UTF-8") + "&"
+                        + URLEncoder.encode("GeoRadius", "UTF-8") + "=" + URLEncoder.encode(geo_radius, "UTF-8");
 
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
@@ -129,12 +132,6 @@ public class AddData extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
-        /**ProgressDialog pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Please wait ...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(true);
-        pDialog.show();**/
         Toast.makeText(context, "Successfully Added", Toast.LENGTH_SHORT).show();
     }
 

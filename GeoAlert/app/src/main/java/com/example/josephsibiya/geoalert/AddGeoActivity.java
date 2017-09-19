@@ -30,10 +30,10 @@ public class AddGeoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_geo);
 
-        name = (EditText) findViewById(R.id.geoName);
-        longitude = (EditText) findViewById(R.id.geoLongi);
-        latitude = (EditText) findViewById(R.id.geoLat);
-        radius = (EditText) findViewById(R.id.geoRadius);
+        name = (EditText) findViewById(R.id.Geoname);
+        longitude = (EditText) findViewById(R.id.longi);
+        latitude = (EditText) findViewById(R.id.lati);
+        radius = (EditText) findViewById(R.id.rad);
 
         add_geofence = (Button) findViewById(R.id.addGeo);
         //Initialize database referrence
@@ -48,11 +48,11 @@ public class AddGeoActivity extends AppCompatActivity {
 
      private void SubmitGeofence()
      {
-         String type = "AddGeofence";
-     final String geoName = name.getText().toString();
-     final String geoLat = latitude.getText().toString();
-     final String geoLongi = longitude.getText().toString();
-     final String geoRadius = radius.getText().toString();
+          String type = "AddGeofence";
+          String geoName = name.getText().toString();
+          String geoLat = latitude.getText().toString();
+          String geoLongi = longitude.getText().toString();
+          String geoRadius = radius.getText().toString();
 
      //geoLatitude Requires
          if (TextUtils.isEmpty(geoLat))

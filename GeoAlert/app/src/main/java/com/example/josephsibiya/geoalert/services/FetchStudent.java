@@ -39,7 +39,7 @@ public class FetchStudent extends AsyncTask<Void, Void, Void> {
         HttpURLConnection urlConnection = null;
         BufferedReader bufferedReader = null;
         try {
-            URL url = new URL("");
+            URL url = new URL("http://192.168.2.198/geofence/listStudent.php");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             //urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
