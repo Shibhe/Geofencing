@@ -54,12 +54,12 @@ public class LoginActivity extends AppCompatActivity  {
                 username.setError(null);
                 password.setError(null);
 
-                if (username.length() == 0 && username.length() > 9){
+                if (username.length() == 0 ){
                     Toast.makeText(LoginActivity.this, "Invalid or Incorrect username", Toast.LENGTH_SHORT).show();
                     view = username;
                 }
 
-                if (password.length() == 0 && password.length() > 12){
+                if (password.length() == 0){
                     Toast.makeText(LoginActivity.this, "Invalid or Incorrect username", Toast.LENGTH_SHORT).show();
                     view = username;
                 }
@@ -67,6 +67,9 @@ public class LoginActivity extends AppCompatActivity  {
                     Login();
                     intent = new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
+
+                    username.setText(null);
+                    password.setText(null);
                 }
             }
         });

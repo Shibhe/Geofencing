@@ -80,6 +80,13 @@ public class AddStudentActivity extends AppCompatActivity {
                 else{
                     AddStudent();
                     Toast.makeText(AddStudentActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+
+                    surname.setText(null);
+                    initials.setText(null);
+                    studNumber.setText(null);
+                    IDNo.setText(null);
+                    gender.setText(null);
+                    macAddress.setText(null);
                 }
 
             }

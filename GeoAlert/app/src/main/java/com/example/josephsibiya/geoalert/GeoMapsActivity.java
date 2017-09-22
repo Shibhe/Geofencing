@@ -116,12 +116,12 @@ public class GeoMapsActivity extends FragmentActivity
         clearGeofence();
     }
 
-    @Override
+    /**@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.navigation, menu);
         return true;
-    }
+    }**/
 
     /**(@Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -204,6 +204,7 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     public void onMapClick(LatLng latLng) {
         Log.d(TAG, "onMapClick("+latLng +")");
+        latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
         markerForGeofence(latLng);
     }
 
@@ -311,7 +312,7 @@ public class GeoMapsActivity extends FragmentActivity
     private void markerForGeofence(LatLng latLng) {
         Log.i(TAG, "markerForGeofence("+latLng+")");
 
-        GeofenceLocations locations = locationsArrayList.get(locationsArrayList.size());
+        //GeofenceLocations locations = locationsArrayList.get(0);
         latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         String title = latLng.latitude + ", " + latLng.longitude;
@@ -334,7 +335,7 @@ public class GeoMapsActivity extends FragmentActivity
     private void startGeofence() {
         Log.i(TAG, "startGeofence()");
         if( geoFenceMarker != null ) {
-            Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS);
+            Geofence geofence = createGeofence(GEOFENCE_RADIUS);
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
             addGeofence( geofenceRequest );
         } else {
@@ -347,15 +348,15 @@ public class GeoMapsActivity extends FragmentActivity
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
 
     // Create a Geofence
-    private Geofence createGeofence(LatLng latLng, float radius) {
+    private Geofence createGeofence(float radius) {
         Log.d(TAG, "createGeofence");
 
-        GeofenceLocations locations = locationsArrayList.get(0);
-        latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
+        //locations = locationsArrayList.get(locationsArrayList.size());
+        //latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
-                .setCircularRegion(latLng.latitude, latLng.longitude, radius)
+                .setCircularRegion(locations.getLatitude(), locations.getLognitude(), radius)
                 .setExpirationDuration( GEO_DURATION )
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
                         | Geofence.GEOFENCE_TRANSITION_EXIT )

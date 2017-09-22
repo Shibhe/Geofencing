@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class AddGeoActivity extends AppCompatActivity {
 
    // private SeekBar seekBar;
-    private EditText name, longitude, latitude, radius;
+    private EditText name, longitude, latitude;
     private Button add_geofence;
     private String regexStr = "^[0-9]*$";
    // private DatabaseReference mDatabase;
@@ -34,7 +34,7 @@ public class AddGeoActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.Geoname);
         longitude = (EditText) findViewById(R.id.longi);
         latitude = (EditText) findViewById(R.id.lati);
-        radius = (EditText) findViewById(R.id.rad);
+        //radius = (EditText) findViewById(R.id.rad);
 
         add_geofence = (Button) findViewById(R.id.addGeo);
         //Initialize database referrence
@@ -46,7 +46,7 @@ public class AddGeoActivity extends AppCompatActivity {
                 name.setError(null);
                 longitude.setError(null);
                 latitude.setError(null);
-                radius.setError(null);
+                //radius.setError(null);
 
                 if (name.length() == 0){
                     Toast.makeText(AddGeoActivity.this, "Field must not be empty", Toast.LENGTH_SHORT).show();
@@ -64,13 +64,18 @@ public class AddGeoActivity extends AppCompatActivity {
                     view = latitude;
                 }
 
-                if (radius.length() == 0 && !radius.getText().toString().matches(regexStr)){
+                /**if (radius.length() == 0 && !radius.getText().toString().matches(regexStr)){
                     Toast.makeText(AddGeoActivity.this, "Field must not be empty and must be a number", Toast.LENGTH_SHORT).show();
                     view = radius;
-                }
+                }**/
                 else {
                     SubmitGeofence();
                     Toast.makeText(AddGeoActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+
+                    name.setText(null);
+                    longitude.setText(null);
+                    latitude.setText(null);
+                   // radius.setText(null);
                 }
             }
         });
@@ -82,10 +87,10 @@ public class AddGeoActivity extends AppCompatActivity {
           String geoName = name.getText().toString();
           String geoLat = latitude.getText().toString();
           String geoLongi = longitude.getText().toString();
-          String geoRadius = radius.getText().toString();
+          //String geoRadius = radius.getText().toString();
 
 
-         new AddData(AddGeoActivity.this).execute(type, geoName, geoLat,geoLongi,geoRadius);
+         new AddData(AddGeoActivity.this).execute(type, geoName, geoLat,geoLongi);
      }
    /** private void SubmitGeofence()
     {

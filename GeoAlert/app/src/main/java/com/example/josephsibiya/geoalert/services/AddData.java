@@ -88,7 +88,7 @@ public class AddData extends AsyncTask<String, Void, String> {
                 String geo_name = params[1];
                 String geo_lati = params[2];
                 String geo_longi = params[3];
-                String geo_radius = params[4];
+                ///String geo_radius = params[4];
 
 
                 URL url = new URL(Config.URL_ADDGEO);
@@ -101,8 +101,7 @@ public class AddData extends AsyncTask<String, Void, String> {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("GeoName", "UTF-8") + "=" + URLEncoder.encode(geo_name, "UTF-8") + "&"
                         + URLEncoder.encode("GeoLatitude", "UTF-8") + "=" + URLEncoder.encode(geo_lati, "UTF-8") + "&"
-                        + URLEncoder.encode("GeoLongitude", "UTF-8") + "=" + URLEncoder.encode(geo_longi, "UTF-8") + "&"
-                        + URLEncoder.encode("GeoRadius", "UTF-8") + "=" + URLEncoder.encode(geo_radius, "UTF-8");
+                        + URLEncoder.encode("GeoLongitude", "UTF-8") + "=" + URLEncoder.encode(geo_longi, "UTF-8");
 
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
