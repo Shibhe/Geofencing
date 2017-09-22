@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.josephsibiya.geoalert.services.AddData;
 import com.example.josephsibiya.geoalert.services.LoginService;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity  {
 
     private EditText username, password;
-    private Button login;
+    private Button btnLogin;
     private Intent intent;
     private LoginService mAuthTask = null;
 
@@ -43,11 +44,11 @@ public class LoginActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login = (Button) findViewById(R.id.email_sign_in_button);
+        btnLogin = (Button) findViewById(R.id.email_sign_in_button);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity  {
                 }
 
                 if (password.length() == 0){
-                    Toast.makeText(LoginActivity.this, "Invalid or Incorrect username", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid or Incorrect password", Toast.LENGTH_SHORT).show();
                     view = username;
                 }
                 else{
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity  {
 
                     username.setText(null);
                     password.setText(null);
+                    username.isFocused();
                 }
             }
         });
@@ -77,17 +79,23 @@ public class LoginActivity extends AppCompatActivity  {
 
     public void Login() {
 
-        String user = username.getText().toString();
-        String pswd = password.getText().toString();
-        String type = "login";
-        boolean cancel = false;
-        View view = null;
+        final String user = username.getText().toString();
+        final String pswd = password.getText().toString();
+        final String type = "login";
+        //boolean cancel = false;
+        //View view = null;
 
         if (mAuthTask != null){
             return;
         }
 
-        new LoginService(LoginActivity.this, user, pswd, type).execute(type, user, pswd);
+        new Thread(new Runnable() {
+            public void run() {
+                // a potentially  time consuming task
+                new LoginService(LoginActivity.this, user, pswd, type).execute(type, user, pswd);
+            }
+        }).start();
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.josephsibiya.geoalert;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,7 +23,7 @@ public class AddGeoActivity extends AppCompatActivity {
 
    // private SeekBar seekBar;
     private EditText name, longitude, latitude;
-    private Button add_geofence;
+    private Button btn_Add_Geofence;
     private String regexStr = "^[0-9]*$";
    // private DatabaseReference mDatabase;
 
@@ -36,12 +37,14 @@ public class AddGeoActivity extends AppCompatActivity {
         latitude = (EditText) findViewById(R.id.lati);
         //radius = (EditText) findViewById(R.id.rad);
 
-        add_geofence = (Button) findViewById(R.id.addGeo);
+        btn_Add_Geofence = (Button) findViewById(R.id.addGeo);
         //Initialize database referrence
         //mDatabase = FirebaseDatabase.getInstance().getReference();
-        add_geofence.setOnClickListener(new View.OnClickListener() {
+        btn_Add_Geofence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
 
                 name.setError(null);
                 longitude.setError(null);
@@ -75,22 +78,29 @@ public class AddGeoActivity extends AppCompatActivity {
                     name.setText(null);
                     longitude.setText(null);
                     latitude.setText(null);
+                    name.isFocused();
                    // radius.setText(null);
                 }
             }
-        });
-    }
+            });
+        }
 
      private void SubmitGeofence()
      {
-          String type = "AddGeofence";
-          String geoName = name.getText().toString();
-          String geoLat = latitude.getText().toString();
-          String geoLongi = longitude.getText().toString();
+         final String type = "AddGeofence";
+         final String geoName = name.getText().toString();
+         final  String geoLat = latitude.getText().toString();
+         final  String geoLongi = longitude.getText().toString();
           //String geoRadius = radius.getText().toString();
 
+         new Thread(new Runnable() {
+             public void run() {
+                 // a potentially  time consuming task
+                 new AddData(AddGeoActivity.this).execute(type, geoName, geoLat,geoLongi);
+             }
+         }).start();
 
-         new AddData(AddGeoActivity.this).execute(type, geoName, geoLat,geoLongi);
+
      }
    /** private void SubmitGeofence()
     {

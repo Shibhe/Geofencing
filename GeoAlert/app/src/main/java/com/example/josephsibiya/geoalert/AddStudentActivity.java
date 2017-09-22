@@ -21,7 +21,7 @@ public class AddStudentActivity extends AppCompatActivity {
     private EditText IDNo;
     private EditText macAddress;
     private EditText gender;
-    private Button addStudent;
+    private Button btnAddStudent;
     private String regexStr = "^[0-9]*$";
 
     @Override
@@ -35,10 +35,10 @@ public class AddStudentActivity extends AppCompatActivity {
         IDNo = (EditText) findViewById(R.id.IDNo);
         gender = (EditText) findViewById(R.id.Gender);
         macAddress = (EditText) findViewById(R.id.MacAddress);
-        addStudent = (Button) findViewById(R.id.btnAddStudent);
+        btnAddStudent = (Button) findViewById(R.id.btnAddStudent);
 
 
-        addStudent.setOnClickListener(new View.OnClickListener() {
+        btnAddStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 surname.setError(null);
@@ -87,6 +87,7 @@ public class AddStudentActivity extends AppCompatActivity {
                     IDNo.setText(null);
                     gender.setText(null);
                     macAddress.setText(null);
+                    surname.isFocused();
                 }
 
             }
@@ -95,15 +96,20 @@ public class AddStudentActivity extends AppCompatActivity {
 
     private void AddStudent()
     {
-        String type = "AddStudent";
-        String studName = surname.getText().toString();
-        String studInitials = initials.getText().toString();
-        String studnumb = studNumber.getText().toString();
-        String studIDNo = IDNo.getText().toString();
-        String studMacAddress = macAddress.getText().toString();
-        String gen = gender.getText().toString();
+        final String type = "AddStudent";
+        final String studSurname = surname.getText().toString();
+        final String studInitial = initials.getText().toString();
+        final String studNum = studNumber.getText().toString();
+        final String studIDNo = IDNo.getText().toString();
+        final String studMacAddress = macAddress.getText().toString();
+        final String gen = gender.getText().toString();
 
-        new AddData(AddStudentActivity.this).execute(type, studName,studInitials,studIDNo, gen, studnumb,studMacAddress);
+        new Thread(new Runnable() {
+            public void run() {
+                // a potentially  time consuming task
+                new AddData(AddStudentActivity.this).execute(type, studSurname,studInitial,studIDNo, gen, studNum,studMacAddress);
+            }
+        }).start();
 
     }
 }

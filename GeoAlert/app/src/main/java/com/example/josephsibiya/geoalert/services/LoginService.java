@@ -51,6 +51,8 @@ public class LoginService extends AsyncTask<String, Void, String> {
         if (type == "login") {
             try {
 
+                Thread.activeCount();
+
                 username = params[1];
                 password = params[2];
 
@@ -100,7 +102,6 @@ public class LoginService extends AsyncTask<String, Void, String> {
         pDialog.setCancelable(true);
         pDialog.show();
 
-       // pDialog.show();
     }
 
     @Override
