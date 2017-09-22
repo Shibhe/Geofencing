@@ -83,7 +83,6 @@ public class GeofenceActivity extends AppCompatActivity {
     private void moveItem(int pos, int newPos)
     {
         GeofenceLocations geofenceLocations = geofenceAdapter.locationsArrayList.get(pos);
-        //geofenceAdapter.locationsArrayList.get(pos);
         geofenceAdapter.locationsArrayList.remove(pos);
         geofenceAdapter.locationsArrayList.add(newPos, geofenceLocations);
         geofenceAdapter.notifyItemMoved(pos, newPos);

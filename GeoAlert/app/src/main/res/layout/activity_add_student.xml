@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Surname"
+            android:maxLength="33"
             android:imeActionId="@+id/btnAddStudent"
             android:imeActionLabel="Must not be empty"
             android:imeOptions="actionUnspecified"
@@ -42,10 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Student Initials"
+            android:maxLength="4"
             android:imeActionId="@+id/btnAddStudent"
             android:imeActionLabel="Must not be empty"
             android:imeOptions="actionUnspecified"
-            android:inputType="number"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -60,10 +61,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter ID Number"
+            android:maxLength="13"
             android:imeActionId="@+id/btnAddStudent"
             android:imeActionLabel="Must not be empty"
             android:imeOptions="actionUnspecified"
-            android:inputType="text"
+            android:inputType="number"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -78,6 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Gender"
+            android:maxLength="5"
             android:imeActionId="@+id/btnAddStudent"
             android:imeActionLabel="Must not be empty"
             android:imeOptions="actionUnspecified"
@@ -95,10 +98,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Student Number"
+            android:maxLength="10"
             android:imeActionId="@+id/btnAddStudent"
             android:imeActionLabel="Must not be empty"
             android:imeOptions="actionUnspecified"
-            android:inputType="text"
+            android:inputType="number"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -111,6 +115,7 @@
             android:id="@+id/MacAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="20"
             android:hint="Enter phone's Mac Address"
             android:imeActionId="@+id/btnAddStudent"
             android:imeActionLabel="Must not be empty"

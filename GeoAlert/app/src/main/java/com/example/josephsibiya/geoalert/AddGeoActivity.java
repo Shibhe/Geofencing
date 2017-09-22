@@ -23,6 +23,7 @@ public class AddGeoActivity extends AppCompatActivity {
    // private SeekBar seekBar;
     private EditText name, longitude, latitude, radius;
     private Button add_geofence;
+    private String regexStr = "^[0-9]*$";
    // private DatabaseReference mDatabase;
 
     @Override
@@ -41,7 +42,36 @@ public class AddGeoActivity extends AppCompatActivity {
         add_geofence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SubmitGeofence();
+
+                name.setError(null);
+                longitude.setError(null);
+                latitude.setError(null);
+                radius.setError(null);
+
+                if (name.length() == 0){
+                    Toast.makeText(AddGeoActivity.this, "Field must not be empty", Toast.LENGTH_SHORT).show();
+                    view = name;
+                }
+
+                if (longitude.length() == 0 && !longitude.getText().toString().matches(regexStr)){
+                    //longitude.setError( "Field must not be empty and must be a number" );
+                    Toast.makeText(AddGeoActivity.this, "Field must not be empty and must be a number", Toast.LENGTH_SHORT).show();
+                    view = longitude;
+                }
+
+                if (latitude.length() == 0 && !latitude.getText().toString().matches(regexStr)){
+                    Toast.makeText(AddGeoActivity.this, "Field must not be empty and must be a number", Toast.LENGTH_SHORT).show();
+                    view = latitude;
+                }
+
+                if (radius.length() == 0 && !radius.getText().toString().matches(regexStr)){
+                    Toast.makeText(AddGeoActivity.this, "Field must not be empty and must be a number", Toast.LENGTH_SHORT).show();
+                    view = radius;
+                }
+                else {
+                    SubmitGeofence();
+                    Toast.makeText(AddGeoActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -54,21 +84,6 @@ public class AddGeoActivity extends AppCompatActivity {
           String geoLongi = longitude.getText().toString();
           String geoRadius = radius.getText().toString();
 
-     //geoLatitude Requires
-         if (TextUtils.isEmpty(geoLat))
-         {
-         latitude.setError("Field Required baba");
-         }
-
-         if (TextUtils.isEmpty(geoLongi))
-         {
-         latitude.setError("Field Required baba");
-         }
-
-         if (TextUtils.isEmpty(geoRadius))
-         {
-         latitude.setError("Field Required baba");
-         }
 
          new AddData(AddGeoActivity.this).execute(type, geoName, geoLat,geoLongi,geoRadius);
      }

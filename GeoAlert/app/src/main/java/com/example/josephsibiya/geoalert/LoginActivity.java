@@ -37,9 +37,6 @@ public class LoginActivity extends AppCompatActivity  {
     private Intent intent;
     private LoginService mAuthTask = null;
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +47,27 @@ public class LoginActivity extends AppCompatActivity  {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-       // RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Login();
+
+                username.setError(null);
+                password.setError(null);
+
+                if (username.length() == 0 && username.length() > 9){
+                    Toast.makeText(LoginActivity.this, "Invalid or Incorrect username", Toast.LENGTH_SHORT).show();
+                    view = username;
+                }
+
+                if (password.length() == 0 && password.length() > 12){
+                    Toast.makeText(LoginActivity.this, "Invalid or Incorrect username", Toast.LENGTH_SHORT).show();
+                    view = username;
+                }
+                else{
+                    Login();
+                    intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -71,57 +84,9 @@ public class LoginActivity extends AppCompatActivity  {
             return;
         }
 
-        username.setError(null);
-        password.setError(null);
-
-        if (!TextUtils.isEmpty(user)){
-            username.setError("REQUIRED");
-            view = username;
-            cancel = true;
-        }
-
-        if (!TextUtils.isEmpty(pswd) && !isPasswordValid(pswd)){
-            password.setError("REQUIRED");
-            view = username;
-            cancel = true;
-        }
-
-        if (cancel){
-            view.requestFocus();
-        }
-        else {
-            new LoginService(LoginActivity.this, user, pswd, type).execute(type, user, pswd);
-        }
-           // new LoginService(LoginActivity.this, user, pswd, type).execute(type, user, pswd);
-           // intent = new Intent(LoginActivity.this, DashboardActivity.class);
-            //startActivity(intent);
-
-        ///else{
-         //   Toast.makeText(LoginActivity.this, "All field must not be empty", Toast.LENGTH_LONG).show();
-        //}
-        //setEditingEnabled(false);
-        //return  status;
+        new LoginService(LoginActivity.this, user, pswd, type).execute(type, user, pswd);
     }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-
-
-    /**private  void setEditingEnabled(boolean enabled)
-    {
-        username.setEnabled(enabled);
-        password.setEnabled(enabled);
-
-        if (enabled){
-            login.setVisibility(View.VISIBLE);
-        }
-        else{
-            login.setVisibility(View.GONE);
-        }
-    }**/
 }
 
 

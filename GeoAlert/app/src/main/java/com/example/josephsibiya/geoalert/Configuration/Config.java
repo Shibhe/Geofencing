@@ -6,7 +6,7 @@ package com.example.josephsibiya.geoalert.Configuration;
 
 public class Config {
 
-    public static final String URL_LOGIN = "http://192.168.2.198/geofence/login.php";
-    public static final String URL_ADDGEO = "http://192.168.2.198/geofence/addGeofence.php";
-    public  static  final String URL_ADDSTU = "http://192.168.2.198/geofence/addStudent.php";
+    public static final String URL_LOGIN = "http://192.168.2.117/geofence/login.php";
+    public static final String URL_ADDGEO = "http://192.168.2.117/geofence/addGeofence.php";
+    public  static  final String URL_ADDSTU = "http://192.168.2.117/geofence/addStudent.php";
 }

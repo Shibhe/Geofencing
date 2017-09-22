@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.services.AddData;
+
+import java.net.IDN;
 //import com.example.josephsibiya.geoalert.services.AddStudentService;
 
 public class AddStudentActivity extends AppCompatActivity {
@@ -19,6 +22,7 @@ public class AddStudentActivity extends AppCompatActivity {
     private EditText macAddress;
     private EditText gender;
     private Button addStudent;
+    private String regexStr = "^[0-9]*$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,47 @@ public class AddStudentActivity extends AppCompatActivity {
         addStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddStudent();
+                surname.setError(null);
+                initials.setError(null);
+                studNumber.setError(null);
+                IDNo.setError(null);
+                gender.setError(null);
+                macAddress.setError(null);
+
+                if (surname.length() == 0){
+                    Toast.makeText(AddStudentActivity.this, "Surname characters must be more than 0 characters", Toast.LENGTH_SHORT).show();
+                    view = surname;
+                }
+
+                if (initials.length() == 0 && initials.length() > 4){
+                    Toast.makeText(AddStudentActivity.this, "Initials characters must be more than 0 characters", Toast.LENGTH_SHORT).show();
+                    view = initials;
+                }
+
+                if (studNumber.length() == 0 && !studNumber.getText().toString().matches(regexStr) && studNumber.length() > 9){
+                    Toast.makeText(AddStudentActivity.this, "Student number contain 9 characters" , Toast.LENGTH_SHORT).show();
+                    view = studNumber;
+                }
+
+                if (IDNo.length() == 0 && !studNumber.getText().toString().matches(regexStr) && IDNo.length() > 13){
+                    Toast.makeText(AddStudentActivity.this, "ID number contain 13 characters", Toast.LENGTH_SHORT).show();
+                    view = IDNo;
+                }
+
+                if (gender.length() == 0){
+                    Toast.makeText(AddStudentActivity.this, "Gender characters must be more than 0 characters", Toast.LENGTH_SHORT).show();
+                    view = gender;
+                }
+
+                if (macAddress.length() == 0){
+                    Toast.makeText(AddStudentActivity.this, "Mac Address characters must be more than 0 characters", Toast.LENGTH_SHORT).show();
+                    view = macAddress;
+                }
+                else{
+                    AddStudent();
+                    Toast.makeText(AddStudentActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
