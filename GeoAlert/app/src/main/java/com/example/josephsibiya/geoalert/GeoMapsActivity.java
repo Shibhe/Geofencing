@@ -17,10 +17,14 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
+import com.example.josephsibiya.geoalert.services.AddData;
 import com.example.josephsibiya.geoalert.services.FetchGeofence;
 import com.example.josephsibiya.geoalert.services.GeofenceTransitionIntentService;
 import com.google.android.gms.common.ConnectionResult;
@@ -64,6 +68,9 @@ public class GeoMapsActivity extends FragmentActivity
     private TextView textLat, textLong;
     private GeofenceAdapter geofenceAdapter;
     private GeofenceLocations locations;
+    private Button createGeofence;
+    private Button clearGeofence;
+    private String type = "AddGeofence";
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
@@ -80,10 +87,26 @@ public class GeoMapsActivity extends FragmentActivity
 
         textLat = findViewById(R.id.lat);
         textLong = findViewById(R.id.lon);
+        createGeofence = (Button) findViewById(R.id.create);
+        clearGeofence = (Button) findViewById(R.id.clear);
         // initialize GoogleMaps
         initGMaps();
         // create GoogleApiClient
         createGoogleApi();
+
+        createGeofence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startGeofence();
+            }
+        });
+
+        clearGeofence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearGeofence();
+            }
+        });
     }
 
     // Create GoogleApiClient instance
@@ -103,9 +126,7 @@ public class GeoMapsActivity extends FragmentActivity
         super.onStart();
         // Call GoogleApiClient connection and fetch Geofence locations when starting the Activity
         googleApiClient.connect();
-        geofenceAdapter = new GeofenceAdapter(locationsArrayList, GeoMapsActivity.this);
-        new FetchGeofence(geofenceAdapter, GeoMapsActivity.this).execute();
-        startGeofence();
+
     }
 
     @Override
@@ -113,7 +134,6 @@ public class GeoMapsActivity extends FragmentActivity
         super.onStop();
         // Disconnect GoogleApiClient and clear Geofence when stopping Activity
         googleApiClient.disconnect();
-        clearGeofence();
     }
 
     /**@Override
@@ -123,7 +143,7 @@ public class GeoMapsActivity extends FragmentActivity
         return true;
     }**/
 
-    /**(@Override
+    /**@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.geofence: {
@@ -204,7 +224,7 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     public void onMapClick(LatLng latLng) {
         Log.d(TAG, "onMapClick("+latLng +")");
-        latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
+        latLng = new LatLng(latLng.latitude, latLng.longitude);
         markerForGeofence(latLng);
     }
 
@@ -313,7 +333,7 @@ public class GeoMapsActivity extends FragmentActivity
         Log.i(TAG, "markerForGeofence("+latLng+")");
 
         //GeofenceLocations locations = locationsArrayList.get(0);
-        latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
+       // latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         String title = latLng.latitude + ", " + latLng.longitude;
         // Define marker options
@@ -335,7 +355,7 @@ public class GeoMapsActivity extends FragmentActivity
     private void startGeofence() {
         Log.i(TAG, "startGeofence()");
         if( geoFenceMarker != null ) {
-            Geofence geofence = createGeofence(GEOFENCE_RADIUS);
+            Geofence geofence = createGeofence(geoFenceMarker.getPosition(),GEOFENCE_RADIUS);
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
             addGeofence( geofenceRequest );
         } else {
@@ -348,15 +368,23 @@ public class GeoMapsActivity extends FragmentActivity
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
 
     // Create a Geofence
-    private Geofence createGeofence(float radius) {
+    private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
 
-        //locations = locationsArrayList.get(locationsArrayList.size());
+        locations = locationsArrayList.get(locationsArrayList.size());
+        locations.setLatitude(latLng.latitude);
+        locations.setLognitude(latLng.longitude);
+
+        Double latitude = locations.getLatitude();
+        Double longitude = locations.getLognitude();
+
+        //Add to database
+        new AddData(GeoMapsActivity.this).execute(type, latitude.toString(),longitude.toString());
         //latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
-                .setCircularRegion(locations.getLatitude(), locations.getLognitude(), radius)
+                .setCircularRegion(latLng.latitude, latLng.longitude, radius)
                 .setExpirationDuration( GEO_DURATION )
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
                         | Geofence.GEOFENCE_TRANSITION_EXIT )
@@ -445,9 +473,6 @@ public class GeoMapsActivity extends FragmentActivity
             double lat = Double.longBitsToDouble( sharedPref.getLong( KEY_GEOFENCE_LAT, -1 ));
             double lon = Double.longBitsToDouble( sharedPref.getLong( KEY_GEOFENCE_LON, -1 ));
             LatLng latLng = new LatLng(lat, lon);
-            //l//ocations = new GeofenceLocations();
-            //locations.setLatitude(lat);
-            //locations.setLognitude(lon);
             markerForGeofence(latLng);
             drawGeofence();
         }

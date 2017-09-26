@@ -14,16 +14,5 @@
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="8dp" />
 
-    <Button
-        android:id="@+id/btnAddStudent"
-        android:layout_width="358dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center|bottom"
-        android:paddingLeft="5dp"
-        android:paddingTop="2dp"
-        android:text="Add Student"
-        android:textAlignment="center"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="447dp" />
 
 </android.support.constraint.ConstraintLayout>

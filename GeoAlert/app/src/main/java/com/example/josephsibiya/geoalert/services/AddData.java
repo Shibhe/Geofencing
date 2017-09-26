@@ -35,8 +35,6 @@ public class AddData extends AsyncTask<String, Void, String> {
     protected String doInBackground(String...params) {
 
         String type = params[0];
-       // String url_addStudent = "http://192.168.2.198/geofence/addStudent.php";
-       // String url_addGeofence = "http://192.168.2.198/geofence/addGeofence.php";
 
         if (type == "AddStudent") {
             try {
@@ -85,10 +83,9 @@ public class AddData extends AsyncTask<String, Void, String> {
         }
         else if(type == "AddGeofence"){
             try {
-                String geo_name = params[1];
-                String geo_lati = params[2];
-                String geo_longi = params[3];
-                ///String geo_radius = params[4];
+
+                String geo_lati = params[1];
+                String geo_longi = params[2];
 
 
                 URL url = new URL(Config.URL_ADDGEO);
@@ -99,8 +96,8 @@ public class AddData extends AsyncTask<String, Void, String> {
 
                 OutputStream outputStream = connection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("GeoName", "UTF-8") + "=" + URLEncoder.encode(geo_name, "UTF-8") + "&"
-                        + URLEncoder.encode("GeoLatitude", "UTF-8") + "=" + URLEncoder.encode(geo_lati, "UTF-8") + "&"
+
+                String post_data = URLEncoder.encode("GeoLatitude", "UTF-8") + "=" + URLEncoder.encode(geo_lati, "UTF-8") + "&"
                         + URLEncoder.encode("GeoLongitude", "UTF-8") + "=" + URLEncoder.encode(geo_longi, "UTF-8");
 
                 bufferedWriter.write(post_data);

@@ -20,22 +20,11 @@ public class GeofenceActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GeofenceAdapter geofenceAdapter;
     private ArrayList<GeofenceLocations> geofenceLocationsArrayList = new ArrayList<>();
-    private Button addGeofence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geofence);
-
-        addGeofence = (Button) findViewById(R.id.btnAddGeofence);
-
-        addGeofence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GeofenceActivity.this, AddGeoActivity.class);
-                startActivity(intent);
-            }
-        });
 
 
         recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);

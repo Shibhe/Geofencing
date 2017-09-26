@@ -67,24 +67,18 @@ public class FetchGeofence extends AsyncTask<Void, Void, Void> {
                 JSONObject compObj = (JSONObject) array.get(x);
 
                  int Id;
-                 String name;
+                // String name;
                  double latitude;
                  double lognitude;
-                 double radius;
+                // double radius;
 
                 Id = compObj.getInt("id");
-                name = compObj.getString("name");
+               // name = compObj.getString("name");
                 latitude = compObj.getDouble("latitude");
                 lognitude = compObj.getDouble("longitude");
-                radius = compObj.getDouble("radius");
+               // radius = compObj.getDouble("radius");
 
-                GeofenceLocations locations = new GeofenceLocations(Id, name, latitude,lognitude,radius);
-
-                /**locations.setId(Id);
-                locations.setLognitude(lognitude);
-                locations.setLatitude(latitude);
-                locations.setName(name);
-                locations.setRadius(radius);**/
+                GeofenceLocations locations = new GeofenceLocations(Id, latitude,lognitude);
 
                 adapter.locationsArrayList.add(locations);
 

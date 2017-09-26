@@ -18,8 +18,6 @@ public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Intent intent;
-    private Button vGeofence;
-    private Button vStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +25,6 @@ public class DashboardActivity extends AppCompatActivity
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        vGeofence = (Button) findViewById(R.id.btnViewGeofence);
-        vStudent = (Button) findViewById(R.id.btnViewStudent);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,22 +43,6 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        vStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(DashboardActivity.this, StudentActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        vGeofence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(DashboardActivity.this, GeofenceActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -96,9 +75,9 @@ public class DashboardActivity extends AppCompatActivity
         }
         else if (id == R.id.addGeofence)
         {
-            intent = new Intent(this, AddGeoActivity.class);
-            startActivity(intent);
-            return  true;
+           // intent = new Intent(this, AddGeoActivity.class);
+            //startActivity(intent);
+           // return  true;
         }
         else if (id == R.id.addStudent)
         {
@@ -127,10 +106,16 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.nav_near_me) {
             // Handle the camera action
         } else if (id == R.id.navigation_view_student) {
+            intent = new Intent(this, StudentActivity.class);
+            startActivity(intent);
+            return  true;
 
         } else if (id == R.id.nav_more_app) {
 
         } else if (id == R.id.navigation_manage_geo) {
+            intent = new Intent(this, GeofenceActivity.class);
+            startActivity(intent);
+            return  true;
 
         } else if (id == R.id.nav_share) {
 

@@ -16,35 +16,4 @@
         tools:layout_editor_absoluteX="8dp"
         tools:ignore="MissingConstraints" />-->
 
-    <LinearLayout
-        android:layout_width="395dp"
-        android:layout_height="587dp"
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-
-        <Button
-            android:id="@+id/btnViewStudent"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:paddingTop="2dp"
-            android:text="View Students"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/btnViewGeofence"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="2dp"
-            android:text="View Geofences"
-            android:textAlignment="center" />
-
-
-    </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

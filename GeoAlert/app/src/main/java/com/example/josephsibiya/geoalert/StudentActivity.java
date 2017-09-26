@@ -20,23 +20,12 @@ public class StudentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private StudentAdapter studentAdapter;
     private ArrayList<StudentModel> studentModels = new ArrayList<>();
-    private Button addStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
 
-        addStudent = (Button) findViewById(R.id.btnAddStudent);
-
-
-        addStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudentActivity.this, AddStudentActivity.class);
-                startActivity(intent);
-            }
-        });
 
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
         studentModels = new ArrayList<>();

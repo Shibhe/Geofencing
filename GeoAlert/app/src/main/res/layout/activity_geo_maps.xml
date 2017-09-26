@@ -5,14 +5,22 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:visibility="visible"
-    app:layout_collapseMode="parallax"
-    app:layout_collapseParallaxMultiplier="0.5"
+    android:paddingTop="2dp"
     tools:context="com.example.josephsibiya.geoalert.GeoMapsActivity"
     android:orientation="vertical"
-    tools:menu="@menu/navigation">
+    tools:openDrawer="start">
 
+    <Button
+        android:id="@+id/create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create geofence"/>
+
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear geofence"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,6 +31,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="5dp">
+
 
         <TextView
             android:id="@+id/lat"

@@ -39,17 +39,8 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
     {
         GeofenceLocations locations = locationsArrayList.get(position);
 
-        holder.radius.setText((int) locations.getRadius());
         holder.latitude.setText((int) locations.getLatitude());
         holder.longitude.setText((int) locations.getLognitude());
-        holder.name.setText(locations.getName());
-
-
-        //locations.setLognitude(28.084);
-        //locations.setLatitude(-26.422);
-        //locations.setLognitude(27.084);
-       // locations.setLatitude(-28.422);
-
 
     }
 
@@ -61,18 +52,18 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
     static class GeofenceViewHolder extends RecyclerView.ViewHolder
     {
 
-        private TextView name;
+       // private TextView name;
         private TextView longitude;
         private TextView latitude;
-        private TextView radius;
+       // private TextView radius;
 
         public GeofenceViewHolder(View itemView) {
             super(itemView);
 
-            name = itemView.findViewById(R.id.geoName);
+            //name = itemView.findViewById(R.id.geoName);
             longitude = itemView.findViewById(R.id.geoLongi);
             latitude = itemView.findViewById(R.id.geoLat);
-            radius = itemView.findViewById(R.id.geoRadius);
+            //radius = itemView.findViewById(R.id.geoRadius);
         }
     }
 }

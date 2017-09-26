@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class AddGeoActivity extends AppCompatActivity {
+/**public class AddGeoActivity extends AppCompatActivity {
 
    // private SeekBar seekBar;
     private EditText name, longitude, latitude;
@@ -70,7 +70,7 @@ public class AddGeoActivity extends AppCompatActivity {
                 /**if (radius.length() == 0 && !radius.getText().toString().matches(regexStr)){
                     Toast.makeText(AddGeoActivity.this, "Field must not be empty and must be a number", Toast.LENGTH_SHORT).show();
                     view = radius;
-                }**/
+                }
                 else {
                     SubmitGeofence();
                     Toast.makeText(AddGeoActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
@@ -172,5 +172,5 @@ public class AddGeoActivity extends AppCompatActivity {
 
         String id = String.valueOf(Id);
         mDatabase.child("geofence").child(id).setValue(geofenceLocations);
-    }**/
-}
+    }
+}**/
