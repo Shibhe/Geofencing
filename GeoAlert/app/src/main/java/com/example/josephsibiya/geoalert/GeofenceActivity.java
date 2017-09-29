@@ -1,17 +1,13 @@
 package com.example.josephsibiya.geoalert;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
-import com.example.josephsibiya.geoalert.services.FetchGeofence;
 
 import java.util.ArrayList;
 

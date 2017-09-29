@@ -6,10 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.josephsibiya.geoalert.services.AddData;
-
-import java.net.IDN;
 //import com.example.josephsibiya.geoalert.services.AddStudentService;
 
 public class AddStudentActivity extends AppCompatActivity {
@@ -78,7 +74,6 @@ public class AddStudentActivity extends AppCompatActivity {
                     view = macAddress;
                 }
                 else{
-                    AddStudent();
                     Toast.makeText(AddStudentActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
 
                     surname.setText(null);
@@ -92,10 +87,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
             }
         });
-    }
 
-    private void AddStudent()
-    {
         final String type = "AddStudent";
         final String studSurname = surname.getText().toString();
         final String studInitial = initials.getText().toString();
@@ -103,13 +95,6 @@ public class AddStudentActivity extends AppCompatActivity {
         final String studIDNo = IDNo.getText().toString();
         final String studMacAddress = macAddress.getText().toString();
         final String gen = gender.getText().toString();
-
-        new Thread(new Runnable() {
-            public void run() {
-                // a potentially  time consuming task
-                new AddData(AddStudentActivity.this).execute(type, studSurname,studInitial,studIDNo, gen, studNum,studMacAddress);
-            }
-        }).start();
 
     }
 }

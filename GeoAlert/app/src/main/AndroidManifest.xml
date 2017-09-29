@@ -48,6 +48,10 @@
         <activity android:name=".AddStudentActivity" />
         <activity android:name=".AddGeoActivity" />
         <activity android:name=".GeofenceActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".UpdateLecturerActivity" />
+        <activity android:name=".UpdateGeofenceActivity" />
+        <activity android:name=".UpDateActivity"></activity>
     </application>
 
 </manifest>

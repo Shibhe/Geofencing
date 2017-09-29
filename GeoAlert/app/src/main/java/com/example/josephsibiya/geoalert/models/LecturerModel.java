@@ -8,6 +8,7 @@ public class LecturerModel {
     private int Id;
     private String surname;
     private String initials;
+    private String stuffNum;
     private String username;
     private String password;
 
@@ -49,5 +50,13 @@ public class LecturerModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStuffNum() {
+        return stuffNum;
+    }
+
+    public void setStuffNum(String stuffNum) {
+        this.stuffNum = stuffNum;
     }
 }

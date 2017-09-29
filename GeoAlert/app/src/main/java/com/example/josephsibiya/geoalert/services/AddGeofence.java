@@ -3,12 +3,12 @@ package com.example.josephsibiya.geoalert.services;
 import android.os.AsyncTask;
 
 /**
- * Created by josephsibiya on 2017/09/12.
+ * Created by reversidesoftwaresolutions on 9/29/17.
  */
 
-/**public class UpdateStudentService extends AsyncTask<Void, Void, Void> {
+public class AddGeofence extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         return null;
     }
-}**/
+}

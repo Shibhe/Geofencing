@@ -15,17 +15,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
-import com.example.josephsibiya.geoalert.services.AddData;
-import com.example.josephsibiya.geoalert.services.FetchGeofence;
 import com.example.josephsibiya.geoalert.services.GeofenceTransitionIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -332,9 +327,6 @@ public class GeoMapsActivity extends FragmentActivity
     private void markerForGeofence(LatLng latLng) {
         Log.i(TAG, "markerForGeofence("+latLng+")");
 
-        //GeofenceLocations locations = locationsArrayList.get(0);
-       // latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
-
         String title = latLng.latitude + ", " + latLng.longitude;
         // Define marker options
         MarkerOptions markerOptions = new MarkerOptions()
@@ -375,11 +367,11 @@ public class GeoMapsActivity extends FragmentActivity
         locations.setLatitude(latLng.latitude);
         locations.setLognitude(latLng.longitude);
 
-        Double latitude = locations.getLatitude();
-        Double longitude = locations.getLognitude();
+        //Double latitude = locations.getLatitude();
+        //Double longitude = locations.getLognitude();
 
         //Add to database
-        new AddData(GeoMapsActivity.this).execute(type, latitude.toString(),longitude.toString());
+       // new AddData(GeoMapsActivity.this).execute(type, latitude.toString(),longitude.toString());
         //latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         return new Geofence.Builder()
