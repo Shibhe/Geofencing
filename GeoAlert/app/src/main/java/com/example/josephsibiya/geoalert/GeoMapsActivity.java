@@ -131,6 +131,27 @@ public class GeoMapsActivity extends FragmentActivity
         googleApiClient.disconnect();
     }
 
+    /**@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation, menu);
+        return true;
+    }**/
+
+    /**@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.geofence: {
+                startGeofence();
+                return true;
+            }
+            case R.id.clear: {
+                clearGeofence();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }**/
 
     private final int REQ_PERMISSION = 999;
 
@@ -341,6 +362,17 @@ public class GeoMapsActivity extends FragmentActivity
     // Create a Geofence
     private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
+
+        locations = locationsArrayList.get(locationsArrayList.size());
+        locations.setLatitude(latLng.latitude);
+        locations.setLognitude(latLng.longitude);
+
+        //Double latitude = locations.getLatitude();
+        //Double longitude = locations.getLognitude();
+
+        //Add to database
+       // new AddData(GeoMapsActivity.this).execute(type, latitude.toString(),longitude.toString());
+        //latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
