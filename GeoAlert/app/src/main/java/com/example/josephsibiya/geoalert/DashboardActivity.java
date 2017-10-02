@@ -64,13 +64,9 @@ public class DashboardActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            intent = new Intent(DashboardActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
-        }
-        else if (id == R.id.addGeofence)
-        {
-           // intent = new Intent(this, AddGeoActivity.class);
-            //startActivity(intent);
-           // return  true;
         }
         else if (id == R.id.addStudent)
         {

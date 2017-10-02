@@ -51,7 +51,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".UpdateLecturerActivity" />
         <activity android:name=".UpdateGeofenceActivity" />
-        <activity android:name=".UpDateActivity"></activity>
+        <activity android:name=".UpDateActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

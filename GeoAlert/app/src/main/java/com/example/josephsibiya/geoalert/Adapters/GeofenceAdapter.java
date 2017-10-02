@@ -21,6 +21,7 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
     public ArrayList<GeofenceLocations> locationsArrayList;
     private Context context;
 
+
     public GeofenceAdapter(ArrayList<GeofenceLocations> locationsArrayList, Context context) {
         this.locationsArrayList = locationsArrayList;
         this.context = context;
