@@ -14,7 +14,6 @@ public class LoginActivity extends AppCompatActivity  {
     private Button btnLogin;
     private Intent intent;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,22 +30,18 @@ public class LoginActivity extends AppCompatActivity  {
                 username.setError(null);
                 password.setError(null);
 
-                if (username.length() == 0 ){
-                    Toast.makeText(LoginActivity.this, "Invalid or Incorrect username", Toast.LENGTH_SHORT).show();
+                if (username.length() == 0  && username.isFocused()){
+                    Toast.makeText(LoginActivity.this, "Username required", Toast.LENGTH_SHORT).show();
                     view = username;
                 }
 
-                if (password.length() == 0){
-                    Toast.makeText(LoginActivity.this, "Invalid or Incorrect password", Toast.LENGTH_SHORT).show();
+                if (password.length() == 0 && username.isFocused()){
+                    Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
                     view = username;
                 }
                 else{
                     intent = new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
-
-                    username.setText(null);
-                    password.setText(null);
-                    username.isFocused();
                 }
             }
         });

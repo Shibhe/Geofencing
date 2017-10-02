@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 public class UpDateActivity extends AppCompatActivity {
 
+    //Update student
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

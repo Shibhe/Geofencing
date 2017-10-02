@@ -1,6 +1,7 @@
 package com.example.josephsibiya.geoalert;
 
 import android.Manifest;
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -65,7 +66,6 @@ public class GeoMapsActivity extends FragmentActivity
     private GeofenceLocations locations;
     private Button createGeofence;
     private Button clearGeofence;
-    private String type = "AddGeofence";
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
@@ -82,8 +82,8 @@ public class GeoMapsActivity extends FragmentActivity
 
         textLat = findViewById(R.id.lat);
         textLong = findViewById(R.id.lon);
-        createGeofence = (Button) findViewById(R.id.create);
-        clearGeofence = (Button) findViewById(R.id.clear);
+        createGeofence = findViewById(R.id.create);
+        clearGeofence = findViewById(R.id.clear);
         // initialize GoogleMaps
         initGMaps();
         // create GoogleApiClient
@@ -356,7 +356,7 @@ public class GeoMapsActivity extends FragmentActivity
     }
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
+    private static final String GEOFENCE_REQ_ID = "1";
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
 
     // Create a Geofence
@@ -399,7 +399,7 @@ public class GeoMapsActivity extends FragmentActivity
         if ( geoFencePendingIntent != null )
             return geoFencePendingIntent;
 
-        Intent intent = new Intent( this, GeofenceTransitionIntentService.class);
+        Intent intent = new Intent( GeoMapsActivity.this, GeofenceTransitionIntentService.class);
         return PendingIntent.getService(
                 this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }

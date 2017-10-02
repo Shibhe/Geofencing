@@ -26,13 +26,6 @@ public class DashboardActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               //getMenuInflater().inflate(R.menu.dashboard_menu);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,7 +83,6 @@ public class DashboardActivity extends AppCompatActivity
         }
         else  if (id == R.id.vStudent)
         {
-
             return  true;
         }
 
@@ -106,22 +98,23 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.nav_near_me) {
             // Handle the camera action
         } else if (id == R.id.navigation_view_student) {
-            intent = new Intent(this, StudentActivity.class);
+            intent = new Intent(DashboardActivity.this, StudentActivity.class);
             startActivity(intent);
             return  true;
 
         } else if (id == R.id.nav_more_app) {
 
         } else if (id == R.id.navigation_manage_geo) {
-            intent = new Intent(this, GeofenceActivity.class);
+            intent = new Intent(DashboardActivity.this, GeofenceActivity.class);
             startActivity(intent);
             return  true;
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_feedback) {
-            intent = new Intent(this, GeoMapsActivity.class);
+            intent = new Intent(DashboardActivity.this, GeoMapsActivity.class);
             startActivity(intent);
+            return true;
 
         } else if (id == R.id.nav_send) {
 

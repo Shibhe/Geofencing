@@ -7,12 +7,4 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
-    <item android:title="Create Geofence"
-        android:id="@+id/geofence"
-        app:showAsAction="never"/>
-
-    <item android:title="Clear Geofence"
-        android:id="@+id/clear"
-        app:showAsAction="never"/>
-
 </menu>

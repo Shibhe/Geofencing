@@ -50,9 +50,11 @@ public class GeofenceTransitionIntentService extends IntentService
     private static final String TAG = GeofenceTransitionIntentService.class.getSimpleName();
 
     public static final int GEOFENCE_NOTIFICATION_ID = 0;
+    private Context context;
 
     public GeofenceTransitionIntentService() {
         super(TAG);
+
     }
 
     @Override
@@ -89,9 +91,9 @@ public class GeofenceTransitionIntentService extends IntentService
 
         String status = null;
         if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
-            status = "Entering ";
+            status = "Entering the geofence location";
         else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT )
-            status = "Exiting ";
+            status = "Exiting the geofence location";
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
 
@@ -100,10 +102,10 @@ public class GeofenceTransitionIntentService extends IntentService
 
         // Intent to start the main Activity
         Intent notificationIntent = GeoMapsActivity.makeNotificationIntent(
-                getApplicationContext(), msg
+                context, msg
         );
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(GeoMapsActivity.class);
         stackBuilder.addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -120,7 +122,7 @@ public class GeofenceTransitionIntentService extends IntentService
 
     // Create notification
     private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder
                 .setSmallIcon(R.drawable.ic_action_location)
                 .setColor(Color.RED)
