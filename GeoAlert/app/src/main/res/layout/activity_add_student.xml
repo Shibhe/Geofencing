@@ -13,14 +13,6 @@
     app:layout_constraintGuide_percent="@integer/google_play_services_version">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Student"
-        android:textSize="25dp"
-        android:paddingBottom="20dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/colorPrimaryDark"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

@@ -31,7 +31,7 @@ public class GeofenceActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
+        new FetchGeofence(geofenceAdapter, GeofenceActivity.this).execute();
 
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());

@@ -31,6 +31,8 @@ public class StudentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+        new FetchStudent(studentAdapter, StudentActivity.this).execute();
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
