@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -54,6 +55,7 @@ public class SettingsActivity extends AppCompatActivity implements
     private boolean mIsEnabled;
     private GoogleApiClient mClient;
     private Geofencing mGeofencing;
+    private Button addLocation;
 
     /**
      * Called when the activity is starting
@@ -70,6 +72,7 @@ public class SettingsActivity extends AppCompatActivity implements
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PlaceListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
+        addLocation = (Button) findViewById(R.id.onAddPlaceButtonClicked);
 
 
         Switch onOffSwitch = (Switch) findViewById(R.id.enable_switch);
@@ -98,6 +101,29 @@ public class SettingsActivity extends AppCompatActivity implements
                 .build();
 
         mGeofencing = new Geofencing(this, mClient);
+
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(SettingsActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(SettingsActivity.this, getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                try {
+
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    Intent i = builder.build(SettingsActivity.this);
+                    startActivityForResult(i, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    Log.e(TAG, String.format("GooglePlayServices Not Available [%s]", e.getMessage()));
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.e(TAG, String.format("GooglePlayServices Not Available [%s]", e.getMessage()));
+                } catch (Exception e) {
+                    Log.e(TAG, String.format("PlacePicker Exception: %s", e.getMessage()));
+                }
+            }
+        });
     }
 
     /***
@@ -158,7 +184,7 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
 
-    public void onAddPlaceButtonClicked(View view) {
+    /**public void onAddPlaceButtonClicked(View view) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
@@ -176,7 +202,7 @@ public class SettingsActivity extends AppCompatActivity implements
         } catch (Exception e) {
             Log.e(TAG, String.format("PlacePicker Exception: %s", e.getMessage()));
         }
-    }
+    }**/
 
 
     /***

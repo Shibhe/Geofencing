@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 
 public class PlaceContract {
 
-    public static final String AUTHORITY = "com.delaroystudios.locationgeo";
+    public static final String AUTHORITY = "com.example.josephsibiya.geoalert";
 
     // The base content URI = "content://" + <authority>
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
