@@ -363,17 +363,6 @@ public class GeoMapsActivity extends FragmentActivity
     private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
 
-        locations = locationsArrayList.get(locationsArrayList.size());
-        locations.setLatitude(latLng.latitude);
-        locations.setLognitude(latLng.longitude);
-
-        //Double latitude = locations.getLatitude();
-        //Double longitude = locations.getLognitude();
-
-        //Add to database
-       // new AddData(GeoMapsActivity.this).execute(type, latitude.toString(),longitude.toString());
-        //latLng = new LatLng(locations.getLatitude(), locations.getLognitude());
-
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
                 .setCircularRegion(latLng.latitude, latLng.longitude, radius)

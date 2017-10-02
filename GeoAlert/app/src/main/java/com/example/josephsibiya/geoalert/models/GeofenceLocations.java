@@ -7,13 +7,15 @@ package com.example.josephsibiya.geoalert.models;
 public class GeofenceLocations {
 
     private int Id;
+    private String name;
     private double latitude;
     private double longitude;
 
-    public GeofenceLocations(int id, double latitude, double lognitude) {
+    public GeofenceLocations(int id, String name, double latitude, double longitude) {
         Id = id;
+        this.name = name;
         this.latitude = latitude;
-        this.longitude = lognitude;
+        this.longitude = longitude;
     }
 
 
@@ -34,13 +36,20 @@ public class GeofenceLocations {
         this.latitude = latitude;
     }
 
-    public double getLognitude() {
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLognitude(double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-
 }

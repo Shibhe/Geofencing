@@ -52,7 +52,7 @@
         <activity android:name=".UpdateLecturerActivity" />
         <activity android:name=".UpdateGeofenceActivity" />
         <activity android:name=".UpDateActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>

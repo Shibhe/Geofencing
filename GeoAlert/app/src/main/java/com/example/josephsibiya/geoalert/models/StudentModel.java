@@ -10,9 +10,9 @@ public class StudentModel {
     private String surname;
     private String initials;
     private String studNum;
+    private String email;
     private String gender;
     private String IDNo;
-    private String macAddress;
 
     public int getId() {
         return Id;
@@ -62,11 +62,11 @@ public class StudentModel {
         this.IDNo = IDNo;
     }
 
-    public String getMacAddress() {
-        return macAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMacAddress(String macAddress) {
-        this.macAddress = macAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -18,4 +18,7 @@
     <string name="silent_mode_activated">Silent mode activated</string>
     <string name="touch_to_relaunch">Touch to launch the app.</string>
     <string name="back_to_normal">Back to normal</string>
+    <string name="title_item_list">Items</string>
+    <string name="share_with">Share with</string>
+    <string name="title_item_detail">Item Detail</string>
 </resources>
