@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity  {
                     view = username;
                 }
                 else{
-                    intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                    intent = new Intent(LoginActivity.this, DashActivity.class);
                     startActivity(intent);
                 }
             }

@@ -92,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity implements
         });
 
 
-        mClient = new GoogleApiClient.Builder(this)
+        mClient = new GoogleApiClient.Builder(SettingsActivity.this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -100,7 +100,7 @@ public class SettingsActivity extends AppCompatActivity implements
                 .enableAutoManage(this, this)
                 .build();
 
-        mGeofencing = new Geofencing(this, mClient);
+        mGeofencing = new Geofencing(SettingsActivity.this, mClient);
 
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override

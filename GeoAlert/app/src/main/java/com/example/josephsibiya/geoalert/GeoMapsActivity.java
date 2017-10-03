@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 import com.example.josephsibiya.geoalert.services.GeofenceTransitionIntentService;
+import com.example.josephsibiya.geoalert.services.GetAddressTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -358,10 +359,12 @@ public class GeoMapsActivity extends FragmentActivity
     private static final long GEO_DURATION = 60 * 60 * 1000;
     private static final String GEOFENCE_REQ_ID = "1";
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
-
+    private static final String name = null;
     // Create a Geofence
     private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
+
+        new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude, name).execute();
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)

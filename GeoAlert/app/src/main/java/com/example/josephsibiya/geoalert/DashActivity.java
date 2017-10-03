@@ -1,40 +1,40 @@
 package com.example.josephsibiya.geoalert;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.ui.PlacePicker;
-
-public class DashboardActivity extends AppCompatActivity
+public class DashActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Intent intent;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dash);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -43,8 +43,7 @@ public class DashboardActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(DashboardActivity.this);
-
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class DashboardActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dashboard, menu);
+        getMenuInflater().inflate(R.menu.dash, menu);
         return true;
     }
 
@@ -73,27 +72,8 @@ public class DashboardActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-             intent = new Intent(this, SettingsActivity.class);
+            intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-             return  true;
-        }
-        else if (id == R.id.addGeofence)
-        {
-           // intent = new Intent(this, AddGeoActivity.class);
-            //startActivity(intent);
-           // return  true;
-        }
-        else if (id == R.id.addStudent)
-        {
-            intent = new Intent(this, AddStudentActivity.class);
-            startActivity(intent);
-            return  true;
-        }
-        else if (id == R.id.vGeofence){
-            return  true;
-        }
-        else  if (id == R.id.vStudent)
-        {
             return  true;
         }
 
@@ -107,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.navigation_view_student) {
-            intent = new Intent(DashboardActivity.this, StudentActivity.class);
+            intent = new Intent(DashActivity.this, StudentActivity.class);
             startActivity(intent);
             return  true;
 
@@ -119,7 +99,7 @@ public class DashboardActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.navigation_manage_geo) {
-            intent = new Intent(DashboardActivity.this, GeofenceActivity.class);
+            intent = new Intent(DashActivity.this, GeofenceActivity.class);
             startActivity(intent);
             return  true;
 
@@ -131,7 +111,7 @@ public class DashboardActivity extends AppCompatActivity
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             String shareBodyText = "https://play.google.com/store/apps/details?id=" +
-                    appPackageName;
+                    appName;
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, appName);
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText);
             startActivity(Intent.createChooser(shareIntent, getString(R.string
@@ -140,7 +120,7 @@ public class DashboardActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.show_location) {
-            intent = new Intent(DashboardActivity.this, GeoMapsActivity.class);
+            intent = new Intent(DashActivity.this, GeoMapsActivity.class);
             startActivity(intent);
             return true;
         }
