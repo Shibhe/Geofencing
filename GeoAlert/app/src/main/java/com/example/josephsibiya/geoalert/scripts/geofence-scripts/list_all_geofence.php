@@ -25,16 +25,15 @@ if (mysql_num_rows($result) > 0) {
     
     while ($row = mysql_fetch_array($result)) {
         // temp user array
-      $geofence = array();
-       $latitude = cleanData($_["latitude"]);
-       $longitude = cleanData($_["longitude"]);
-
+       $geofence = array();
+       $geofence["id"] = $row["id"];
+       $geofence["name"] = $row["name"];
+       $geofence["latitude"] = $row["latitude"];
+       $geofence["longitude"] = $row["longitude"];
         
 
-
-
-        // push single product into final response array
-        array_push($response["tblGeofence"], $student);
+        // push single geofence into final response array
+        array_push($response["tblGeofence"], $geofence);
     }
     // success
     $response["success"] = 1;

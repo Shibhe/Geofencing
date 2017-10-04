@@ -32,11 +32,11 @@ if (mysql_num_rows($result) > 0) {
         $student["studNum"] = $row["studNum"];
         $student["IDNo"] = $row["IDNo"];
         $student["gender"] = $row["gender"];
-        $student["macAddress"] = $row["macAddress"];
+        $student["email"] = $row["email"];
 
 
 
-        // push single product into final response array
+        // push single student into final response array
         array_push($response["tblStudent"], $student);
     }
     // success

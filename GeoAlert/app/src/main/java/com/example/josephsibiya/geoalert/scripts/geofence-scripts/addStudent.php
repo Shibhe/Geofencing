@@ -5,15 +5,15 @@
 $response = array();
 
 // check for required fields
-if (isset($_POST['stud_name']) && isset($_POST['initials']) && isset($_POST['IDNo']) && isset($_POST['Gender']) && isset($_POST['studNum']) && isset($_POST['studMac'])) {
+if (isset($_POST['surname']) && isset($_POST['initials']) && isset($_POST['studNum']) && isset($_POST['IDNo']) && isset($_POST['gender']) && isset($_POST['email'])) {
     
     
-$stud_name = $_POST["surname"];
-$stud_init = $_POST["initials"];
-$stud_id = $_POST["IDNo"];
-$stud_Gender = $_POST["gender"];
-$stud_number = $_POST["studNum"];
-$stud_address = $_POST["studMac"];
+$surname = $_POST["surname"];
+$initials = $_POST["initials"];
+$IDNo = $_POST["IDNo"];
+$gender = $_POST["gender"];
+$studNum = $_POST["studNum"];
+$email = $_POST["email"];
 
 // include db connect class
     require_once __DIR__ . '/db_connect.php';
@@ -22,7 +22,7 @@ $stud_address = $_POST["studMac"];
     $db = new DB_CONNECT();
 
 // mysql inserting a new row
-$mysql_qry = "INSERT INTO tblstudent (StudName, Initials, IDNo, Gender, StudNum, MacAddress) VALUES ('$stud_name', '$stud_init', '$stud_id', '$stud_Gender','$stud_number', '$stud_address');";
+$mysql_qry = "INSERT INTO tblstudent (surname, initials, studNum,, IDNo, gender, email) VALUES ('$surname', '$initials', '$studNum', '$IDNo','$gender', '$email');";
 
     
     // check if row inserted or not
@@ -48,6 +48,5 @@ $mysql_qry = "INSERT INTO tblstudent (StudName, Initials, IDNo, Gender, StudNum,
 
     // echoing JSON response
     echo json_encode($response);
-    $conn->close();
 }
 ?>

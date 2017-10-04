@@ -37,12 +37,5 @@ if (isset($_POST['id'])) {
         // echo no users JSON
         echo json_encode($response);
     }
-} else {
-    // required field is missing
-    $response["success"] = 0;
-    $response["message"] = "Required field(s) is missing";
-
-    // echoing JSON response
-    echo json_encode($response);
 }
 ?>

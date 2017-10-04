@@ -9,11 +9,12 @@
 $response = array();
 
 // check for required fields
-if (isset($_POST['stud_name']) && isset($_POST['initials']) && isset($_POST['IDNo']) && isset($_POST['Gender']) && isset($_POST['studNum']) && isset($_POST['studMac'])) {
+if (isset($_POST['name']) && isset($_POST['latitude']) && isset($_POST['longitude'])) {
     
 $id = $_POST['id'];
-$latitude = cleanData($_["latitude"]);
-$longitude = cleanData($_["longitude"]);
+$name = $_POST["name"];
+$latitude = $_POST["latitude"];
+$longitude = $_POST["longitude"];
 
     // include db connect class
     require_once __DIR__ . '/db_connect.php';
@@ -22,7 +23,7 @@ $longitude = cleanData($_["longitude"]);
     $db = new DB_CONNECT();
 
     // mysql update row with matched pid
-    $result = mysql_query("UPDATE tblGeofence SET latitude = '$latitude', longitude = '$longitude' WHERE id = $id");
+    $result = mysql_query("UPDATE tblGeofence SET name = '$name', latitude = '$latitude', longitude = '$longitude' WHERE id = $id");
 
     // check if row inserted or not
     if ($result) {

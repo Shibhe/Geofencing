@@ -5,9 +5,10 @@
 $response = array();
 
 // check for required fields
-if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
+if (isset($_POST['name']) && isset($_POST['latitude']) && isset($_POST['longitude'])) {
     
-    
+  
+$name = $_POST["name"];  
 $latitude = $_POST["latitude"];
 $longitude = $_POST["longitude"];
 
@@ -18,7 +19,7 @@ $longitude = $_POST["longitude"];
     $db = new DB_CONNECT();
 
 // mysql inserting a new row
-$mysql_qry = "INSERT INTO tblgeofence (latitude, longitude) VALUES ('$latitude', '$longitude')";
+$mysql_qry = "INSERT INTO tblgeofence (name, latitude, longitude) VALUES ('$name', '$latitude', '$longitude')";
 
     
     // check if row inserted or not
@@ -30,21 +31,14 @@ $mysql_qry = "INSERT INTO tblgeofence (latitude, longitude) VALUES ('$latitude',
         // echoing JSON response
         echo json_encode($response);
     } else {
+        // required field is missing
+  
         // failed to insert row
         $response["success"] = 0;
-        $response["message"] = "Oops! An error occurred.";
+        $response["message"] = "Required field(s) is missing";
         
         // echoing JSON response
-        echo json_encode($response);
-    
-} else {
-    // required field is missing
-    $response["success"] = 0;
-    $response["message"] = "Required field(s) is missing";
-
-    // echoing JSON response
-    echo json_encode($response);
-    $conn->close();
+        echo json_encode($response);  
 }
 }
 ?>
