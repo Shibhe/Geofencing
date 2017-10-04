@@ -10,13 +10,7 @@ public class GeofenceLocations {
     private String name;
     private double latitude;
     private double longitude;
-
-    public GeofenceLocations(int id, String name, double latitude, double longitude) {
-        Id = id;
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    private String status;
 
 
     public int getId() {
@@ -51,5 +45,13 @@ public class GeofenceLocations {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

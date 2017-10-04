@@ -12,6 +12,15 @@ public class LecturerModel {
     private String username;
     private String password;
 
+    public LecturerModel(int id, String surname, String initials, String stuffNum, String username, String password) {
+        Id = id;
+        this.surname = surname;
+        this.initials = initials;
+        this.stuffNum = stuffNum;
+        this.username = username;
+        this.password = password;
+    }
+
     public int getId() {
         return Id;
     }

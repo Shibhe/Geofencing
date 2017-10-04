@@ -13,6 +13,8 @@ public class StudentModel {
     private String email;
     private String gender;
     private String IDNo;
+    private String status;
+
 
     public int getId() {
         return Id;
@@ -68,5 +70,13 @@ public class StudentModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

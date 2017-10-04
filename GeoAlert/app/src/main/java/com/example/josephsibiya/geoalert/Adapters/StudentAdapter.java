@@ -40,13 +40,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     @Override
     public void onBindViewHolder(StudentViewHolder holder, int position)
     {
-        StudentModel studentModel = numStudents.get(position);
+        StudentModel studentModel =  numStudents.get(position);
 
         //holder.IDNo.setText(studentModel.getIDNo());
-        holder.initials.setText(studentModel.getInitials());
+        //holder.initials.setText(studentModel.getInitials());
+        holder.setInitials(studentModel.getInitials());
         //holder.macAddress.setText(studentModel.getMacAddress());
-        holder.studNumber.setText(studentModel.getStudNum());
-        holder.surname.setText(studentModel.getSurname());
+        holder.setStudNumber(studentModel.getStudNum());
+        holder.setSurname(studentModel.getSurname());
 
     }
 
@@ -75,5 +76,21 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             //macAddress = itemView.findViewById(R.id.MacAddress);
             //addStudent = itemView.findViewById(R.id.btnAddStudent);
         }
+
+        public void setSurname(String surname)
+        {
+            this.surname.setText(surname);
+        }
+
+        public void setInitials(String initials)
+        {
+            this.initials.setText(initials);
+        }
+
+        public void setStudNumber(String studNumber)
+        {
+            this.studNumber.setText(studNumber);
+        }
+
     }
 }

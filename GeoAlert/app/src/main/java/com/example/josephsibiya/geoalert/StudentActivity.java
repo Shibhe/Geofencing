@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Adapters.StudentAdapter;
 import com.example.josephsibiya.geoalert.models.StudentModel;
+import com.example.josephsibiya.geoalert.services.GetAllStudent;
 
 import java.util.ArrayList;
 
@@ -29,15 +30,16 @@ public class StudentActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
-        /**recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
+        recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
+
         studentModels = new ArrayList<>();
         studentAdapter = new StudentAdapter(StudentActivity.this, studentModels);
         recyclerView.setAdapter(studentAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));**/
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        swipeRefreshLayout.post(new Runnable() {
+       /** swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
@@ -52,8 +54,8 @@ public class StudentActivity extends AppCompatActivity {
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
                 itemTouchHelper.attachToRecyclerView(recyclerView);
             }
-        });
-        //new FetchStudent(studentAdapter, StudentActivity.this).execute();
+        });**/
+        new GetAllStudent(studentAdapter, StudentActivity.this).execute();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
         itemTouchHelper.attachToRecyclerView(recyclerView);

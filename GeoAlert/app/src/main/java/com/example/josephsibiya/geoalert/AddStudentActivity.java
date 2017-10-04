@@ -2,12 +2,24 @@ package com.example.josephsibiya.geoalert;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.models.StudentModel;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 //import com.example.josephsibiya.geoalert.services.AddStudentService;
@@ -26,7 +38,8 @@ public class AddStudentActivity extends AppCompatActivity {
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private String StudGender;
     private String genderCode;
-    private StudentModel studentModel = new StudentModel();
+    private StudentModel studentModel;
+    private ConfigClass configClass = new ConfigClass();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +97,7 @@ public class AddStudentActivity extends AppCompatActivity {
                     view = email;
                 }
                 else{
+
                     Toast.makeText(AddStudentActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
                 }
 
