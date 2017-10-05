@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,7 +46,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GeoMapsActivity extends FragmentActivity
         implements
@@ -364,7 +368,7 @@ public class GeoMapsActivity extends FragmentActivity
     private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
 
-        new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude, name).execute();
+        //new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude, name).execute();
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)

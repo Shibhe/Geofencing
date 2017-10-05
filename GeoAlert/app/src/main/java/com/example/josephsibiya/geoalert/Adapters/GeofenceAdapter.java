@@ -41,8 +41,8 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         GeofenceLocations locations = locationsArrayList.get(position);
 
         holder.name.setText(locations.getName());
-        holder.latitude.setText((int) locations.getLatitude());
-        holder.longitude.setText((int) locations.getLongitude());
+        holder.latitude.setText(String.valueOf(locations.getLatitude()));
+        holder.longitude.setText(String.valueOf(locations.getLongitude()));
 
     }
 

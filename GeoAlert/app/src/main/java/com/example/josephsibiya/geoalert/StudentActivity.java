@@ -1,11 +1,14 @@
 package com.example.josephsibiya.geoalert;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Adapters.StudentAdapter;
@@ -20,12 +23,15 @@ public class StudentActivity extends AppCompatActivity {
     private StudentAdapter studentAdapter;
     private ArrayList<StudentModel> studentModels = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Button addStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
 
+
+        addStudent = (Button) findViewById(R.id.addStudent);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
@@ -55,6 +61,16 @@ public class StudentActivity extends AppCompatActivity {
                 itemTouchHelper.attachToRecyclerView(recyclerView);
             }
         });**/
+
+        addStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StudentActivity.this, AddStudentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         new GetAllStudent(studentAdapter, StudentActivity.this).execute();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());

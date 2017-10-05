@@ -8,7 +8,11 @@
     tools:context="com.example.josephsibiya.geoalert.StudentActivity">
 
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Geofence"
+        android:id="@+id/addStudent"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"

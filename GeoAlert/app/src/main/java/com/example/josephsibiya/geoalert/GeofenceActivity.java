@@ -1,11 +1,14 @@
 package com.example.josephsibiya.geoalert;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
@@ -19,16 +22,19 @@ public class GeofenceActivity extends AppCompatActivity {
     private GeofenceAdapter geofenceAdapter;
     private ArrayList<GeofenceLocations> geofenceLocationsArrayList = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Button addGeofence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geofence);
 
+        addGeofence = (Button) findViewById(R.id.addGeofence);
+
         recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout1);
 
-        /**recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
+        recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
         geofenceLocationsArrayList = new ArrayList<>();
         geofenceAdapter = new GeofenceAdapter(geofenceLocationsArrayList, GeofenceActivity.this);
         recyclerView.setAdapter(geofenceAdapter);
@@ -36,10 +42,8 @@ public class GeofenceActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout1);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
-        itemTouchHelper.attachToRecyclerView(recyclerView);**/
 
-        swipeRefreshLayout.post(new Runnable() {
+        /**swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
@@ -54,7 +58,19 @@ public class GeofenceActivity extends AppCompatActivity {
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
                 itemTouchHelper.attachToRecyclerView(recyclerView);
             }
+        });**/
+
+        addGeofence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GeofenceActivity.this, GeoMapsActivity.class);
+                startActivity(intent);
+            }
         });
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     private ItemTouchHelper.Callback CreateHelperCallBack()

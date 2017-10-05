@@ -1,7 +1,10 @@
 package com.example.josephsibiya.geoalert;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Adapters.AndroidLoginController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
+import com.example.josephsibiya.geoalert.connection.internetConn;
 import com.example.josephsibiya.geoalert.models.LecturerModel;
 import com.example.josephsibiya.geoalert.services.Login;
 
@@ -34,6 +38,7 @@ public class LoginActivity extends AppCompatActivity  {
     ProgressDialog progressDialog;
     private static final String TAG = LoginActivity.class.getSimpleName();
     private LecturerModel lecturerModel;
+    private internetConn internetConn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +49,33 @@ public class LoginActivity extends AppCompatActivity  {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                username.setError(null);
-                password.setError(null);
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                if (username.length() == 0  && username.isFocused()){
-                    Toast.makeText(LoginActivity.this, "Username required", Toast.LENGTH_SHORT).show();
-                    view = username;
-                }
+                    username.setError(null);
+                    password.setError(null);
 
-                if (password.length() == 0 && username.isFocused()){
-                    Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
-                    view = username;
+                    if (username.length() == 0 && username.isFocused()) {
+                        Toast.makeText(LoginActivity.this, "Username required", Toast.LENGTH_SHORT).show();
+                        view = username;
+                    }
+
+                    if (password.length() == 0 && username.isFocused()) {
+                        Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
+                        view = username;
+                    } else {
+                        login(username.getText().toString(), password.getText().toString());
+                        intent = new Intent(LoginActivity.this, DashActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
-                else{
-                    login(username.getText().toString(), password.getText().toString());
-                    intent = new Intent(LoginActivity.this, DashActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
+            });
+
     }
+
 
     private void login(final String userNa, final String passWord){
         // Tag used to cancel the request

@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.josephsibiya.geoalert.GeofenceActivity">
 
-
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Add Geofence"
+    android:id="@+id/addGeofence"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout1"

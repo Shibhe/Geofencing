@@ -125,7 +125,7 @@ public class DashActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.show_location) {
-            intent = new Intent(DashActivity.this, GeoMapsActivity.class);
+            intent = new Intent(DashActivity.this, ShowLocationsActivity.class);
             startActivity(intent);
             return true;
         }
