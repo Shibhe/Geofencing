@@ -86,7 +86,12 @@ public class DashActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.navigation_view_student) {
+        if (id == R.id.navigation_near_by) {
+            intent = new Intent(DashActivity.this, NearByActivity.class);
+            startActivity(intent);
+            return true;
+        }
+         else if (id == R.id.navigation_view_student) {
             intent = new Intent(DashActivity.this, StudentActivity.class);
             startActivity(intent);
             return  true;

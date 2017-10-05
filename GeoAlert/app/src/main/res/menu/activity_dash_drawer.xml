@@ -3,6 +3,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/navigation_near_by"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Near by places" />
+
+        <item
             android:id="@+id/navigation_manage_geo"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="Manage Geofence" />

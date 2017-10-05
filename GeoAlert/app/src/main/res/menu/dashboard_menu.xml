@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addGeofence"
-        android:orderInCategory="100"
-        android:title="Add Geofence"
-        app:showAsAction="never" />
-
-    <item android:title="Add Student"
         android:id="@+id/addStudent"
-        app:showAsAction="never"/>
-
-    <item android:title="View Students"
+        android:orderInCategory="102"
+        android:title="Add Student" />
+    <item
         android:id="@+id/vStudent"
-        app:showAsAction="never"/>
+        android:orderInCategory="103"
+        android:title="View Students" />
 
-    <item android:title="View Geofence"
+    <item
         android:id="@+id/vGeofence"
-        app:showAsAction="never"/>
+        android:orderInCategory="104"
+        android:title="View Geofence" />
+    <item
+        android:id="@+id/addGeofence"
+        android:orderInCategory="105"
+        android:title="Add Geofence" />
 
 </menu>

@@ -48,11 +48,16 @@
         <activity android:name=".UpdateLecturerActivity" />
         <activity android:name=".UpdateGeofenceActivity" />
         <activity android:name=".UpDateActivity" />
-        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".DashActivity"
             android:label="@string/title_activity_dash"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NearByActivity"
+            android:label="@string/title_activity_near_by" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

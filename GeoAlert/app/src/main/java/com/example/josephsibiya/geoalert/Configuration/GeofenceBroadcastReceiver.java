@@ -12,7 +12,6 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.josephsibiya.geoalert.R;
-import com.example.josephsibiya.geoalert.SettingsActivity;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
@@ -20,7 +19,7 @@ import com.google.android.gms.location.GeofencingEvent;
  * Created by reversidesoftwaresolutions on 10/2/17.
  */
 
-public class GeofenceBroadcastReceiver extends BroadcastReceiver {
+/**public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
     public static final String TAG = GeofenceBroadcastReceiver.class.getSimpleName();
 
@@ -32,7 +31,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
      * @param context
      * @param intent
      */
-    @Override
+  /**  @Override
     public void onReceive(Context context, Intent intent) {
         // Get the Geofence Event from the Intent sent through
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
@@ -68,7 +67,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
      * @param transitionType The geofence transition type, can be Geofence.GEOFENCE_TRANSITION_ENTER
      *                       or Geofence.GEOFENCE_TRANSITION_EXIT
      */
-    private void sendNotification(Context context, int transitionType) {
+  /**  private void sendNotification(Context context, int transitionType) {
         // Create an explicit content Intent that starts the main Activity.
         Intent notificationIntent = new Intent(context, SettingsActivity.class);
 
@@ -114,7 +113,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
         // Issue the notification
         mNotificationManager.notify(0, builder.build());
-    }
+    }**/
 
     /**
      * Changes the ringer mode on the device to either silent or back to normal
@@ -123,7 +122,7 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
      * @param mode    The desired mode to switch device to, can be AudioManager.RINGER_MODE_SILENT or
      *                AudioManager.RINGER_MODE_NORMAL
      */
-    private void setRingerMode(Context context, int mode) {
+    /**private void setRingerMode(Context context, int mode) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // Check for DND permissions for API 24+
         if (android.os.Build.VERSION.SDK_INT < 24 ||
@@ -132,4 +131,4 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             audioManager.setRingerMode(mode);
         }
     }
-}
+}**/
