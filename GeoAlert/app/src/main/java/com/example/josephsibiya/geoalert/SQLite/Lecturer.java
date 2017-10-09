@@ -1,0 +1,133 @@
+package com.example.josephsibiya.geoalert.SQLite;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.HashMap;
+
+/**
+ * Created by reversidesoftwaresolutions on 10/9/17.
+ */
+
+public class Lecturer extends SQLiteOpenHelper
+
+{
+
+    private static final String TAG = GeofenceSQLite.class.getSimpleName();
+
+    // All Static variables
+    // Database Version
+    private static final int DATABASE_VERSION = 1;
+
+    // Database Name
+    private static final String DATABASE_NAME = "geoAlert";
+
+    // Login table name
+    private static final String TABLE_USER = "lecturer";
+
+    // Login Table Columns names
+    private static final String KEY_ID = "id";
+    private static final String KEY_NAME = "surname";
+    private static final String KEY_INIT = "initials";
+    private static final String KEY_STUFF = "stuffNum";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_USERN = "username";
+    private static final String KEY_PWD = "password";
+
+
+    public Lecturer(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    // Creating Tables
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_LECTURER_TABLE = "CREATE TABLE " + TABLE_USER + "("
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
+                + KEY_INIT + " TEXT UNIQUE,"
+                + KEY_STUFF + " TEXT UNIQUE,"
+                + KEY_EMAIL + " TEXT UNIQUE,"
+                + KEY_USERN + " TEXT UNIQUE,"
+                + KEY_PWD + " TEXT UNIQUE,";
+
+        db.execSQL(CREATE_LECTURER_TABLE);
+
+        Log.d(TAG, "Database tables created");
+    }
+
+    // Upgrading database
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+
+        // Create tables again
+        onCreate(db);
+    }
+
+    /**
+     * Storing geofence details in database
+     * */
+    public void addUser(String surn, String ini, String stuffN, String email, String usern, String pwd) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, surn); // Name
+        values.put(KEY_INIT, ini); // Email
+        values.put(KEY_STUFF, stuffN); // Email
+        values.put(KEY_EMAIL, email); // Email
+        values.put(KEY_USERN, usern); // Email
+        values.put(KEY_PWD, pwd); // Email
+
+        // Inserting Row
+        long id = db.insert(TABLE_USER, null, values);
+        db.close(); // Closing database connection
+
+        Log.d(TAG, "New user inserted into sqlite: " + id);
+    }
+
+    /**
+     * Getting user data from database
+     * */
+    public HashMap<String, String> getUserDetails() {
+        HashMap<String, String> user = new HashMap<String, String>();
+        String selectQuery = "SELECT  * FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            user.put("surname", cursor.getString(1));
+            user.put("initials", cursor.getString(2));
+            user.put("stuffNum", cursor.getString(3));
+            user.put("email", cursor.getString(4));
+            user.put("username", cursor.getString(5));
+            user.put("password", cursor.getString(6));
+
+        }
+        cursor.close();
+        db.close();
+        // return user
+        Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
+
+        return user;
+    }
+
+    /**
+     * Re crate database Delete all tables and create them again
+     * */
+    public void deleteUsers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete All Rows
+        db.delete(TABLE_USER, null, null);
+        db.close();
+
+        Log.d(TAG, "Deleted all user info from sqlite");
+    }
+
+}

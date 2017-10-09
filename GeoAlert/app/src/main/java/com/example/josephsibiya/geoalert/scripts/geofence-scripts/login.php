@@ -24,11 +24,13 @@
 		
       if($count == 1) {
       
+      $response["error"] = FALSE;
          $response["success"] = 1;
          $response["message"] = "successfully.";
          echo json_encode($response);
          
       }else {
+        $response["error"] = TRUE;
          $response["success"] = 0;
          $response["message"] =  "Your Login Name or Password is invalid";
           echo json_encode($response);

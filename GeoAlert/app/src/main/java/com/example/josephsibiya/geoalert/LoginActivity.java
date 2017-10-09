@@ -1,5 +1,6 @@
 package com.example.josephsibiya.geoalert;
 
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,10 +19,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Adapters.AndroidLoginController;
+import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
+import com.example.josephsibiya.geoalert.Configuration.SessionManager;
+import com.example.josephsibiya.geoalert.SQLite.Lecturer;
 import com.example.josephsibiya.geoalert.connection.internetConn;
 import com.example.josephsibiya.geoalert.models.LecturerModel;
-import com.example.josephsibiya.geoalert.services.Login;
+import com.example.josephsibiya.geoalert.providers.sendEmail;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +43,8 @@ public class LoginActivity extends AppCompatActivity  {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private LecturerModel lecturerModel;
     private internetConn internetConn;
+    private SessionManager session;
+    private Lecturer lecturer = new Lecturer(LoginActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,7 @@ public class LoginActivity extends AppCompatActivity  {
                         Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
                         view = username;
                     } else {
-                        login(username.getText().toString(), password.getText().toString());
+                        checkLogin(username.getText().toString(), password.getText().toString());
                         intent = new Intent(LoginActivity.this, DashActivity.class);
                         startActivity(intent);
                         finish();
@@ -77,84 +83,117 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
 
-    private void login(final String userNa, final String passWord){
+    private void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
-        progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setMessage("Logging in...");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                config.URL_LOGIN, new Response.Listener<String>() {
+        int loginCount = 0;
 
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Login Response: " + response.toString());
+        if (progressDialog == null) {
+            Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
+            //intent = new Intent(LoginActivity.this, LoginActivity.class);
+            //startActivity(intent);
+            loginCount++;
 
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
+            if (loginCount == 3){
+                finish();
+                System.exit(0);
+            }
+        } else {
 
-                    // Check for error node in json
-                    if (!error) {
-                        // Now store the user in SQLite
-                        JSONObject user = jObj.getJSONObject("tblLecturer");
-                        String userN = user.getString("username");
-                        String pwd = user.getString("password");
+            progressDialog.setMessage("Logging in ...");
+            showDialog();
 
-                        // Inserting row in users table
-                        lecturerModel.setUsername(userN);
-                        lecturerModel.setPassword(pwd);
-                        //session.setLoggedin(true);
+            StringRequest strReq = new StringRequest(Request.Method.POST,
+                    config.URL_LOGIN, new Response.Listener<String>() {
 
-                        if (userN.equals(userNa) && pwd.equals(passWord)){
-                            intent = new Intent(LoginActivity.this, DashActivity.class);
+                @Override
+                public void onResponse(String response) {
+                    Log.d(TAG, "Login Response: " + response.toString());
+                    hideDialog();
+
+                    try {
+                        JSONObject jObj = new JSONObject(response);
+                        boolean error = jObj.getBoolean("error");
+
+                        session = new SessionManager(LoginActivity.this);
+                        // Check for error node in json
+                        if (!error) {
+                            // user successfully logged in
+                            // Create login session
+                            session.setLogin(true);
+
+                            sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
+                            send.StatusEmai();
+                            // Now store the user in SQLite
+                            //String uid = jObj.getString("uid");
+
+                            JSONObject user = jObj.getJSONObject("lecturer");
+                            String surname = user.getString("name");
+                            String initials = user.getString("email");
+                            String stuffNum = user.getString("stuffNum");
+                            String email = user.getString("email");
+                            String username = user.getString("email");
+                            String password = user
+                                    .getString("password");
+
+                            // Inserting row in users table
+                            lecturer.addUser(surname, initials, stuffNum, email, username, password);
+
+                            // Launch main activity
+                            Intent intent = new Intent(LoginActivity.this,
+                                    MainActivity.class);
                             startActivity(intent);
                             finish();
+                        } else {
+                            // Error in login. Get the error message
+                            String errorMsg = jObj.getString("message");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
                         }
-                        else{
-                            Toast.makeText(LoginActivity.this, "Invalid", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    } else {
-                        // Error in login. Get the error message
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        // JSON error
+                        e.printStackTrace();
+                        Toast.makeText(LoginActivity.this, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "Login Error: " + error.getMessage());
+                    Toast.makeText(LoginActivity.this,
+                            error.getMessage(), Toast.LENGTH_LONG).show();
+                    hideDialog();
+                }
+            }) {
+
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("username", email);
+                    params.put("password", password);
+
+                    return params;
                 }
 
-            }
-        }, new Response.ErrorListener() {
+            };
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Login Error: " + error.getMessage());
-                Toast.makeText(LoginActivity.this, "Unknown Error occurred", Toast.LENGTH_SHORT).show();
-                progressDialog.hide();
-            }
-        }) {
+            // Adding request to request queue
+            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        }
+    }
 
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<>();
-                params.put("username", userNa);
-                params.put("password", passWord);
+    private void showDialog() {
+        if (!progressDialog.isShowing())
+            progressDialog.show();
+    }
 
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        //AndroidLoginController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    private void hideDialog() {
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
 }

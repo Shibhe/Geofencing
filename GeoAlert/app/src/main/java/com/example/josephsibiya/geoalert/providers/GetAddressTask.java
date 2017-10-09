@@ -1,4 +1,4 @@
-package com.example.josephsibiya.geoalert.services;
+package com.example.josephsibiya.geoalert.providers;
 
 import android.content.Context;
 import android.location.Address;
@@ -12,20 +12,18 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * Created by reversidesoftwaresolutions on 10/3/17.
+ * Created by reversidesoftwaresolutions on 10/9/17.
  */
 
 public class GetAddressTask extends AsyncTask<Location, Void, String> {
     private Context mContext;
     private Address addresses;
     private Double latitude, longitude;
-    private String name;
 
-    public GetAddressTask(Context mContext, Double latitude, Double longitude, String name) {
+    public GetAddressTask(Context mContext, Double latitude, Double longitude) {
         this.mContext = mContext;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.name = name;
     }
 
 
@@ -34,7 +32,7 @@ public class GetAddressTask extends AsyncTask<Location, Void, String> {
     @Override
     protected void onPostExecute(String address) {
         // Display the current address in the UI
-        name = address;
+        Toast.makeText(mContext, address, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -77,8 +75,9 @@ public class GetAddressTask extends AsyncTask<Location, Void, String> {
                 // The country of the address
                 addresses.getCountryName());
         // Return the text
-        return addressText;
+        return addressText.toString();
     }
 }
 // AsyncTask class
+
 

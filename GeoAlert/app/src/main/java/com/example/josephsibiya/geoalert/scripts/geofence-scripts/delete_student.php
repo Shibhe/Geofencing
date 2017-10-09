@@ -24,6 +24,7 @@ if (isset($_POST['id'])) {
     // check if row deleted or not
     if (mysql_affected_rows() > 0) {
         // successfully updated
+        $response["error"] = FALSE;
         $response["success"] = 1;
         $response["message"] = "Student successfully deleted";
 
@@ -31,6 +32,7 @@ if (isset($_POST['id'])) {
         echo json_encode($response);
     } else {
         // no product found
+        $response["error"] = TRUE;
         $response["success"] = 0;
         $response["message"] = "No student found";
 

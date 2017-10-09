@@ -3,6 +3,7 @@ package com.example.josephsibiya.geoalert;
 import android.Manifest;
 import android.app.IntentService;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,11 +22,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
+import com.example.josephsibiya.geoalert.Configuration.AppController;
+import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
+import com.example.josephsibiya.geoalert.SQLite.GeofenceSQLite;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
-import com.example.josephsibiya.geoalert.services.GeofenceTransitionIntentService;
-import com.example.josephsibiya.geoalert.services.GetAddressTask;
+import com.example.josephsibiya.geoalert.providers.GeofenceTransitionIntentService;
+import com.example.josephsibiya.geoalert.providers.GetAddressTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -46,9 +55,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GeoMapsActivity extends FragmentActivity
         implements
@@ -62,6 +76,7 @@ public class GeoMapsActivity extends FragmentActivity
 
     private static final String TAG = GeoMapsActivity.class.getSimpleName();
 
+    private ProgressDialog pDialog;
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
     private Location lastLocation;
@@ -71,6 +86,8 @@ public class GeoMapsActivity extends FragmentActivity
     private GeofenceLocations locations;
     private Button createGeofence;
     private Button clearGeofence;
+    private ConfigClass configClass = new ConfigClass();
+    private GeofenceSQLite geofence = new GeofenceSQLite(GeoMapsActivity.this);
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
@@ -124,7 +141,7 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     protected void onStart() {
         super.onStart();
-        // Call GoogleApiClient connection and fetch Geofence locations when starting the Activity
+        // Call GoogleApiClient connection and fetch GeofenceSQLite locations when starting the Activity
         googleApiClient.connect();
 
     }
@@ -132,7 +149,7 @@ public class GeoMapsActivity extends FragmentActivity
     @Override
     protected void onStop() {
         super.onStop();
-        // Disconnect GoogleApiClient and clear Geofence when stopping Activity
+        // Disconnect GoogleApiClient and clear GeofenceSQLite when stopping Activity
         googleApiClient.disconnect();
     }
 
@@ -337,7 +354,7 @@ public class GeoMapsActivity extends FragmentActivity
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(latLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
-                .title("Geofence: " + title);
+                .title("GeofenceSQLite: " + title);
 
         if ( map!=null ) {
             // Remove last geoFenceMarker
@@ -348,7 +365,7 @@ public class GeoMapsActivity extends FragmentActivity
         }
     }
 
-    // Start Geofence creation process
+    // Start GeofenceSQLite creation process
     private void startGeofence() {
         Log.i(TAG, "startGeofence()");
         if( geoFenceMarker != null ) {
@@ -356,19 +373,21 @@ public class GeoMapsActivity extends FragmentActivity
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
             addGeofence( geofenceRequest );
         } else {
-            Log.e(TAG, "Geofence marker is null");
+            Log.e(TAG, "GeofenceSQLite marker is null");
         }
     }
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
     private static final String GEOFENCE_REQ_ID = "1";
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
-    private static final String name = null;
-    // Create a Geofence
+
+    // Create a GeofenceSQLite
     private Geofence createGeofence(LatLng latLng, float radius) {
         Log.d(TAG, "createGeofence");
 
-        //new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude, name).execute();
+       String name = String.valueOf(new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude).execute());
+
+        registerGeofence(name, latLng.latitude, latLng.longitude);
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
@@ -379,7 +398,7 @@ public class GeoMapsActivity extends FragmentActivity
                 .build();
     }
 
-    // Create a Geofence Request
+    // Create a GeofenceSQLite Request
     private GeofencingRequest createGeofenceRequest(Geofence geofence ) {
         Log.d(TAG, "createGeofenceRequest");
         return new GeofencingRequest.Builder()
@@ -422,7 +441,7 @@ public class GeoMapsActivity extends FragmentActivity
         }
     }
 
-    // Draw Geofence circle on GoogleMap
+    // Draw GeofenceSQLite circle on GoogleMap
     private Circle geoFenceLimits;
     private void drawGeofence() {
         Log.d(TAG, "drawGeofence()");
@@ -452,7 +471,7 @@ public class GeoMapsActivity extends FragmentActivity
         editor.apply();
     }
 
-    // Recovering last Geofence marker
+    // Recovering last GeofenceSQLite marker
     private void recoverGeofenceMarker() {
         Log.d(TAG, "recoverGeofenceMarker");
         SharedPreferences sharedPref = getPreferences( Context.MODE_PRIVATE );
@@ -466,7 +485,7 @@ public class GeoMapsActivity extends FragmentActivity
         }
     }
 
-    // Clear Geofence
+    // Clear GeofenceSQLite
     private void clearGeofence() {
         Log.d(TAG, "clearGeofence()");
         LocationServices.GeofencingApi.removeGeofences(
@@ -490,4 +509,99 @@ public class GeoMapsActivity extends FragmentActivity
         if ( geoFenceLimits != null )
             geoFenceLimits.remove();
     }
+
+    private void registerGeofence(final String name, final Double longi, final Double lati) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        if (pDialog == null) {
+            Toast.makeText(GeoMapsActivity.this, "Something went wrong, please check your internet connection", Toast.LENGTH_LONG).show();
+        } else {
+            pDialog.setMessage("Adding ...");
+            showDialog();
+
+            StringRequest strReq = new StringRequest(Request.Method.POST,
+                    configClass.URL_ADDGEO, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    Log.d(TAG, "Register Response: " + response.toString());
+                    hideDialog();
+
+                    try {
+                        JSONObject jObj = new JSONObject(response);
+                        boolean error = jObj.getBoolean("error");
+                        if (!error) {
+                            // User successfully stored in MySQL
+                            // Now store the user in sqlite
+                            //String uid = jObj.getString("uid");
+
+                            JSONObject user = jObj.getJSONObject("geofence");
+                            String name = user.getString("name");
+                            String latitude = user.getString("latitude");
+                            String longitude = user.getString("longitude");
+
+                            // Inserting row in users table
+                            geofence.addUser(name, Double.parseDouble(latitude), Double.parseDouble(longitude));
+
+                            Toast.makeText(getApplicationContext(), "GeofenceSQLite successfully Added.!", Toast.LENGTH_LONG).show();
+
+                            // Launch login activity
+                            Intent intent = new Intent(
+                                    GeoMapsActivity.this,
+                                    DashActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+
+                            // Error occurred in registration. Get the error
+                            // message
+                            String errorMsg = jObj.getString("error_msg");
+                            Toast.makeText(getApplicationContext(),
+                                    errorMsg, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "Registration Error: " + error.getMessage());
+                    Toast.makeText(getApplicationContext(),
+                            error.getMessage(), Toast.LENGTH_LONG).show();
+                    hideDialog();
+                }
+            }) {
+
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting params to register url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("name", name);
+                    params.put("latitude", lati.toString());
+                    params.put("longitude", longi.toString());
+
+                    return params;
+                }
+
+            };
+
+            // Adding request to request queue
+            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        }
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
 }

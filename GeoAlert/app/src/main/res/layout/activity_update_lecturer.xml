@@ -14,7 +14,7 @@
         android:textSize="17dip"/>
 
 
-    <EditText android:id="@+id/inputSurname"
+    <EditText android:id="@+id/inputLectSurname"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
@@ -31,7 +31,7 @@
         android:textSize="17dip"/>
 
 
-    <EditText android:id="@+id/inputInitials"
+    <EditText android:id="@+id/inputLectInitials"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
@@ -57,12 +57,29 @@
         android:singleLine="true"
         android:inputType="numberDecimal"/>
 
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Password"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:textSize="17dip"/>
+
+
+    <EditText android:id="@+id/inputConfPwd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_marginBottom="15dip"
+        android:singleLine="true"
+        android:inputType="numberDecimal"/>
+
 
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <!-- Button Create Product -->
-        <Button android:id="@+id/btnSave"
+        <Button android:id="@+id/btnSaveLec"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Save Changes"

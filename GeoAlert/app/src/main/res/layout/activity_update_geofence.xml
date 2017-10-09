@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <!-- Button Create Product -->
-        <Button android:id="@+id/btnSave"
+        <Button android:id="@+id/btnSaveGeo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Save Changes"

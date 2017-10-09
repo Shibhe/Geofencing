@@ -25,6 +25,7 @@ $mysql_qry = "INSERT INTO tblgeofence (name, latitude, longitude) VALUES ('$name
     // check if row inserted or not
     if ($mysql_qry) {
         // successfully inserted into database
+        $response["error"] = FALSE;
         $response["success"] = 1;
         $response["message"] = "Geofence successfully added.";
 
@@ -34,6 +35,7 @@ $mysql_qry = "INSERT INTO tblgeofence (name, latitude, longitude) VALUES ('$name
         // required field is missing
   
         // failed to insert row
+        $response["error"] = TRUE;
         $response["success"] = 0;
         $response["message"] = "Required field(s) is missing";
         

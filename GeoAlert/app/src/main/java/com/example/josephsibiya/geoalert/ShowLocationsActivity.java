@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
-import com.example.josephsibiya.geoalert.services.GetNearbyPlacesData;
+import com.example.josephsibiya.geoalert.providers.GetNearbyPlacesData;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -213,7 +213,7 @@ public class ShowLocationsActivity extends FragmentActivity implements OnMapRead
         googlePlaceUrl.append("location="+latitude+","+longitude);
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+"AIzaSyCwEDoql5ltnYWdlEd9veb4ZMd0aniRP3Q");
+        googlePlaceUrl.append("&key="+getString(R.string.google_maps_key));
 
         Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
 

@@ -1,4 +1,4 @@
-package com.example.josephsibiya.geoalert.services;
+package com.example.josephsibiya.geoalert.providers;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by reversidesoftwaresolutions on 10/5/17.
+ * Created by reversidesoftwaresolutions on 10/9/17.
  */
 
 public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
@@ -73,4 +73,5 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
         }
     }
 }
+
 

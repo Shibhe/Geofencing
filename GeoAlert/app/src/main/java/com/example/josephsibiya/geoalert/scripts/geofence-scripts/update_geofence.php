@@ -28,16 +28,16 @@ $longitude = $_POST["longitude"];
     // check if row inserted or not
     if ($result) {
         // successfully updated
+        $response["error"] = FALSE;
         $response["success"] = 1;
         $response["message"] = "Geofence successfully updated.";
         
         // echoing JSON response
         echo json_encode($response);
-    } else {
-        
     }
 } else {
     // required field is missing
+    $response["error"] = TRUE;
     $response["success"] = 0;
     $response["message"] = "Required field(s) is missing";
 

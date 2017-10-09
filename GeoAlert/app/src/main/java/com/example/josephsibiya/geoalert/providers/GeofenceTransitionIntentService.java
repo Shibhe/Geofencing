@@ -1,4 +1,4 @@
-package com.example.josephsibiya.geoalert.services;
+package com.example.josephsibiya.geoalert.providers;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -6,48 +6,28 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.GeoMapsActivity;
-import com.example.josephsibiya.geoalert.MainActivity;
 import com.example.josephsibiya.geoalert.R;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
- * Created by reversidesoftwaresolutions on 9/29/17.
+ * Created by reversidesoftwaresolutions on 10/9/17.
  */
 
 public class GeofenceTransitionIntentService extends IntentService
 {
-    private static final String TAG = GeofenceTransitionIntentService.class.getSimpleName();
+    private static final String TAG = com.example.josephsibiya.geoalert.providers.GeofenceTransitionIntentService.class.getSimpleName();
 
     public static final int GEOFENCE_NOTIFICATION_ID = 0;
     private Context context;
@@ -127,7 +107,7 @@ public class GeofenceTransitionIntentService extends IntentService
                 .setSmallIcon(R.drawable.ic_action_location)
                 .setColor(Color.RED)
                 .setContentTitle(msg)
-                .setContentText("Geofence Notification!")
+                .setContentText("GeofenceSQLite Notification!")
                 .setContentIntent(notificationPendingIntent)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);
@@ -148,3 +128,4 @@ public class GeofenceTransitionIntentService extends IntentService
         }
     }
 }
+

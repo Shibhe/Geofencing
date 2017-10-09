@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.josephsibiya.geoalert.services.GetNearbyPlacesData;
+import com.example.josephsibiya.geoalert.providers.GetNearbyPlacesData;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -216,7 +216,8 @@ public class NearByActivity extends FragmentActivity implements OnMapReadyCallba
         googlePlaceUrl.append("&radius="+PROXIMITY_RADIUS);
         googlePlaceUrl.append("&type="+nearbyPlace);
         googlePlaceUrl.append("&sensor=true");
-        googlePlaceUrl.append("&key="+"AIzaSyCwEDoql5ltnYWdlEd9veb4ZMd0aniRP3Q");
+        googlePlaceUrl.append("&key="+
+        getString(R.string.google_maps_key));
 
         Log.d("MapsActivity", "url = "+googlePlaceUrl.toString());
 

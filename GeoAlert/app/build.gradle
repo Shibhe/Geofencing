@@ -6,6 +6,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.example.josephsibiya.geoalert"
+        useLibrary  'org.apache.http.legacy'
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
@@ -49,7 +50,10 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.0.4'
     compile 'com.google.firebase:firebase-crash:11.0.4'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'org.apache.httpcomponents:httpcore:4.4.1'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
     testCompile 'org.mockito:mockito-core:2.8.9'
+
     testCompile 'junit:junit:4.12'
 }
 

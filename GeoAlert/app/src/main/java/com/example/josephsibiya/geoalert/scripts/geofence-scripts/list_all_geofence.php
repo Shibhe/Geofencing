@@ -42,6 +42,7 @@ if (mysql_num_rows($result) > 0) {
     echo json_encode($response);
 } else {
     // no products found
+    $response["error"] = TRUE;
     $response["success"] = 0;
     $response["message"] = "No Geofence found";
 

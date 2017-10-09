@@ -14,11 +14,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.josephsibiya.geoalert.Configuration.SQLiteHandler;
+import com.example.josephsibiya.geoalert.Configuration.SessionManager;
+
+import java.util.HashMap;
 
 public class DashActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Intent intent;
+    private TextView txtName;
+    private TextView txtEmail;
+    private Button btnLogout;
+
+    private SQLiteHandler db;
+    private SessionManager session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +58,39 @@ public class DashActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        txtName = (TextView) findViewById(R.id.name);
+        txtEmail = (TextView) findViewById(R.id.email);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+
+        // SqLite database handler
+        db = new SQLiteHandler(DashActivity.this);
+
+        // session manager
+        session = new SessionManager(DashActivity.this);
+
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
+
+        // Fetching user details from sqlite
+        HashMap<String, String> user = db.getUserDetails();
+
+        String surname = user.get("surname");
+        String initials = user.get("initials");
+
+        // Displaying the user details on the screen
+        txtName.setText(surname);
+        txtEmail.setText(initials);
+
+        // Logout button click event
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
     }
 
     @Override
@@ -133,5 +180,21 @@ public class DashActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * Logging out the user. Will set isLoggedIn flag to false in shared
+     * preferences Clears the user data from sqlite users table
+     * */
+    private void logoutUser() {
+        session = new SessionManager(DashActivity.this);
+        session.setLogin(false);
+
+        db.deleteUsers();
+
+        // Launching the login activity
+        Intent intent = new Intent(DashActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
