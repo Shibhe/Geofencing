@@ -56,8 +56,9 @@ public class DashActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        //Intent startingIntent = getIntent();
-        //String whatYouSent = startingIntent.getStringExtra(key, value);
+        Intent startingIntent = getIntent();
+        String surname = startingIntent.getStringExtra("surname");
+        String initials = startingIntent.getStringExtra("initials");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -79,8 +80,8 @@ public class DashActivity extends AppCompatActivity
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
 
-        String surname = user.get("surname");
-        String initials = user.get("initials");
+        //String surname = user.get("surname");
+        //String initials = user.get("initials");
 
         // Displaying the user details on the screen
         txtName.setText(surname);
