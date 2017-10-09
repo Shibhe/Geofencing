@@ -89,18 +89,6 @@ public class LoginActivity extends AppCompatActivity  {
 
         int loginCount = 0;
 
-        if (progressDialog == null) {
-            Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
-            //intent = new Intent(LoginActivity.this, LoginActivity.class);
-            //startActivity(intent);
-            loginCount++;
-
-            if (loginCount == 3){
-                finish();
-                System.exit(0);
-            }
-        } else {
-
             progressDialog.setMessage("Logging in ...");
             showDialog();
 
@@ -114,11 +102,11 @@ public class LoginActivity extends AppCompatActivity  {
 
                     try {
                         JSONObject jObj = new JSONObject(response);
-                        boolean error = jObj.getBoolean("error");
+                        int error = jObj.getInt("success");
 
                         session = new SessionManager(LoginActivity.this);
                         // Check for error node in json
-                        if (!error) {
+                        if (error == 1) {
                             // user successfully logged in
                             // Create login session
                             session.setLogin(true);
@@ -128,7 +116,7 @@ public class LoginActivity extends AppCompatActivity  {
                             // Now store the user in SQLite
                             //String uid = jObj.getString("uid");
 
-                            JSONObject user = jObj.getJSONObject("lecturer");
+                            JSONObject user = jObj.getJSONObject("tblLecturer");
                             String surname = user.getString("name");
                             String initials = user.getString("email");
                             String stuffNum = user.getString("stuffNum");
@@ -142,7 +130,11 @@ public class LoginActivity extends AppCompatActivity  {
 
                             // Launch main activity
                             Intent intent = new Intent(LoginActivity.this,
-                                    MainActivity.class);
+                                    DashActivity.class);
+
+                            intent.putExtra("surname", jObj.getString("surname"));
+                            intent.putExtra("initials", jObj.getString("initials"));
+
                             startActivity(intent);
                             finish();
                         } else {
@@ -184,7 +176,6 @@ public class LoginActivity extends AppCompatActivity  {
             // Adding request to request queue
             AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
         }
-    }
 
     private void showDialog() {
         if (!progressDialog.isShowing())

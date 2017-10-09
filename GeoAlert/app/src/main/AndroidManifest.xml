@@ -9,6 +9,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -42,7 +43,6 @@
         </activity>
         <activity android:name=".StudentActivity" />
         <activity android:name=".AddStudentActivity" />
-        <activity android:name=".AddGeoActivity" />
         <activity android:name=".GeofenceActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UpdateLecturerActivity" />

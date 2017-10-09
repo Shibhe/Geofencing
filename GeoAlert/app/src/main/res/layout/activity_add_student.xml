@@ -126,6 +126,23 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/macAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone's mac address"
+            android:imeActionId="@+id/btnAddStudent"
+            android:imeActionLabel="Must not be empty"
+            android:imeOptions="actionUnspecified"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
 
 
     <Button

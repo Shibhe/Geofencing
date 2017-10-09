@@ -56,6 +56,9 @@ public class DashActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        //Intent startingIntent = getIntent();
+        //String whatYouSent = startingIntent.getStringExtra(key, value);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 

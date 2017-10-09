@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
+import com.example.josephsibiya.geoalert.Configuration.GetMacAddress;
 import com.example.josephsibiya.geoalert.SQLite.Student;
 import com.example.josephsibiya.geoalert.models.StudentModel;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
@@ -55,6 +56,8 @@ public class AddStudentActivity extends AppCompatActivity {
     private Student student = new Student(AddStudentActivity.this);
     private StudentModel studentModel;
     private ConfigClass configClass = new ConfigClass();
+    private EditText mac;
+    private GetMacAddress getMacAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +70,12 @@ public class AddStudentActivity extends AppCompatActivity {
         IDNo = (EditText) findViewById(R.id.IDNo);
         gender = (EditText) findViewById(R.id.Gender);
         email = (EditText) findViewById(R.id.email);
+        mac = (EditText) findViewById(R.id.macAddress);
         btnAddStudent = (Button) findViewById(R.id.btnAddStudent);
 
+        getMacAddr = new GetMacAddress(AddStudentActivity.this);
 
+        final String macAddress = getMacAddr.getMacAddress();
         btnAddStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +85,7 @@ public class AddStudentActivity extends AppCompatActivity {
                 IDNo.setError(null);
                 gender.setError(null);
                 email.setError(null);
+                mac.setText(macAddress);
 
                 if (surname.length() == 0) {
                     Toast.makeText(AddStudentActivity.this, "Surname characters must be more than 0 characters", Toast.LENGTH_SHORT).show();
@@ -111,7 +118,7 @@ public class AddStudentActivity extends AppCompatActivity {
                     view = email;
                 } else {
 
-                    registerUser(surname.getText().toString(), initials.getText().toString(), studNumber.getText().toString(), IDNo.getText().toString(), gender.getText().toString(), email.getText().toString());
+                    registerUser(surname.getText().toString(), initials.getText().toString(), studNumber.getText().toString(), IDNo.getText().toString(), gender.getText().toString(), email.getText().toString(), mac.getText().toString());
                     //Toast.makeText(AddStudentActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
                 }
 
@@ -121,7 +128,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
 
     private void registerUser(final String surn, final String ini, final String studNum, final String IDNo, final String gender,
-                              final String email) {
+                              final String email, final String macAddress) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -161,6 +168,7 @@ public class AddStudentActivity extends AppCompatActivity {
                             String gender = user.getString("gender");
                             String studN = user.getString("studNum");
                             String email = user.getString("email");
+                            String macAdd = user.getString("macAddress");
 
                             // Inserting row in users table
                             student.addUser(sur, init, IDNo, gender, studN, email);

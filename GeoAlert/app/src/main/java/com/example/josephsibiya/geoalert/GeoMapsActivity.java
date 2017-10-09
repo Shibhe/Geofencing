@@ -530,13 +530,13 @@ public class GeoMapsActivity extends FragmentActivity
 
                     try {
                         JSONObject jObj = new JSONObject(response);
-                        boolean error = jObj.getBoolean("error");
-                        if (!error) {
+                        int error = jObj.getInt("success");
+                        if (error == 1) {
                             // User successfully stored in MySQL
                             // Now store the user in sqlite
                             //String uid = jObj.getString("uid");
 
-                            JSONObject user = jObj.getJSONObject("geofence");
+                            JSONObject user = jObj.getJSONObject("tblGeofence");
                             String name = user.getString("name");
                             String latitude = user.getString("latitude");
                             String longitude = user.getString("longitude");
