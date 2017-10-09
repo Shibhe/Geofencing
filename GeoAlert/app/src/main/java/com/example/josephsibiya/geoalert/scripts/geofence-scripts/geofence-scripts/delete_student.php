@@ -37,7 +37,17 @@ if (isset($_POST['id'])) {
         $response["message"] = "No student found";
 
         // echo no users JSON
-        echo json_encode($response);
+      
+      echo json_encode($response);
     }
+}
+ else {
+    // required field is missing
+    $response["error"] = TRUE;
+    $response["success"] = 0;
+    $response["message"] = "Required field(s) is missing";
+
+    // echoing JSON response
+    echo json_encode($response);
 }
 ?>

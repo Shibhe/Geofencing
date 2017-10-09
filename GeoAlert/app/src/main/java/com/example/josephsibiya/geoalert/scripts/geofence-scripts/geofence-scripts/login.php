@@ -1,21 +1,27 @@
 <?php
    
    
+   $response = array();
+
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form 
       
       $username = $_POST['username'];
-      $password = $_POST['password']; 
+      $password = $_POST['password'];
       
+    
+
        require_once __DIR__ . '/db_connect.php';
 
        // connecting to db
        $db = new DB_CONNECT();
 
-      $sql = "SELECT id FROM tblLecturer WHERE username = '$username' and password = '$password'";
+      
+
+      $sql = "SELECT id FROM tblLecturer WHERE username = '$username' and password = '$password';";
 
       $result = mysqli_query($db,$sql);
-      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      $row = mysql_num_rows($result ,MYSQLI_ASSOC);
       
       
       $count = mysqli_num_rows($result);
@@ -34,5 +40,12 @@
          $response["message"] =  "Your Login Name or Password is invalid";
           echo json_encode($response);
       }
-   }
+   } else {
+    // required field is missing
+    $response["success"] = 0;
+    $response["message"] = "Required field(s) is missing";
+
+    // echoing JSON response
+    echo json_encode($response);
+}
 ?>

@@ -40,10 +40,18 @@ $password = = $_POST["password"];
     // required field is missing
     $response["error"] = TRUE;
     $response["success"] = 0;
-    $response["message"] = "Required field(s) is missing";
+    $response["message"] = "Rops! An error occurred.";
 
     // echoing JSON response
     echo json_encode($response);
 }
+} else {
+    // required field is missing
+    $response["error"] = TRUE;
+    $response["success"] = 0;
+    $response["message"] = "Required field(s) is missing";
+
+    // echoing JSON response
+    echo json_encode($response);
 }
 ?>
