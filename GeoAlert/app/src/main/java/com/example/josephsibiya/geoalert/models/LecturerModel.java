@@ -10,16 +10,8 @@ public class LecturerModel {
     private String initials;
     private String stuffNum;
     private String username;
+    private String email;
     private String password;
-
-    public LecturerModel(int id, String surname, String initials, String stuffNum, String username, String password) {
-        Id = id;
-        this.surname = surname;
-        this.initials = initials;
-        this.stuffNum = stuffNum;
-        this.username = username;
-        this.password = password;
-    }
 
     public int getId() {
         return Id;
@@ -67,5 +59,13 @@ public class LecturerModel {
 
     public void setStuffNum(String stuffNum) {
         this.stuffNum = stuffNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -5,12 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,18 +39,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.RunnableFuture;
 
-public class GeofenceActivity extends AppCompatActivity {
+public class GeofenceActivity extends AppCompatActivity  {
 
     String pid;
 
     private static final String TAG_SUCCESS = "success";
     // Progress Dialog
-    private ProgressDialog pDialog = new ProgressDialog(GeofenceActivity.this);
+    private ProgressDialog pDialog;
 
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
@@ -52,7 +61,6 @@ public class GeofenceActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private GeofenceAdapter geofenceAdapter;
     private ArrayList<GeofenceLocations> geofenceLocationsArrayList = new ArrayList<>();
-    private SwipeRefreshLayout swipeRefreshLayout;
     private Button addGeofence;
 
     @Override
@@ -63,33 +71,18 @@ public class GeofenceActivity extends AppCompatActivity {
         addGeofence = (Button) findViewById(R.id.addGeofence);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout1);
+        //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout1);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
         geofenceLocationsArrayList = new ArrayList<>();
+
+
+
         geofenceAdapter = new GeofenceAdapter(geofenceLocationsArrayList, GeofenceActivity.this);
         recyclerView.setAdapter(geofenceAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout1);
 
-
-        /**swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-
-                geofenceLocationsArrayList = new ArrayList<>();
-                geofenceAdapter = new GeofenceAdapter(geofenceLocationsArrayList, GeofenceActivity.this);
-                recyclerView.setAdapter(geofenceAdapter);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(GeofenceActivity.this));
-
-
-                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
-                itemTouchHelper.attachToRecyclerView(recyclerView);
-            }
-        });**/
 
         addGeofence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +120,7 @@ public class GeofenceActivity extends AppCompatActivity {
     private void deleteItem(int pos)
     {
         geofenceAdapter.locationsArrayList.remove(pos);
-        new DeleteGeofence().execute();
+        new DeleteGeofence(GeofenceActivity.this, geofenceLocationsArrayList).execute();
         geofenceAdapter.notifyDataSetChanged();
     }
 
@@ -139,6 +132,7 @@ public class GeofenceActivity extends AppCompatActivity {
         geofenceAdapter.locationsArrayList.add(newPos, geofenceLocations);
         geofenceAdapter.notifyItemMoved(pos, newPos);
     }
+
 
     public class GellAllGeofence extends AsyncTask<Void, Void, Void> {
 
@@ -173,70 +167,84 @@ public class GeofenceActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
+// Building Parameters
+           // List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+            //JSONObject json = jsonParser.makeHttpRequest(config.URL_LISTGEO, "GET", params);
 
-            HttpURLConnection urlConnection = null;
+            HttpURLConnection connection = null;
             BufferedReader bufferedReader = null;
-
+            // Check your log cat for JSON reponse
+            //Log.d("All Products: ", json.toString());
 
             try {
-                URL loginUrl = new URL(config.URL_LISTGEO);
-                urlConnection = (HttpURLConnection) loginUrl.openConnection();
-                urlConnection.setRequestMethod("GET");
-                //urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
-                urlConnection.connect();
-                InputStream stream = urlConnection.getInputStream();
-                bufferedReader = new BufferedReader(new InputStreamReader(stream));
 
-                StringBuffer buffer = new StringBuffer();
+                URL url = new URL(config.URL_LISTGEO);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                //connection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
+                connection.connect();
+
+                InputStream inputStream = connection.getInputStream();
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
                 String line = null;
+                StringBuffer buffer = new StringBuffer();
 
                 while ((line = bufferedReader.readLine()) != null) {
                     buffer.append(line);
                 }
 
-                while (buffer.length() == 0) {
+                if (buffer.length() == 0) {
                     return null;
                 }
 
-                JSONObject object = new JSONObject(buffer.toString());
+                JSONObject geoObject = new JSONObject(buffer.toString());
 
-                JSONArray array = (JSONArray) object.get("tblGeofence");
+                // Checking for SUCCESS TAG
+                int success = geoObject.getInt("success");
 
-                for (int x = 0; x < array.length(); x++) {
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    JSONArray geofence = geoObject.getJSONArray("tblGeofence");
 
-                    JSONObject compObj = (JSONObject) array.get(x);
-                    JSONObject stat = new JSONObject();
+                    // looping through All Products
+                    for (int i = 0; i < geofence.length(); i++) {
 
-                    int Id;
-                    String name;
-                    double latitude;
-                    double longitude;
+                        JSONObject c = (JSONObject) geofence.get(i);
 
+                        // Storing each json item in variable
+                        int id = c.getInt("id");
+                        String name = c.getString("name");
+                        Double lat = c.getDouble("latitude");
+                        Double longi = c.getDouble("longitude");
 
-                    Id = compObj.getInt("id");
-                    name = compObj.getString("name");
-                    latitude = compObj.getDouble("latitude");
-                    longitude = compObj.getDouble("longitude");
+                        GeofenceLocations geofenceLocation = new GeofenceLocations();
 
+                        geofenceLocation.setLatitude(lat);
+                        geofenceLocation.setLongitude(longi);
+                        geofenceLocation.setName(name);
+                        geofenceLocation.setId(id);
 
-                    GeofenceLocations model = new GeofenceLocations();
-
-                    model.setId(Id);
-                    model.setName(name);
-                    model.setLatitude(latitude);
-                    model.setLongitude(longitude);
-
-                    adapter.locationsArrayList.add(model);
+                    }
+                } else {
+                    Intent i = new Intent(GeofenceActivity.this,
+                            GeoMapsActivity.class);
+                    // Closing all previous activities
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
                 }
-
-
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+
             return null;
         }
 
@@ -248,12 +256,72 @@ public class GeofenceActivity extends AppCompatActivity {
         }
     }
 
+
+    /**@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = null;
+        inflater.inflate(R.menu.search_view, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+            // Do something when collapsed
+                        geofenceAdapter.setFilter(geofenceLocationsArrayList);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                        return true; // Return true to expand action view
+                    }
+                });
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<GeofenceLocations> filteredModelList = filter(geofenceLocationsArrayList, newText);
+
+        geofenceAdapter.setFilter(filteredModelList);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private List<GeofenceLocations> filter(List<GeofenceLocations> models, String query) {
+        query = query.toLowerCase();final List<GeofenceLocations> filteredModelList = new ArrayList<>();
+        for (GeofenceLocations model : models) {
+            final String text = model.getName().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
+    }**/
+
     public class DeleteGeofence extends AsyncTask<String, String, String> {
 
         private Context context;
-        private ArrayList<StudentModel> models;
+        private ArrayList<GeofenceLocations> models;
         private ProgressDialog pDialog;
         private ConfigClass aClass;
+
+        public DeleteGeofence(Context context, ArrayList<GeofenceLocations> models) {
+            this.context = context;
+            this.models = models;
+        }
 
         /**
          * Before starting background thread Show Progress Dialog

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.JSONParser;
-import com.example.josephsibiya.geoalert.SQLite.Student;
+//import com.example.josephsibiya.geoalert.SQLite.Student;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -42,7 +42,6 @@ public class UpDateActivity extends AppCompatActivity {
     private Button update;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private ConfigClass configClass;
-    private Student student = new Student(UpDateActivity.this);
 
     //Update student
     @Override

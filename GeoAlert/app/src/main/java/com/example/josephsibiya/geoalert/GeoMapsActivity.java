@@ -31,7 +31,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
-import com.example.josephsibiya.geoalert.SQLite.GeofenceSQLite;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 import com.example.josephsibiya.geoalert.providers.GeofenceTransitionIntentService;
 import com.example.josephsibiya.geoalert.providers.GetAddressTask;
@@ -87,7 +86,6 @@ public class GeoMapsActivity extends FragmentActivity
     private Button createGeofence;
     private Button clearGeofence;
     private ConfigClass configClass = new ConfigClass();
-    private GeofenceSQLite geofence = new GeofenceSQLite(GeoMapsActivity.this);
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
@@ -542,7 +540,7 @@ public class GeoMapsActivity extends FragmentActivity
                             String longitude = user.getString("longitude");
 
                             // Inserting row in users table
-                            geofence.addUser(name, Double.parseDouble(latitude), Double.parseDouble(longitude));
+                            //geofence.addUser(name, Double.parseDouble(latitude), Double.parseDouble(longitude));
 
                             Toast.makeText(getApplicationContext(), "GeofenceSQLite successfully Added.!", Toast.LENGTH_LONG).show();
 

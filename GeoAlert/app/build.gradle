@@ -6,7 +6,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.example.josephsibiya.geoalert"
-        useLibrary  'org.apache.http.legacy'
+        useLibrary 'org.apache.http.legacy'
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
@@ -27,11 +27,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    //compile 'com.android.support:gridlayout-v7:25.3.1'
-    // compile 'com.google.android.gms:play-services-location:11.0.4'
-    //apply plugin: 'com.google.gms.google-services'
-    //compile 'com.google.firebase:firebase-database:9.2.0'
+
     compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.android.support:support-vector-drawable:26.0.0-alpha1'
@@ -45,17 +41,15 @@ dependencies {
     compile 'com.google.android.gms:play-services-wearable:11.0.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
-    //compile 'com.google.firebase:firebase-database:11.0.4'
     compile 'com.google.android.gms:play-services-places:11.0.4'
-    //compile 'com.google.firebase:firebase-auth:11.0.4'
-   // compile 'com.google.firebase:firebase-crash:11.0.4'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'org.apache.httpcomponents:httpcore:4.4.1'
     compile 'org.apache.httpcomponents:httpclient:4.5'
     testCompile 'org.mockito:mockito-core:2.8.9'
-
     testCompile 'junit:junit:4.12'
 }
+
+
 
 
 

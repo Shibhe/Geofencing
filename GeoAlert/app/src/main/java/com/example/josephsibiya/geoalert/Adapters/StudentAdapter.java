@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.josephsibiya.geoalert.R;
+import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 import com.example.josephsibiya.geoalert.models.StudentModel;
 
 import java.util.ArrayList;
@@ -42,12 +43,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     {
         StudentModel studentModel =  numStudents.get(position);
 
-        //holder.IDNo.setText(studentModel.getIDNo());
-        //holder.initials.setText(studentModel.getInitials());
-        holder.setInitials(studentModel.getInitials());
-        //holder.macAddress.setText(studentModel.getMacAddress());
-        holder.setStudNumber(studentModel.getStudNum());
-        holder.setSurname(studentModel.getSurname());
+        holder.bind(studentModel);
 
     }
 
@@ -62,9 +58,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         private EditText surname;
         private EditText initials;
         private EditText studNumber;
-        //private EditText IDNo;
-        //private EditText macAddress;
-       // private Button addStudent;
+
 
         public StudentViewHolder(View itemView) {
             super(itemView);
@@ -72,24 +66,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             surname = itemView.findViewById(R.id.studSurname);
             initials = itemView.findViewById(R.id.studInit);
             studNumber = itemView.findViewById(R.id.studNumber);
-            //IDNo = itemView.findViewById(R.id.IDNo);
-            //macAddress = itemView.findViewById(R.id.MacAddress);
-            //addStudent = itemView.findViewById(R.id.btnAddStudent);
         }
 
-        public void setSurname(String surname)
-        {
-            this.surname.setText(surname);
-        }
+        public void bind(StudentModel model) {
 
-        public void setInitials(String initials)
-        {
-            this.initials.setText(initials);
-        }
-
-        public void setStudNumber(String studNumber)
-        {
-            this.studNumber.setText(studNumber);
+            surname.setText("Surname: " + model.getSurname());
+            initials.setText("Initials: " + model.getInitials());
+            studNumber.setText("Student No.: " + model.getStudNum());
         }
 
     }

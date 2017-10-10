@@ -11,6 +11,7 @@ import com.example.josephsibiya.geoalert.R;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by josephsibiya on 2017/09/12.
@@ -40,15 +41,18 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
     {
         GeofenceLocations locations = locationsArrayList.get(position);
 
-        holder.name.setText(locations.getName());
-        holder.latitude.setText(String.valueOf(locations.getLatitude()));
-        holder.longitude.setText(String.valueOf(locations.getLongitude()));
-
+        holder.bind(locations);
     }
 
     @Override
     public int getItemCount() {
         return locationsArrayList.size();
+    }
+
+    public void setFilter(List<GeofenceLocations> LocaModels) {
+        locationsArrayList = new ArrayList<>();
+        locationsArrayList.addAll(LocaModels);
+        notifyDataSetChanged();
     }
 
     static class GeofenceViewHolder extends RecyclerView.ViewHolder
@@ -65,7 +69,13 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
             name = itemView.findViewById(R.id.geoName);
             longitude = itemView.findViewById(R.id.geoLongi);
             latitude = itemView.findViewById(R.id.geoLat);
-            //radius = itemView.findViewById(R.id.geoRadius);
+
+        }
+
+        public void bind(GeofenceLocations locations) {
+            name.setText("Name: " + locations.getName());
+            longitude.setText("Longitude: " +  String.valueOf(locations.getLatitude()));
+            longitude.setText("Latitude: " +  String.valueOf(locations.getLongitude()));
         }
     }
 }

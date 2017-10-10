@@ -22,7 +22,7 @@ import com.example.josephsibiya.geoalert.Adapters.AndroidLoginController;
 import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.SessionManager;
-import com.example.josephsibiya.geoalert.SQLite.Lecturer;
+//import com.example.josephsibiya.geoalert.SQLite.Lecturer;
 import com.example.josephsibiya.geoalert.connection.internetConn;
 import com.example.josephsibiya.geoalert.models.LecturerModel;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity  {
     private LecturerModel lecturerModel;
     private internetConn internetConn;
     private SessionManager session;
-    private Lecturer lecturer = new Lecturer(LoginActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +71,10 @@ public class LoginActivity extends AppCompatActivity  {
                         Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
                         view = username;
                     } else {
-                        checkLogin(username.getText().toString(), password.getText().toString());
+                       /// checkLogin(username.getText().toString(), password.getText().toString());
                         intent = new Intent(LoginActivity.this, DashActivity.class);
                         startActivity(intent);
-                        finish();
+                       // finish();
                     }
                 }
             });
@@ -83,99 +82,111 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
 
-    private void checkLogin(final String email, final String password) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
+  private void checkLogin(final String email, final String password) {
+      // Tag used to cancel the request
+      String tag_string_req = "req_login";
 
-        int loginCount = 0;
+      if (progressDialog == null) {
+            hideDialog();
+            Toast.makeText(LoginActivity.this, "Something went wrong, might be the server", Toast.LENGTH_SHORT).show();
+      } else {
+          progressDialog.setMessage("Logging in ...");
+          showDialog();
 
-            progressDialog.setMessage("Logging in ...");
-            showDialog();
+          StringRequest strReq = new StringRequest(Request.Method.POST,
+                  config.URL_LOGIN, new Response.Listener<String>() {
 
-            StringRequest strReq = new StringRequest(Request.Method.POST,
-                    config.URL_LOGIN, new Response.Listener<String>() {
+              @Override
+              public void onResponse(String response) {
+                  Log.d(TAG, "Login Response: " + response.toString());
+                  hideDialog();
 
-                @Override
-                public void onResponse(String response) {
-                    Log.d(TAG, "Login Response: " + response.toString());
-                    hideDialog();
+                  try {
 
-                    try {
-                        JSONObject jObj = new JSONObject(response);
-                        int error = jObj.getInt("success");
+                      JSONObject jObj = new JSONObject(response);
+                      int error = jObj.getInt("success");
 
-                        session = new SessionManager(LoginActivity.this);
-                        // Check for error node in json
-                        if (error == 1) {
-                            // user successfully logged in
-                            // Create login session
-                            session.setLogin(true);
+                      session = new SessionManager(LoginActivity.this);
+                      // Check for error node in json
+                      if (error == 1) {
+                          // user successfully logged in
+                          // Create login session
+                          session.setLogin(true);
 
-                            sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
-                            send.StatusEmai();
-                            // Now store the user in SQLite
-                            //String uid = jObj.getString("uid");
+                          sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
+                          send.StatusEmai();
+                          // Now store the user in SQLite
+                          //String uid = jObj.getString("uid");
 
-                            JSONObject user = jObj.getJSONObject("tblLecturer");
-                            String surname = user.getString("name");
-                            String initials = user.getString("email");
-                            String stuffNum = user.getString("stuffNum");
-                            String email = user.getString("email");
-                            String username = user.getString("email");
-                            String password = user
-                                    .getString("password");
+                          JSONObject user = jObj.getJSONObject("tblLecturer");
+                          int id = user.getInt("id");
+                          String surname = user.getString("surname");
+                          String initials = user.getString("initials");
+                          String stuffNum = user.getString("stuffNum");
+                          String email = user.getString("email");
+                          String username = user.getString("username");
+                          String password = user
+                                  .getString("password");
 
-                            // Inserting row in users table
-                            lecturer.addUser(surname, initials, stuffNum, email, username, password);
+                          LecturerModel lecturerModel = new LecturerModel();
 
-                            // Launch main activity
-                            Intent intent = new Intent(LoginActivity.this,
-                                    DashActivity.class);
+                          lecturerModel.setId(id);
+                          lecturerModel.setPassword(password);
+                          lecturerModel.setUsername(username);
+                          lecturerModel.setInitials(initials);
+                          lecturerModel.setStuffNum(stuffNum);
+                          lecturerModel.setSurname(surname);
+                          lecturerModel.setEmail(email);
 
-                            intent.putExtra("surname", jObj.getString("surname"));
-                            intent.putExtra("initials", jObj.getString("initials"));
 
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            // Error in login. Get the error message
-                            String errorMsg = jObj.getString("message");
-                            Toast.makeText(getApplicationContext(),
-                                    errorMsg, Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        // JSON error
-                        e.printStackTrace();
-                        Toast.makeText(LoginActivity.this, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                          // Launch main activity
+                          Intent intent = new Intent(LoginActivity.this,
+                                  DashActivity.class);
 
-                }
-            }, new Response.ErrorListener() {
+                          intent.putExtra("surname", surname);
+                          intent.putExtra("initials", initials);
+                          startActivity(intent);
+                          finish();
+                      } else {
+                          // Error in login. Get the error message
+                          String errorMsg = jObj.getString("message");
+                          Toast.makeText(getApplicationContext(),
+                                  errorMsg, Toast.LENGTH_LONG).show();
+                      }
+                  } catch (JSONException e) {
+                      // JSON error
+                      e.printStackTrace();
+                      Toast.makeText(LoginActivity.this, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                  }
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Login Error: " + error.getMessage());
-                    Toast.makeText(LoginActivity.this,
-                            error.getMessage(), Toast.LENGTH_LONG).show();
-                    hideDialog();
-                }
-            }) {
+              }
+          }, new Response.ErrorListener() {
 
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("username", email);
-                    params.put("password", password);
+              @Override
+              public void onErrorResponse(VolleyError error) {
+                  Log.e(TAG, "Login Error: " + error.getMessage());
+                  Toast.makeText(LoginActivity.this,
+                          error.getMessage(), Toast.LENGTH_LONG).show();
+                  hideDialog();
+              }
+          }) {
 
-                    return params;
-                }
+              @Override
+              protected Map<String, String> getParams() {
+                  // Posting parameters to login url
+                  Map<String, String> params = new HashMap<String, String>();
+                  params.put("username", email);
+                  params.put("password", password);
 
-            };
+                  return params;
+              }
 
-            // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-        }
+          };
+
+          // Adding request to request queue
+          AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+      }
+  }
 
     private void showDialog() {
         if (!progressDialog.isShowing())
@@ -186,7 +197,6 @@ public class LoginActivity extends AppCompatActivity  {
         if (progressDialog.isShowing())
             progressDialog.dismiss();
     }
-
 }
 
 

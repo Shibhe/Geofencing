@@ -91,16 +91,11 @@ public class UpdateGeofenceActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (pDialog == null){
-                Toast.makeText(UpdateGeofenceActivity.this, "Something went wrong, check your internet connection", Toast.LENGTH_LONG).show();
-            }
-            else {
                 pDialog = new ProgressDialog(UpdateGeofenceActivity.this);
                 pDialog.setMessage("Saving geofence ...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
-            }
         }
 
         /**
@@ -109,8 +104,6 @@ public class UpdateGeofenceActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
-
-
 
             configClass = new ConfigClass();
             // Building Parameters
@@ -127,7 +120,7 @@ public class UpdateGeofenceActivity extends AppCompatActivity {
 
             // check json success tag
             try {
-                int success = json.getInt(TAG_SUCCESS);
+                int success = json.getInt("success");
 
                 if (success == 1) {
                     // successfully updated
@@ -137,6 +130,8 @@ public class UpdateGeofenceActivity extends AppCompatActivity {
                     finish();
                 } else {
                     // failed to update product
+                    Toast.makeText(UpdateGeofenceActivity.this, "Unable to update", Toast.LENGTH_SHORT).show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

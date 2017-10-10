@@ -12,7 +12,6 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.josephsibiya.geoalert.R;
-import com.example.josephsibiya.geoalert.SQLite.GeofenceSQLite;
 import com.example.josephsibiya.geoalert.SettingsActivity;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;

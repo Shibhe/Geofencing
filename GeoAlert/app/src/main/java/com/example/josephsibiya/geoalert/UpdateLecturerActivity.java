@@ -25,7 +25,7 @@ import static com.squareup.okhttp.internal.Internal.logger;
 
 public class UpdateLecturerActivity extends AppCompatActivity {
 
-    String pid;
+    String id;
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -39,6 +39,7 @@ public class UpdateLecturerActivity extends AppCompatActivity {
     private Button update;
     private ConfigClass configClass;
     StringBuilder retVal = new StringBuilder();
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +66,17 @@ public class UpdateLecturerActivity extends AppCompatActivity {
                     view = initials;
                 }
 
-                if (password.length() == 0){
-                   String status = validateNewPass(password.getText().toString(), confPass.getText().toString());
+                if (password.length() == 0 || password.length() > 0){
+                    status = validateNewPass(password.getText().toString(), confPass.getText().toString());
                     Toast.makeText(UpdateLecturerActivity.this, status, Toast.LENGTH_SHORT).show();
+                    if (status != "success"){
+                        view = password;
+                    }
+                }
+                else{
+
+
+                    new SaveLectureDetails(surname.getText().toString(), initials.getText().toString(), password.getText().toString()).execute();
                 }
             }
         });
@@ -80,6 +89,12 @@ public class UpdateLecturerActivity extends AppCompatActivity {
     class SaveLectureDetails extends AsyncTask<String, String, String> {
 
         String surna, initials, password;
+
+        public SaveLectureDetails(String surna, String initials, String password) {
+            this.surna = surna;
+            this.initials = initials;
+            this.password = password;
+        }
 
 
         /**
@@ -110,7 +125,7 @@ public class UpdateLecturerActivity extends AppCompatActivity {
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("id", pid));
+            params.add(new BasicNameValuePair("id", id));
             params.add(new BasicNameValuePair("surname", surna));
             params.add(new BasicNameValuePair("initials", initials));
             params.add(new BasicNameValuePair("password", password));
@@ -132,6 +147,8 @@ public class UpdateLecturerActivity extends AppCompatActivity {
                     finish();
                 } else {
                     // failed to update product
+                    Toast.makeText(UpdateLecturerActivity.this, "Unable to update", Toast.LENGTH_SHORT).show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

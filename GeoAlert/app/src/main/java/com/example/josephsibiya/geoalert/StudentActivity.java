@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class StudentActivity extends AppCompatActivity {
     private ArrayList<StudentModel> studentModels = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button addStudent;
+    private ConfigClass config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class StudentActivity extends AppCompatActivity {
         addStudent = (Button) findViewById(R.id.addStudent);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
 
@@ -74,22 +76,6 @@ public class StudentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-       /** swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-
-                studentModels = new ArrayList<>();
-                studentAdapter = new StudentAdapter(StudentActivity.this, studentModels);
-                recyclerView.setAdapter(studentAdapter);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(StudentActivity.this));
-
-
-                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
-                itemTouchHelper.attachToRecyclerView(recyclerView);
-            }
-        });**/
 
         addStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +114,7 @@ public class StudentActivity extends AppCompatActivity {
     private void deleteItem(int pos)
     {
         studentAdapter.numStudents.remove(pos);
-        new DeleteStudent().execute();
+        new DeleteStudent(StudentActivity.this, studentModels).execute();
         studentAdapter.notifyDataSetChanged();
     }
 
@@ -144,12 +130,12 @@ public class StudentActivity extends AppCompatActivity {
 
     public class GetAllStudent extends AsyncTask<Void, Void, Void> {
 
-        ConfigClass config  = new ConfigClass();
+        ConfigClass config = new ConfigClass();
         private StudentAdapter adapter;
         private Context context;
         private ProgressDialog pDialog;
 
-        public GetAllStudent( StudentAdapter adapter, Context context) {
+        public GetAllStudent(StudentAdapter adapter, Context context) {
             this.adapter = adapter;
             this.context = context;
         }
@@ -157,10 +143,9 @@ public class StudentActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (pDialog == null){
+            if (pDialog == null) {
                 Toast.makeText(StudentActivity.this, "No results", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 pDialog = new ProgressDialog(context);
                 pDialog.setMessage("Loading students. Please wait...");
                 pDialog.setIndeterminate(false);
@@ -180,7 +165,7 @@ public class StudentActivity extends AppCompatActivity {
                 URL loginUrl = new URL(config.URL_LISTSTU);
                 urlConnection = (HttpURLConnection) loginUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
-                urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
+                //urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
                 urlConnection.connect();
                 InputStream stream = urlConnection.getInputStream();
                 bufferedReader = new BufferedReader(new InputStreamReader(stream));
@@ -197,43 +182,51 @@ public class StudentActivity extends AppCompatActivity {
                 }
 
 
-                JSONObject object = new JSONObject(buffer.toString());
+                JSONObject studObject = new JSONObject(buffer.toString());
 
-                JSONArray array = (JSONArray) object.get("tblStudent");
+                // Checking for SUCCESS TAG
+                int success = studObject.getInt("success");
 
-                for (int x = 0; x < array.length(); x++) {
-
-                    JSONObject compObj = (JSONObject) array.get(x);
-
-                    int Id;
-                    String surname;
-                    String initials;
-                    String studNum;
-                    String email;
-                    String gender;
-                    String IDNo;
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    JSONArray stud = studObject.getJSONArray("tblStudent");
 
 
-                    Id = compObj.getInt("id");
-                    surname = compObj.getString("surname");
-                    initials = compObj.getString("initials");
-                    email = compObj.getString("email");
-                    gender = compObj.getString("gender");
-                    studNum = compObj.getString("studNum");
-                    IDNo = compObj.getString("IDNo");
+                    for (int x = 0; x < stud.length(); x++) {
+
+                        JSONObject compObj = (JSONObject) stud.get(x);
+
+                        int Id;
+                        String surname;
+                        String initials;
+                        String studNum;
+                        String email;
+                        String gender;
+                        String IDNo;
 
 
-                    StudentModel model = new StudentModel();
+                        Id = compObj.getInt("id");
+                        surname = compObj.getString("surname");
+                        initials = compObj.getString("initials");
+                        email = compObj.getString("email");
+                        gender = compObj.getString("gender");
+                        studNum = compObj.getString("studNum");
+                        IDNo = compObj.getString("IDNo");
 
-                    model.setId(Id);
-                    model.setGender(gender);
-                    model.setEmail(email);
-                    model.setIDNo(IDNo);
-                    model.setInitials(initials);
-                    model.setStudNum(studNum);
-                    model.setSurname(surname);
 
-                    adapter.numStudents.add(model);
+                        StudentModel model = new StudentModel();
+
+                        model.setId(Id);
+                        model.setGender(gender);
+                        model.setEmail(email);
+                        model.setIDNo(IDNo);
+                        model.setInitials(initials);
+                        model.setStudNum(studNum);
+                        model.setSurname(surname);
+
+                        adapter.numStudents.add(model);
+                    }
                 }
 
 
@@ -248,7 +241,8 @@ public class StudentActivity extends AppCompatActivity {
             return null;
         }
 
-        @Override
+
+            @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             pDialog.dismiss();
@@ -259,8 +253,12 @@ public class StudentActivity extends AppCompatActivity {
 
         private Context context;
         private ArrayList<StudentModel> models;
-        private ProgressDialog pDialog;
-        private ConfigClass aClass;
+
+
+        public DeleteStudent(Context context, ArrayList<StudentModel> models) {
+            this.context = context;
+            this.models = models;
+        }
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -289,13 +287,13 @@ public class StudentActivity extends AppCompatActivity {
 
                 // getting product details by making HTTP request
                 JSONObject json = jsonParser.makeHttpRequest(
-                        aClass.URL_DELETESTU, "POST", params);
+                        config.URL_DELETESTU, "POST", params);
 
                 // check your log for json response
-                Log.d("Delete Product", json.toString());
+                Log.d("Delete Student", json.toString());
 
                 // json success tag
-                success = json.getInt(TAG_SUCCESS);
+                success = json.getInt("success");
                 if (success == 1) {
                     // product successfully deleted
                     // notify previous activity by sending code 100

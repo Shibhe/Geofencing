@@ -30,13 +30,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <AutoCompleteTextView
+        <EditText
             android:id="@+id/username"
             android:maxLength="9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
-            android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -70,5 +69,15 @@
         android:textColor="#E5E7E9"
         android:text="Login"
         android:textStyle="bold" />
+
+    <!--<TextView android:id="@+id/link_to_register"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dip"
+        android:layout_marginBottom="40dip"
+        android:text="New to GeoAlert? Register here"
+        android:gravity="center"
+        android:textSize="20dip"
+        android:textColor="#0b84aa"/>-->
 
 </LinearLayout>

@@ -17,18 +17,23 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.GetMacAddress;
-import com.example.josephsibiya.geoalert.SQLite.Student;
+//import com.example.josephsibiya.geoalert.SQLite.Student;
 import com.example.josephsibiya.geoalert.models.StudentModel;
+import com.example.josephsibiya.geoalert.providers.JSONParser;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
@@ -53,11 +58,12 @@ public class AddStudentActivity extends AppCompatActivity {
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private String StudGender;
     private String genderCode;
-    private Student student = new Student(AddStudentActivity.this);
+    //private Student student = new Student(AddStudentActivity.this);
     private StudentModel studentModel;
     private ConfigClass configClass = new ConfigClass();
     private EditText mac;
     private GetMacAddress getMacAddr;
+    private JSONParser jsonParser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,103 +135,46 @@ public class AddStudentActivity extends AppCompatActivity {
 
     private void registerUser(final String surn, final String ini, final String studNum, final String IDNo, final String gender,
                               final String email, final String macAddress) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_register";
 
-        pDialog = new ProgressDialog(AddStudentActivity.this);
-        if (pDialog == null) {
-            Toast.makeText(AddStudentActivity.this, "Something went wrong, check your internet connection", Toast.LENGTH_LONG).show();
-            intent = new Intent(AddStudentActivity.this, AddStudentActivity.class);
-            startActivity(intent);
-        } else {
-            pDialog.setMessage("Registering ...");
-            showDialog();
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("surname", surn));
+        params.add(new BasicNameValuePair("initials", ini));
+        params.add(new BasicNameValuePair("studNum", studNum));
+        params.add(new BasicNameValuePair("IDNo", IDNo));
+        params.add(new BasicNameValuePair("gender", gender));
+        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("macAddress", macAddress));
 
-            StringRequest strReq = new StringRequest(Request.Method.POST,
-                    configClass.URL_ADDSTU, new Response.Listener<String>() {
+        hideDialog();
+        // getting JSON Object
+        // Note that create product url accepts POST method
+        JSONObject json = jsonParser.makeHttpRequest(configClass.URL_ADDSTU,
+                "POST", params);
 
-                @Override
-                public void onResponse(String response) {
-                    Log.d(TAG, "Register Response: " + response.toString());
-                    hideDialog();
+        // check log cat fro response
+        Log.d("Create Response", json.toString());
 
-                    try {
-                        JSONObject jObj = new JSONObject(response);
-                        boolean error = jObj.getBoolean("error");
-                        if (!error) {
-                            // User successfully stored in MySQL
-                            // Now store the user in sqlite
+        // check for success tag
+        try {
+            int success = json.getInt("success");
 
-                            sendEmail send = new sendEmail(AddStudentActivity.this, email, "You've been monitered", "Successfully");
-                            send.StatusEmai();
+            if (success == 1) {
+                // successfully created product
+                Intent i = new Intent(AddStudentActivity.this, DashActivity.class);
+                startActivity(i);
 
-                            String uid = jObj.getString("uid");
-
-                            JSONObject user = jObj.getJSONObject("student");
-                            String sur = user.getString("surname");
-                            String init = user.getString("initials");
-                            String IDNo = user.getString("IDNo");
-                            String gender = user.getString("gender");
-                            String studN = user.getString("studNum");
-                            String email = user.getString("email");
-                            String macAdd = user.getString("macAddress");
-
-                            // Inserting row in users table
-                            student.addUser(sur, init, IDNo, gender, studN, email);
-
-                            Toast.makeText(getApplicationContext(), "Student successfully Added.!", Toast.LENGTH_LONG).show();
-
-                            // Launch login activity
-                            Intent intent = new Intent(
-                                    AddStudentActivity.this,
-                                    DashActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-
-                            // Error occurred in registration. Get the error
-                            // message
-                            String errorMsg = jObj.getString("error_msg");
-                            Toast.makeText(getApplicationContext(),
-                                    errorMsg, Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Registration Error: " + error.getMessage());
-                    Toast.makeText(getApplicationContext(),
-                            error.getMessage(), Toast.LENGTH_LONG).show();
-                    hideDialog();
-                }
-            }) {
-
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting params to register url
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("surname", surn);
-                    params.put("initials", ini);
-                    params.put("studNum", studNum);
-                    params.put("IDNo", IDNo);
-                    params.put("gender", gender);
-                    params.put("email", email);
-                    //params.put("macAddress", macAdd);
-
-                    return params;
-                }
-
-            };
-
-            // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+                // closing this screen
+                finish();
+            } else {
+                // failed to create product
+                Toast.makeText(AddStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
+
     private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
