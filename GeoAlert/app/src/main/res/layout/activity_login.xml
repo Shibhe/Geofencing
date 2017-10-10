@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GeoAlert"
+        android:text=" Welcome to GeoAlert"
         android:textSize="35dp"
         android:gravity="center"
         android:paddingTop="60dp"

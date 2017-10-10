@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_near_by"
-            android:icon="@android:drawable/ic_menu_manage"
+            android:icon="@drawable/ic_my_location_primary_24dp"
             android:title="Near by places" />
 
         <item
@@ -13,17 +13,17 @@
             android:title="Manage Geofence" />
         <item
             android:id="@+id/navigation_view_student"
-            android:icon="@android:drawable/ic_menu_view"
+            android:icon="@drawable/ic_menu_manage"
             android:title="Manage Students" />
 
         <item
             android:id="@+id/nav_more_app"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_more"
             android:title="More Apps" />
 
         <item
             android:id="@+id/show_location"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_action_location"
             android:title="Show locations" />
     </group>
 
