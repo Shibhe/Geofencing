@@ -71,10 +71,10 @@ public class LoginActivity extends AppCompatActivity  {
                         Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
                         view = username;
                     } else {
-                       /// checkLogin(username.getText().toString(), password.getText().toString());
+                        checkLogin(username.getText().toString(), password.getText().toString());
                         intent = new Intent(LoginActivity.this, DashActivity.class);
                         startActivity(intent);
-                       // finish();
+                        finish();
                     }
                 }
             });
