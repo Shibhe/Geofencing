@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.josephsibiya.geoalert.MainActivity;
-
 /**
  * Created by reversidesoftwaresolutions on 10/9/17.
  */

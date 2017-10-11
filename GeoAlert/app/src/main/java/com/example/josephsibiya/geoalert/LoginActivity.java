@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,33 +20,51 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.josephsibiya.geoalert.Adapters.AndroidLoginController;
+import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Adapters.LecturerAdapter;
 import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.SessionManager;
 //import com.example.josephsibiya.geoalert.SQLite.Lecturer;
 import com.example.josephsibiya.geoalert.connection.internetConn;
+import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 import com.example.josephsibiya.geoalert.models.LecturerModel;
+import com.example.josephsibiya.geoalert.providers.JSONParser;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
 
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 public class LoginActivity extends AppCompatActivity  {
 
     private EditText username, password;
     private Button btnLogin;
     private Intent intent;
-    ConfigClass config  = new ConfigClass();
     ProgressDialog progressDialog;
     private static final String TAG = LoginActivity.class.getSimpleName();
     private LecturerModel lecturerModel;
     private internetConn internetConn;
-    private LecturerAdapter adapter;
     private SessionManager session;
+    private JSONParser jsonParser;
+    ConfigClass config  = new ConfigClass();
+    private LecturerAdapter adapter;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +75,6 @@ public class LoginActivity extends AppCompatActivity  {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
-        if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,6 +93,7 @@ public class LoginActivity extends AppCompatActivity  {
                         view = username;
                     } else {
                         checkLogin(username.getText().toString(), password.getText().toString());
+                       //new attemptLogin.execute(username.getText().toString(), password.getText().toString(),"");
                         intent = new Intent(LoginActivity.this, DashActivity.class);
                         startActivity(intent);
                         finish();
@@ -94,101 +108,105 @@ public class LoginActivity extends AppCompatActivity  {
       // Tag used to cancel the request
       String tag_string_req = "req_login";
 
-      progressDialog.setMessage("Logging in ...");
-      showDialog();
+      if (progressDialog == null) {
+          Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+      } else {
+          progressDialog.setMessage("Logging in ...");
+          showDialog();
 
-      StringRequest strReq = new StringRequest(Request.Method.POST,
-              config.URL_LOGIN, new Response.Listener<String>() {
+          StringRequest strReq = new StringRequest(Request.Method.POST,
+                  config.URL_LOGIN, new Response.Listener<String>() {
 
-          @Override
-          public void onResponse(String response) {
-              Log.d(TAG, "Login Response: " + response.toString());
-              hideDialog();
+              @Override
+              public void onResponse(String response) {
+                  Log.d(TAG, "Login Response: " + response.toString());
+                  hideDialog();
 
-              try {
+                  try {
 
-                  JSONObject jObj = new JSONObject(response);
-                  int error = jObj.getInt("success");
+                      JSONObject jObj = new JSONObject(response);
+                      int error = jObj.getInt("success");
 
-                  session = new SessionManager(LoginActivity.this);
-                  // Check for error node in json
-                  if (error == 1) {
-                      // user successfully logged in
-                      // Create login session
-                      session.setLogin(true);
+                      session = new SessionManager(LoginActivity.this);
+                      // Check for error node in json
+                      if (error == 1) {
+                          // user successfully logged in
+                          // Create login session
+                          session.setLogin(true);
 
-                      sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
-                      send.StatusEmai();
-                      // Now store the user in SQLite
-                      //String uid = jObj.getString("uid");
+                          sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
+                          send.StatusEmai();
 
-                      JSONObject user = jObj.getJSONObject("tblLecturer");
-                      int id = user.getInt("id");
-                      String surname = user.getString("surname");
-                      String initials = user.getString("initials");
-                      String stuffNum = user.getString("stuffNum");
-                      String email = user.getString("email");
-                      String password = user
-                              .getString("password");
+                          JSONObject user = jObj.getJSONObject("tblLecturer");
+                          int id = user.getInt("id");
+                          String surname = user.getString("surname");
+                          String initials = user.getString("initials");
+                          String stuffNum = user.getString("stuffNum");
+                          String email = user.getString("email");
+                          String password = user
+                                  .getString("password");
 
-                      lecturerModel = new LecturerModel();
+                          lecturerModel = new LecturerModel();
 
-                      lecturerModel.setId(id);
-                      lecturerModel.setPassword(password);
-                      //lecturerModel.setUsername(username);
-                      lecturerModel.setInitials(initials);
-                      lecturerModel.setStuffNum(stuffNum);
-                      lecturerModel.setSurname(surname);
-                      lecturerModel.setEmail(email);
+                          lecturerModel.setId(id);
+                          lecturerModel.setPassword(password);
+                          //lecturerModel.setUsername(username);
+                          lecturerModel.setInitials(initials);
+                          lecturerModel.setStuffNum(stuffNum);
+                          lecturerModel.setSurname(surname);
+                          lecturerModel.setEmail(email);
 
-                      adapter.lecturerModels.add(lecturerModel);
+                          adapter.lecturerModels.add(lecturerModel);
 
-                      session.setLogin(true);
+                          session.setLogin(true);
 
-                      // Launch main activity
-                      intent = new Intent(LoginActivity.this,
-                              DashActivity.class);
-                      startActivity(intent);
-                      finish();
+                          // Launch main activity
+                          intent = new Intent(LoginActivity.this,
+                                  DashActivity.class);
+                          intent.putExtra("surname", surname);
+                          intent.putExtra("initials", initials);
+                          startActivity(intent);
+                          finish();
 
-                  } else {
-                      // Error in login. Get the error message
-                      String errorMsg = jObj.getString("message");
-                      Toast.makeText(LoginActivity.this,
-                              errorMsg, Toast.LENGTH_LONG).show();
+                      } else {
+                          // Error in login. Get the error message
+                          String errorMsg = jObj.getString("message");
+                          Toast.makeText(LoginActivity.this,
+                                  errorMsg, Toast.LENGTH_LONG).show();
+                      }
+                  } catch (JSONException e) {
+                      // JSON error
+                      e.printStackTrace();
+                      Toast.makeText(LoginActivity.this, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                   }
-              } catch (JSONException e) {
-                  // JSON error
-                  e.printStackTrace();
-                  Toast.makeText(LoginActivity.this, "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+              }
+          }, new Response.ErrorListener() {
+
+              @Override
+              public void onErrorResponse(VolleyError error) {
+                  Log.e(TAG, "Login Error: " + error.getMessage());
+                  Toast.makeText(LoginActivity.this,
+                          error.getMessage(), Toast.LENGTH_LONG).show();
+                  hideDialog();
+              }
+          }) {
+
+              @Override
+              protected Map<String, String> getParams() {
+                  // Posting parameters to login url
+                  Map<String, String> params = new HashMap<String, String>();
+                  params.put("username", email);
+                  params.put("password", password);
+
+                  return params;
               }
 
-          }
-      }, new Response.ErrorListener() {
+          };
 
-          @Override
-          public void onErrorResponse(VolleyError error) {
-              Log.e(TAG, "Login Error: " + error.getMessage());
-              Toast.makeText(LoginActivity.this,
-                      error.getMessage(), Toast.LENGTH_LONG).show();
-              hideDialog();
-          }
-      }) {
-
-          @Override
-          protected Map<String, String> getParams() {
-              // Posting parameters to login url
-              Map<String, String> params = new HashMap<String, String>();
-              params.put("username", email);
-              params.put("password", password);
-
-              return params;
-          }
-
-      };
-
-      // Adding request to request queue
-      AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+          // Adding request to request queue
+          AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+      }
   }
 
     private void showDialog() {

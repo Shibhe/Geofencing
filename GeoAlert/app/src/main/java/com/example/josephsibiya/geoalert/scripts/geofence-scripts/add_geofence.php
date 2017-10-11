@@ -19,13 +19,13 @@ $longitude = $_POST["longitude"];
     $db = new DB_CONNECT();
 
 // mysql inserting a new row
-$mysql_qry = "INSERT INTO tblgeofence (name, latitude, longitude) VALUES ('$name', '$latitude', '$longitude')";
+$mysql_qry = "INSERT INTO tblgeofence (name, latitude, longitude) VALUES ('$name', '$latitude', '$longitude');";
 
     
     // check if row inserted or not
     if ($mysql_qry) {
         // successfully inserted into database
-        $response["error"] = FALSE;
+    
         $response["success"] = 1;
         $response["message"] = "Geofence successfully added.";
 
@@ -35,12 +35,20 @@ $mysql_qry = "INSERT INTO tblgeofence (name, latitude, longitude) VALUES ('$name
         // required field is missing
   
         // failed to insert row
-        $response["error"] = TRUE;
+    
         $response["success"] = 0;
-        $response["message"] = "Required field(s) is missing";
+        $response["message"] = "ops! An error occurred.";
         
         // echoing JSON response
         echo json_encode($response);  
 }
+} else {
+    // required field is missing
+    $response["error"] = TRUE;
+    $response["success"] = 0;
+    $response["message"] = "Required field(s) is missing";
+
+    // echoing JSON response
+    echo json_encode($response);
 }
 ?>

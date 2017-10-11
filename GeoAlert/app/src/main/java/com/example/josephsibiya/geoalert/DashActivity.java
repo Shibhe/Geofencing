@@ -49,9 +49,9 @@ public class DashActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-       // final Intent startingIntent = getIntent();
-        //String surname = startingIntent.getStringExtra("surname");
-        //final String initials = startingIntent.getStringExtra("initials");
+        intent = getIntent();
+        String surname = intent.getStringExtra("surname");
+        final String initials = intent.getStringExtra("initials");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -71,8 +71,8 @@ public class DashActivity extends AppCompatActivity
         }
 
         // Displaying the user details on the screen
-        txtName.setText(model.getSurname());
-        txtEmail.setText(model.getInitials());
+        txtName.setText(surname);
+        txtEmail.setText(initials);
 
         // Logout button click event
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +83,7 @@ public class DashActivity extends AppCompatActivity
                 adapter.lecturerModels.clear();
 
                 if (adapter.lecturerModels == null){
-                    intent = new Intent(DashActivity.this, MainActivity.class);
+                    intent = new Intent(DashActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             }
@@ -187,7 +187,7 @@ public class DashActivity extends AppCompatActivity
         session.setLogin(false);
 
         // Launching the login activity
-        Intent intent = new Intent(DashActivity.this, MainActivity.class);
+        Intent intent = new Intent(DashActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

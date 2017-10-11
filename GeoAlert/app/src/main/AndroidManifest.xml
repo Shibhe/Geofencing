@@ -44,9 +44,6 @@
         <activity android:name=".StudentActivity" />
         <activity android:name=".AddStudentActivity" />
         <activity android:name=".GeofenceActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
         <activity android:name=".UpdateLecturerActivity" />
         <activity android:name=".UpdateGeofenceActivity" />
         <activity android:name=".UpDateActivity" />
