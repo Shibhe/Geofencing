@@ -160,6 +160,7 @@ public class AddStudentActivity extends AppCompatActivity {
             int success = json.getInt("success");
 
             if (success == 1) {
+                showDialog();
                 // successfully created product
                 Intent i = new Intent(AddStudentActivity.this, DashActivity.class);
                 startActivity(i);

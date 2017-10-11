@@ -56,6 +56,12 @@ public class LoginActivity extends AppCompatActivity  {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
 
+        if (session.isLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,7 +115,7 @@ public class LoginActivity extends AppCompatActivity  {
                   if (error == 1) {
                       // user successfully logged in
                       // Create login session
-                      //session.setLogin(true);
+                      session.setLogin(true);
 
                       sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
                       send.StatusEmai();
@@ -137,10 +143,18 @@ public class LoginActivity extends AppCompatActivity  {
 
                       adapter.lecturerModels.add(lecturerModel);
 
+                      session.setLogin(true);
+
+                      // Launch main activity
+                      intent = new Intent(LoginActivity.this,
+                              DashActivity.class);
+                      startActivity(intent);
+                      finish();
+
                   } else {
                       // Error in login. Get the error message
                       String errorMsg = jObj.getString("message");
-                      Toast.makeText(getApplicationContext(),
+                      Toast.makeText(LoginActivity.this,
                               errorMsg, Toast.LENGTH_LONG).show();
                   }
               } catch (JSONException e) {

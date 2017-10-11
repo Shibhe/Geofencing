@@ -12,7 +12,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.josephsibiya.geoalert.LoginActivity"
     app:layout_constraintGuide_percent="@integer/google_play_services_version"
-    android:background="#F6F5F3">
+    android:background="#AAB7B8">
 
     <TextView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:paddingTop="60dp"
         android:paddingBottom="70dp"
         android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textStyle="italic|bold"/>
 
     <android.support.design.widget.TextInputLayout
