@@ -9,7 +9,6 @@ public class LecturerModel {
     private String surname;
     private String initials;
     private String stuffNum;
-    private String username;
     private String email;
     private String password;
 
@@ -35,14 +34,6 @@ public class LecturerModel {
 
     public void setInitials(String initials) {
         this.initials = initials;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

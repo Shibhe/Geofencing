@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity  {
                   if (error == 1) {
                       // user successfully logged in
                       // Create login session
-                      session.setLogin(true);
+                      //session.setLogin(true);
 
                       sendEmail send = new sendEmail(LoginActivity.this, email, "You've successfully logged in", "Successfully logged in");
                       send.StatusEmai();
@@ -122,7 +122,6 @@ public class LoginActivity extends AppCompatActivity  {
                       String initials = user.getString("initials");
                       String stuffNum = user.getString("stuffNum");
                       String email = user.getString("email");
-                      String username = user.getString("username");
                       String password = user
                               .getString("password");
 
@@ -130,12 +129,11 @@ public class LoginActivity extends AppCompatActivity  {
 
                       lecturerModel.setId(id);
                       lecturerModel.setPassword(password);
-                      lecturerModel.setUsername(username);
+                      //lecturerModel.setUsername(username);
                       lecturerModel.setInitials(initials);
                       lecturerModel.setStuffNum(stuffNum);
                       lecturerModel.setSurname(surname);
                       lecturerModel.setEmail(email);
-
 
                       adapter.lecturerModels.add(lecturerModel);
 

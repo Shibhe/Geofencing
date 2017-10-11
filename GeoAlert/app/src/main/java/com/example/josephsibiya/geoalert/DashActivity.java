@@ -49,9 +49,9 @@ public class DashActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Intent startingIntent = getIntent();
+        final Intent startingIntent = getIntent();
         String surname = startingIntent.getStringExtra("surname");
-        String initials = startingIntent.getStringExtra("initials");
+        final String initials = startingIntent.getStringExtra("initials");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -63,12 +63,12 @@ public class DashActivity extends AppCompatActivity
         // SqLite database handler
 
         // session manager
-        session = new SessionManager(DashActivity.this);
+        //session = new SessionManager(DashActivity.this);
 
-        if (!session.isLoggedIn()) {
+        /**if (!session.isLoggedIn()) {
             logoutUser();
 
-        }
+        }**/
 
         // Displaying the user details on the screen
         txtName.setText(model.getSurname());
@@ -79,8 +79,12 @@ public class DashActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-                logoutUser();
                 adapter.lecturerModels.clear();
+
+                if (adapter.lecturerModels == null){
+                    intent = new Intent(DashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -115,7 +119,6 @@ public class DashActivity extends AppCompatActivity
             startActivity(intent);
             return  true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -178,7 +181,7 @@ public class DashActivity extends AppCompatActivity
      * Logging out the user. Will set isLoggedIn flag to false in shared
      * preferences Clears the user data from sqlite users table
      * */
-    private void logoutUser() {
+    /**private void logoutUser() {
         session = new SessionManager(DashActivity.this);
         session.setLogin(false);
 
@@ -186,5 +189,5 @@ public class DashActivity extends AppCompatActivity
         Intent intent = new Intent(DashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-    }
+    }**/
 }
