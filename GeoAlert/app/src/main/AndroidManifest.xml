@@ -61,7 +61,8 @@
         <activity
             android:name=".ShowLocationsActivity"
             android:label="@string/title_activity_show_locations" />
-        <activity android:name=".LecturerActivity"></activity>
+        <activity android:name=".LecturerActivity" />
+        <activity android:name=".ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

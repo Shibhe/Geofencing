@@ -43,9 +43,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.Lectur
         LecturerModel model = lecturerModels.get(position);
 
         holder.bind(model);
-        //holder.name.setText(locations.getName());
-        //holder.latitude.setText(String.valueOf(locations.getLatitude()));
-        // holder.longitude.setText(String.valueOf(locations.getLongitude()));
 
     }
 

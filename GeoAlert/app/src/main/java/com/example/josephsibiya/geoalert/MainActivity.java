@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText ipAddress = (EditText) findViewById(R.id.ipAddress);
         Button next = (Button) findViewById(R.id.btnAdd);
 
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

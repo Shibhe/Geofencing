@@ -17,8 +17,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.josephsibiya.geoalert.Adapters.LecturerAdapter;
 import com.example.josephsibiya.geoalert.Configuration.SQLiteHandler;
 import com.example.josephsibiya.geoalert.Configuration.SessionManager;
+import com.example.josephsibiya.geoalert.models.LecturerModel;
 
 import java.util.HashMap;
 
@@ -29,9 +31,9 @@ public class DashActivity extends AppCompatActivity
     private TextView txtName;
     private TextView txtEmail;
     private Button btnLogout;
-
-    private SQLiteHandler db;
+    private LecturerModel model;
     private SessionManager session;
+    private LecturerAdapter adapter;
 
 
     @Override
@@ -59,24 +61,18 @@ public class DashActivity extends AppCompatActivity
         btnLogout = (Button) findViewById(R.id.btnLogout);
 
         // SqLite database handler
-        db = new SQLiteHandler(DashActivity.this);
 
         // session manager
         session = new SessionManager(DashActivity.this);
 
         if (!session.isLoggedIn()) {
             logoutUser();
+
         }
 
-        // Fetching user details from sqlite
-        HashMap<String, String> user = db.getUserDetails();
-
-        //String surname = user.get("surname");
-        //String initials = user.get("initials");
-
         // Displaying the user details on the screen
-        txtName.setText(surname);
-        txtEmail.setText(initials);
+        txtName.setText(model.getSurname());
+        txtEmail.setText(model.getInitials());
 
         // Logout button click event
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +80,7 @@ public class DashActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 logoutUser();
+                adapter.lecturerModels.clear();
             }
         });
     }
@@ -185,10 +182,8 @@ public class DashActivity extends AppCompatActivity
         session = new SessionManager(DashActivity.this);
         session.setLogin(false);
 
-        db.deleteUsers();
-
         // Launching the login activity
-        Intent intent = new Intent(DashActivity.this, LoginActivity.class);
+        Intent intent = new Intent(DashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

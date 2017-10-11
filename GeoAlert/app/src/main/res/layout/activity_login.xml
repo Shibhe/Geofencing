@@ -32,11 +32,11 @@
 
         <EditText
             android:id="@+id/username"
-            android:maxLength="9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
+            android:hint="Email"
             android:maxLines="1"
+            android:inputType="textEmailAddress"
             android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
@@ -50,7 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:maxLength="13"
             android:imeActionId="@+id/login"
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
@@ -70,14 +69,14 @@
         android:text="Login"
         android:textStyle="bold" />
 
-    <!--<TextView android:id="@+id/link_to_register"
+    <Button
+        android:id="@+id/btn_reset_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dip"
-        android:layout_marginBottom="40dip"
-        android:text="New to GeoAlert? Register here"
-        android:gravity="center"
-        android:textSize="20dip"
-        android:textColor="#0b84aa"/>-->
+        android:layout_marginTop="20dip"
+        android:background="@null"
+        android:text="Forgot your password?"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent" />
 
 </LinearLayout>

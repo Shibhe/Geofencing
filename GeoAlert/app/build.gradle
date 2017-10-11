@@ -45,22 +45,10 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'org.apache.httpcomponents:httpcore:4.4.1'
     compile 'org.apache.httpcomponents:httpclient:4.5'
+    //compile 'com.google.firebase:firebase-auth:9.0.2'
     testCompile 'org.mockito:mockito-core:2.8.9'
     testCompile 'junit:junit:4.12'
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
