@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     setIPAddress = new IPAddress();
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    setIPAddress.setIpAddress(ipAddress.getText().toString());
+                    //setIPAddress.setIpAddress(ipAddress.getText().toString());
+                     intent = new Intent(MainActivity.this,
+                            LoginActivity.class);
+                    intent.putExtra("ipAddress", ipAddress.getText().toString());
                     startActivity(intent);
                 }
 

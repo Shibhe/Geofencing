@@ -126,7 +126,6 @@ public class AddStudentActivity extends AppCompatActivity {
                 } else {
 
                     registerUser(surname.getText().toString(), initials.getText().toString(), studNumber.getText().toString(), IDNo.getText().toString(), gender.getText().toString(), email.getText().toString(), mac.getText().toString());
-                    //Toast.makeText(AddStudentActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
                 }
 
             }

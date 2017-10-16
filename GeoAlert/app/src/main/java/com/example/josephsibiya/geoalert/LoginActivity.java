@@ -1,12 +1,7 @@
 package com.example.josephsibiya.geoalert;
 
-import android.app.Application;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,38 +14,23 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.josephsibiya.geoalert.Adapters.AndroidLoginController;
-import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Adapters.LecturerAdapter;
 import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.SessionManager;
-//import com.example.josephsibiya.geoalert.SQLite.Lecturer;
 import com.example.josephsibiya.geoalert.connection.IPAddress;
 import com.example.josephsibiya.geoalert.connection.internetConn;
-import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 import com.example.josephsibiya.geoalert.models.LecturerModel;
 import com.example.josephsibiya.geoalert.providers.JSONParser;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
 
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+//import com.example.josephsibiya.geoalert.SQLite.Lecturer;
 
 public class LoginActivity extends AppCompatActivity  {
 
@@ -78,6 +58,12 @@ public class LoginActivity extends AppCompatActivity  {
         password = (EditText) findViewById(R.id.password);
         btnPswReset = (Button) findViewById(R.id.btn_reset_password);
 
+        intent = getIntent();
+        final String ipAddre = intent.getStringExtra("ipAddress");
+
+        ipAddress = new IPAddress();
+        ipAddress.setIpAddress(ipAddre);
+
         btnPswReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,11 +89,7 @@ public class LoginActivity extends AppCompatActivity  {
                         Toast.makeText(LoginActivity.this, "Password required", Toast.LENGTH_SHORT).show();
                         view = username;
                     } else {
-                        checkLogin(username.getText().toString(), password.getText().toString());
-                       //new attemptLogin.execute(username.getText().toString(), password.getText().toString(),"");
-                        intent = new Intent(LoginActivity.this, DashActivity.class);
-                        startActivity(intent);
-                        finish();
+                        checkLogin(username.getText().toString(), password.getText().toString(), ipAddre);
                     }
                 }
             });
@@ -115,7 +97,7 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
 
-  private void checkLogin(final String email, final String password) {
+  private void checkLogin(final String email, final String password, final String ip) {
       // Tag used to cancel the request
       String tag_string_req = "req_login";
 
@@ -123,7 +105,7 @@ public class LoginActivity extends AppCompatActivity  {
       showDialog();
 
       StringRequest strReq = new StringRequest(Request.Method.POST,
-              "http://"+ ipAddress.getIpAddress() + "/geofence-scripts/login.php", new Response.Listener<String>() {
+              "http://"+ ip + "/geofence-scripts/login.php", new Response.Listener<String>() {
 
           @Override
           public void onResponse(String response) {
@@ -158,7 +140,6 @@ public class LoginActivity extends AppCompatActivity  {
 
                       lecturerModel.setId(id);
                       lecturerModel.setPassword(password);
-                      //lecturerModel.setUsername(username);
                       lecturerModel.setInitials(initials);
                       lecturerModel.setStuffNum(stuffNum);
                       lecturerModel.setSurname(surname);
