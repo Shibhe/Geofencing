@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.JSONParser;
+import com.example.josephsibiya.geoalert.connection.IPAddress;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 import com.example.josephsibiya.geoalert.models.StudentModel;
 
@@ -62,6 +63,7 @@ public class GeofenceActivity extends AppCompatActivity  {
     private GeofenceAdapter geofenceAdapter;
     private ArrayList<GeofenceLocations> geofenceLocationsArrayList = new ArrayList<>();
     private Button addGeofence;
+    private IPAddress ipAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,10 +169,6 @@ public class GeofenceActivity extends AppCompatActivity  {
 
         @Override
         protected Void doInBackground(Void... voids) {
-// Building Parameters
-           // List<NameValuePair> params = new ArrayList<NameValuePair>();
-            // getting JSON string from URL
-            //JSONObject json = jsonParser.makeHttpRequest(config.URL_LISTGEO, "GET", params);
 
             HttpURLConnection connection = null;
             BufferedReader bufferedReader = null;
@@ -179,7 +177,7 @@ public class GeofenceActivity extends AppCompatActivity  {
 
             try {
 
-                URL url = new URL(config.URL_LISTGEO);
+                URL url = new URL("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/list_all_geofence.php");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 //connection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
@@ -348,7 +346,7 @@ public class GeofenceActivity extends AppCompatActivity  {
 
                 // getting product details by making HTTP request
                 JSONObject json = jsonParser.makeHttpRequest(
-                        aClass.URL_DELETEGEO, "POST", params);
+                        "http://"+ ipAddress.getIpAddress() + "/geofence-scripts/delete_geofence.php", "POST", params);
 
                 // check your log for json response
                 Log.d("Delete Product", json.toString());

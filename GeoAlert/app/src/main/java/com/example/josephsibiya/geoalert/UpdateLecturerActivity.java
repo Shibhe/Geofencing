@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.JSONParser;
+import com.example.josephsibiya.geoalert.connection.IPAddress;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -37,7 +38,7 @@ public class UpdateLecturerActivity extends AppCompatActivity {
 
     private EditText surname, initials, password, confPass;
     private Button update;
-    private ConfigClass configClass;
+    private IPAddress ipAddress;
     StringBuilder retVal = new StringBuilder();
     String status;
 
@@ -121,7 +122,7 @@ public class UpdateLecturerActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
-           configClass = new ConfigClass();
+           //configClass = new ConfigClass();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -132,7 +133,7 @@ public class UpdateLecturerActivity extends AppCompatActivity {
 
             // sending modified data through http request
             // Notice that update product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest(configClass.URL_UPDATELECTURE,
+            JSONObject json = jsonParser.makeHttpRequest("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/update_lecturer.php",
                     "POST", params);
 
             // check json success tag

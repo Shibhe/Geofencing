@@ -33,13 +33,16 @@
 
         <activity
             android:name=".GeoMapsActivity"
-            android:label="@string/title_activity_geo_maps" />
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/title_activity_geo_maps">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <service android:name=".GeofenceTransitionIntentService" />
+
+            <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
+        </activity>
+        <activity android:name=".LoginActivity">
+
         </activity>
         <activity android:name=".StudentActivity" />
         <activity android:name=".AddStudentActivity" />
@@ -61,7 +64,14 @@
             android:name=".ShowLocationsActivity"
             android:label="@string/title_activity_show_locations" />
         <activity android:name=".LecturerActivity" />
-        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

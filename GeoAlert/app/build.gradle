@@ -29,6 +29,7 @@ dependencies {
     })
 
     compile 'com.google.android.gms:play-services-location:11.0.4'
+    //compile 'com.google.firebase:firebase-auth:9.0.2'
     compile 'com.google.android.gms:play-services-location:11.0.4'
     compile 'com.android.support:support-vector-drawable:26.0.0-alpha1'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
@@ -45,10 +46,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'org.apache.httpcomponents:httpcore:4.4.1'
     compile 'org.apache.httpcomponents:httpclient:4.5'
-    //compile 'com.google.firebase:firebase-auth:9.0.2'
     testCompile 'org.mockito:mockito-core:2.8.9'
     testCompile 'junit:junit:4.12'
 }
-
 
 //apply plugin: 'com.google.gms.google-services'

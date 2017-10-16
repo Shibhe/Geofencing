@@ -18,6 +18,7 @@ import com.example.josephsibiya.geoalert.Configuration.AppController;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.GetMacAddress;
 //import com.example.josephsibiya.geoalert.SQLite.Student;
+import com.example.josephsibiya.geoalert.connection.IPAddress;
 import com.example.josephsibiya.geoalert.models.StudentModel;
 import com.example.josephsibiya.geoalert.providers.JSONParser;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
@@ -60,7 +61,7 @@ public class AddStudentActivity extends AppCompatActivity {
     private String genderCode;
     //private Student student = new Student(AddStudentActivity.this);
     private StudentModel studentModel;
-    private ConfigClass configClass = new ConfigClass();
+    private IPAddress ipAddress;
     private EditText mac;
     private GetMacAddress getMacAddr;
     private JSONParser jsonParser;
@@ -149,7 +150,7 @@ public class AddStudentActivity extends AppCompatActivity {
         hideDialog();
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest(configClass.URL_ADDSTU,
+        JSONObject json = jsonParser.makeHttpRequest("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/addStudent.php",
                 "POST", params);
 
         // check log cat fro response

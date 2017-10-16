@@ -14,17 +14,6 @@
     app:layout_constraintGuide_percent="@integer/google_play_services_version"
     android:background="#AAB7B8">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Welcome to GeoAlert"
-        android:textSize="35dp"
-        android:gravity="center"
-        android:paddingTop="60dp"
-        android:paddingBottom="70dp"
-        android:textAllCaps="true"
-        android:textColor="@color/colorAccent"
-        android:textStyle="italic|bold"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

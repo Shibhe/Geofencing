@@ -19,6 +19,7 @@ import com.example.josephsibiya.geoalert.Adapters.GeofenceAdapter;
 import com.example.josephsibiya.geoalert.Adapters.StudentAdapter;
 import com.example.josephsibiya.geoalert.Configuration.ConfigClass;
 import com.example.josephsibiya.geoalert.Configuration.JSONParser;
+import com.example.josephsibiya.geoalert.connection.IPAddress;
 import com.example.josephsibiya.geoalert.models.StudentModel;
 
 import org.apache.http.NameValuePair;
@@ -54,7 +55,7 @@ public class StudentActivity extends AppCompatActivity {
     private ArrayList<StudentModel> studentModels = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button addStudent;
-    private ConfigClass config;
+    private IPAddress ipAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +163,7 @@ public class StudentActivity extends AppCompatActivity {
 
 
             try {
-                URL loginUrl = new URL(config.URL_LISTSTU);
+                URL loginUrl = new URL("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/get_all_student.php");
                 urlConnection = (HttpURLConnection) loginUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
                 //urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
@@ -287,7 +288,7 @@ public class StudentActivity extends AppCompatActivity {
 
                 // getting product details by making HTTP request
                 JSONObject json = jsonParser.makeHttpRequest(
-                        config.URL_DELETESTU, "POST", params);
+                        "http://"+ ipAddress.getIpAddress() + "/geofence-scripts/delete_student.php", "POST", params);
 
                 // check your log for json response
                 Log.d("Delete Student", json.toString());
