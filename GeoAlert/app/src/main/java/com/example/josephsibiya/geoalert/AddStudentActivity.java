@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,11 @@ import com.example.josephsibiya.geoalert.connection.IPAddress;
 import com.example.josephsibiya.geoalert.models.StudentModel;
 import com.example.josephsibiya.geoalert.providers.JSONParser;
 import com.example.josephsibiya.geoalert.providers.sendEmail;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
@@ -64,6 +70,13 @@ public class AddStudentActivity extends AppCompatActivity {
     private IPAddress ipAddress;
     private EditText mac;
     private GetMacAddress getMacAddr;
+    private static final String TAG = "NewPostActivity";
+    private static final String REQUIRED = "Required";
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private String userId;
+    // [START declare_database_ref]
+    private DatabaseReference mDatabase;
     private JSONParser jsonParser;
 
     @Override
@@ -81,6 +94,14 @@ public class AddStudentActivity extends AppCompatActivity {
         btnAddStudent = (Button) findViewById(R.id.btnAddStudent);
 
         getMacAddr = new GetMacAddress(AddStudentActivity.this);
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+
+        // get reference to 'users' node
+        mFirebaseDatabase = mFirebaseInstance.getReference("users");
+
+        // store app title to 'app_title' node
+        mFirebaseInstance.getReference("Student").setValue("1");
 
         final String macAddress = getMacAddr.getMacAddress();
         btnAddStudent.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +146,7 @@ public class AddStudentActivity extends AppCompatActivity {
                     view = email;
                 } else {
 
-                    registerUser(surname.getText().toString(), initials.getText().toString(), studNumber.getText().toString(), IDNo.getText().toString(), gender.getText().toString(), email.getText().toString(), mac.getText().toString());
+
                 }
 
             }
@@ -133,7 +154,9 @@ public class AddStudentActivity extends AppCompatActivity {
     }
 
 
-    private void registerUser(final String surn, final String ini, final String studNum, final String IDNo, final String gender,
+
+    // [END write_fan_out]
+    /**private void registerUser(final String surn, final String ini, final String studNum, final String IDNo, final String gender,
                               final String email, final String macAddress) {
 
         // Building Parameters
@@ -184,7 +207,7 @@ public class AddStudentActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
-    }
+    }**/
 
 }
 

@@ -1,5 +1,11 @@
 package com.example.josephsibiya.geoalert.models;
 
+import com.google.firebase.database.Exclude;
+
+import java.net.IDN;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by josephsibiya on 2017/09/12.
  */
@@ -13,7 +19,21 @@ public class StudentModel {
     private String email;
     private String gender;
     private String IDNo;
-    private String status;
+
+    public StudentModel(int id, String surname, String initials, String studNum, String email, String gender, String IDNo) {
+        Id = id;
+        this.surname = surname;
+        this.initials = initials;
+        this.studNum = studNum;
+        this.email = email;
+        this.gender = gender;
+        this.IDNo = IDNo;
+
+    }
+
+    public StudentModel() {
+
+    }
 
 
     public int getId() {
@@ -78,5 +98,20 @@ public class StudentModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    // [START post_to_map]
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", Id);
+        result.put("surname", surname);
+        result.put("initials", initials);
+        result.put("studNum", studNum);
+        result.put("IDNo", IDNo);
+        result.put("gender", gender);
+        result.put("email", email);
+
+        return result;
     }
 }
