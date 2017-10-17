@@ -153,27 +153,6 @@ public class GeoMapsActivity extends FragmentActivity
         googleApiClient.disconnect();
     }
 
-    /**@Override public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.navigation, menu);
-    return true;
-    }**/
-
-    /**
-     * @Override public boolean onOptionsItemSelected(MenuItem item) {
-     * switch (item.getItemId()) {
-     * case R.id.geofence: {
-     * startGeofence();
-     * return true;
-     * }
-     * case R.id.clear: {
-     * clearGeofence();
-     * return true;
-     * }
-     * }
-     * return super.onOptionsItemSelected(item);
-     * }
-     **/
 
     private final int REQ_PERMISSION = 999;
 
@@ -521,7 +500,7 @@ public class GeoMapsActivity extends FragmentActivity
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://" + ipAddress.getIpAddress() + "/geofence-scripts/add_geofence.php", new Response.Listener<String>() {
+                "http://geoalert.000webhostapp.com/add_geofence.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

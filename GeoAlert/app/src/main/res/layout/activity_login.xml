@@ -12,8 +12,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.josephsibiya.geoalert.LoginActivity"
     app:layout_constraintGuide_percent="@integer/google_play_services_version"
-    android:background="#AAB7B8">
+    android:background="@color/bg_login">
 
+    <ImageView
+        android:layout_width="@dimen/logo_w_h"
+        android:layout_height="@dimen/logo_w_h"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ic_action_location" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -26,6 +32,7 @@
             android:hint="Email"
             android:maxLines="1"
             android:inputType="textEmailAddress"
+            android:textColorHighlight="@color/input_login_hint"
             android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
@@ -43,6 +50,7 @@
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:textColorHighlight="@color/input_login_hint"
             android:singleLine="true" />
 
     </android.support.design.widget.TextInputLayout>
@@ -53,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="#273746"
+        android:background="#1C2833"
         android:textColor="#E5E7E9"
         android:text="Login"
         android:textStyle="bold" />

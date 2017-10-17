@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity  {
       showDialog();
 
       StringRequest strReq = new StringRequest(Request.Method.POST,
-              "http://"+ ip + "/geofence-scripts/login.php", new Response.Listener<String>() {
+              "http://geoalert.000webhostapp.com/login.php", new Response.Listener<String>() {
 
           @Override
           public void onResponse(String response) {

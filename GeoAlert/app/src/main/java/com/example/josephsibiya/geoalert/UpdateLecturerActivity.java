@@ -133,7 +133,7 @@ public class UpdateLecturerActivity extends AppCompatActivity {
 
             // sending modified data through http request
             // Notice that update product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/update_lecturer.php",
+            JSONObject json = jsonParser.makeHttpRequest("http://geoalert.000webhostapp.com/update_lecturer.php",
                     "POST", params);
 
             // check json success tag

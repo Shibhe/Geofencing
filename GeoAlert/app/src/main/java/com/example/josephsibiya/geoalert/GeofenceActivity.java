@@ -177,7 +177,7 @@ public class GeofenceActivity extends AppCompatActivity  {
 
             try {
 
-                URL url = new URL("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/list_all_geofence.php");
+                URL url = new URL("http://geoalert.000webhostapp.com/list_all_geofence.php");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 //connection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
@@ -249,60 +249,6 @@ public class GeofenceActivity extends AppCompatActivity  {
     }
 
 
-    /**@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = null;
-        inflater.inflate(R.menu.search_view, menu);
-
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
-
-        MenuItemCompat.setOnActionExpandListener(item,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-            // Do something when collapsed
-                        geofenceAdapter.setFilter(geofenceLocationsArrayList);
-                        return true; // Return true to collapse action view
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
-                        return true; // Return true to expand action view
-                    }
-                });
-
-        return true;
-    }
-
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        final List<GeofenceLocations> filteredModelList = filter(geofenceLocationsArrayList, newText);
-
-        geofenceAdapter.setFilter(filteredModelList);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    private List<GeofenceLocations> filter(List<GeofenceLocations> models, String query) {
-        query = query.toLowerCase();final List<GeofenceLocations> filteredModelList = new ArrayList<>();
-        for (GeofenceLocations model : models) {
-            final String text = model.getName().toLowerCase();
-            if (text.contains(query)) {
-                filteredModelList.add(model);
-            }
-        }
-        return filteredModelList;
-    }**/
-
     public class DeleteGeofence extends AsyncTask<String, String, String> {
 
         private Context context;
@@ -346,7 +292,7 @@ public class GeofenceActivity extends AppCompatActivity  {
 
                 // getting product details by making HTTP request
                 JSONObject json = jsonParser.makeHttpRequest(
-                        "http://"+ ipAddress.getIpAddress() + "/geofence-scripts/delete_geofence.php", "POST", params);
+                        "http://geoalert.000webhostapp.com/delete_geofence.php", "POST", params);
 
                 // check your log for json response
                 Log.d("Delete Product", json.toString());

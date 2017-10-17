@@ -163,7 +163,7 @@ public class StudentActivity extends AppCompatActivity {
 
 
             try {
-                URL loginUrl = new URL("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/get_all_student.php");
+                URL loginUrl = new URL("http://geoalert.000webhostapp.com/get_all_student.php");
                 urlConnection = (HttpURLConnection) loginUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
                 //urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
@@ -288,7 +288,7 @@ public class StudentActivity extends AppCompatActivity {
 
                 // getting product details by making HTTP request
                 JSONObject json = jsonParser.makeHttpRequest(
-                        "http://"+ ipAddress.getIpAddress() + "/geofence-scripts/delete_student.php", "POST", params);
+                        "http://geoalert.000webhostapp.com/delete_student.php", "POST", params);
 
                 // check your log for json response
                 Log.d("Delete Student", json.toString());

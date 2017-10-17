@@ -59,7 +59,6 @@ public class AddStudentActivity extends AppCompatActivity {
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private String StudGender;
     private String genderCode;
-    //private Student student = new Student(AddStudentActivity.this);
     private StudentModel studentModel;
     private IPAddress ipAddress;
     private EditText mac;
@@ -149,7 +148,7 @@ public class AddStudentActivity extends AppCompatActivity {
         hideDialog();
         // getting JSON Object
         // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest("http://"+ ipAddress.getIpAddress() + "/geofence-scripts/addStudent.php",
+        JSONObject json = jsonParser.makeHttpRequest("http://geoalert.000webhostapp.com/addStudent.php",
                 "POST", params);
 
         // check log cat fro response
