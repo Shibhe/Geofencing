@@ -500,7 +500,7 @@ public class GeoMapsActivity extends FragmentActivity
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://geoalert.000webhostapp.com/add_geofence.php", new Response.Listener<String>() {
+                "http://geoalert.000webhostapp.com/addGeofence.php", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -515,15 +515,10 @@ public class GeoMapsActivity extends FragmentActivity
                         // Now store the user in sqlite
                         //String uid = jObj.getString("uid");
 
-                        JSONObject user = jObj.getJSONObject("tblGeofence");
-                        String name = user.getString("name");
-                        String latitude = user.getString("latitude");
-                        String longitude = user.getString("longitude");
-
                         // Inserting row in users table
                         //geofence.addUser(name, Double.parseDouble(latitude), Double.parseDouble(longitude));
 
-                        Toast.makeText(getApplicationContext(), "GeofenceSQLite successfully Added.!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(GeoMapsActivity.this, jObj.getString("message"), Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
@@ -531,6 +526,7 @@ public class GeoMapsActivity extends FragmentActivity
                                 DashActivity.class);
                         startActivity(intent);
                         finish();
+
                     } else {
 
                         // Error occurred in registration. Get the error

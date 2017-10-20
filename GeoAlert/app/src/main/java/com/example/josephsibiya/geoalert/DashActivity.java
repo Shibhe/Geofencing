@@ -18,9 +18,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.josephsibiya.geoalert.Adapters.LecturerAdapter;
+import com.example.josephsibiya.geoalert.Adapters.StudentAdapter;
 import com.example.josephsibiya.geoalert.Configuration.SQLiteHandler;
 import com.example.josephsibiya.geoalert.Configuration.SessionManager;
 import com.example.josephsibiya.geoalert.models.LecturerModel;
+import com.example.josephsibiya.geoalert.models.StudentModel;
 
 import java.util.HashMap;
 
@@ -33,6 +35,7 @@ public class DashActivity extends AppCompatActivity
     private Button btnLogout;
     private LecturerModel model;
     private SessionManager session;
+    private LecturerModel studentModel;
     private LecturerAdapter adapter;
 
 
@@ -49,9 +52,9 @@ public class DashActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        intent = getIntent();
-        String surname = intent.getStringExtra("surname");
-        final String initials = intent.getStringExtra("initials");
+        //intent = getIntent();
+        //String surname = intent.getStringExtra("surname");
+        //final String initials = intent.getStringExtra("initials");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -62,24 +65,16 @@ public class DashActivity extends AppCompatActivity
 
         // SqLite database handler
 
-        // session manager
-        session = new SessionManager(DashActivity.this);
-
-        if (!session.isLoggedIn()) {
-            logoutUser();
-
-        }
-
         // Displaying the user details on the screen
-        txtName.setText(surname);
-        txtEmail.setText(initials);
+       // txtName.setText(studentModel.getSurname());
+        //txtEmail.setText(studentModel.getInitials());
 
         // Logout button click event
         btnLogout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                logoutUser();
+                //logoutUser();
                 adapter.lecturerModels.clear();
 
                 if (adapter.lecturerModels == null){
@@ -182,7 +177,7 @@ public class DashActivity extends AppCompatActivity
      * Logging out the user. Will set isLoggedIn flag to false in shared
      * preferences Clears the user data from sqlite users table
      * */
-    private void logoutUser() {
+    /**private void logoutUser() {
         session = new SessionManager(DashActivity.this);
         session.setLogin(false);
 
@@ -190,5 +185,5 @@ public class DashActivity extends AppCompatActivity
         Intent intent = new Intent(DashActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
+    }**/
 }

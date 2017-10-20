@@ -67,10 +67,6 @@ public class JSONParser {
                 is = httpEntity.getContent();
             }
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

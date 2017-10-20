@@ -1,23 +1,31 @@
 package com.example.josephsibiya.geoalert.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.R;
+import com.example.josephsibiya.geoalert.UpdateGeofenceActivity;
+import com.example.josephsibiya.geoalert.UpdateLecturerActivity;
 import com.example.josephsibiya.geoalert.models.GeofenceLocations;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.id.button1;
+
 /**
  * Created by josephsibiya on 2017/09/12.
  */
 
-public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.GeofenceViewHolder>{
+public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.GeofenceViewHolder> implements View.OnLongClickListener{
 
     public ArrayList<GeofenceLocations> locationsArrayList;
     private Context context;
@@ -33,6 +41,7 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.geofence_cardview, parent, false);
 
+        view.setOnLongClickListener(this);
         return new GeofenceViewHolder(view);
     }
 
@@ -54,6 +63,30 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         locationsArrayList.addAll(LocaModels);
         notifyDataSetChanged();
     }
+
+    @Override
+    public boolean onLongClick(View view) {
+
+        PopupMenu popup = new PopupMenu(context, view);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater().inflate(R.menu.update, popup.getMenu());
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+
+                int id = item.getItemId();
+
+                switch (id){
+                    case R.id.updat:
+                        Intent intent = new Intent(context, UpdateGeofenceActivity.class);
+                        context.startActivity(intent);
+                }
+                return false;
+            }
+    });
+        return false;
+    }
+
 
     static class GeofenceViewHolder extends RecyclerView.ViewHolder
     {

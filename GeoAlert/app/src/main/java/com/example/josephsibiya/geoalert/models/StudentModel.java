@@ -13,7 +13,16 @@ public class StudentModel {
     private String email;
     private String gender;
     private String IDNo;
-    private String status;
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+    }
+
+    private String macAddress;
 
 
     public int getId() {
@@ -72,11 +81,4 @@ public class StudentModel {
         this.email = email;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

@@ -53,7 +53,6 @@ public class StudentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private StudentAdapter studentAdapter;
     private ArrayList<StudentModel> studentModels = new ArrayList<>();
-    private SwipeRefreshLayout swipeRefreshLayout;
     private Button addStudent;
     private IPAddress ipAddress;
 
@@ -183,20 +182,13 @@ public class StudentActivity extends AppCompatActivity {
                 }
 
 
-                JSONObject studObject = new JSONObject(buffer.toString());
-
-                // Checking for SUCCESS TAG
-                int success = studObject.getInt("success");
-
-                if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    JSONArray stud = studObject.getJSONArray("tblStudent");
+                JSONObject compObj = new JSONObject(buffer.toString());
 
 
-                    for (int x = 0; x < stud.length(); x++) {
 
-                        JSONObject compObj = (JSONObject) stud.get(x);
+                    for (int x = 0; x < compObj.length(); x++) {
+
+                        //JSONObject compObj = (JSONObject) stud.get(x);
 
                         int Id;
                         String surname;
@@ -205,6 +197,7 @@ public class StudentActivity extends AppCompatActivity {
                         String email;
                         String gender;
                         String IDNo;
+                        String macAddress;
 
 
                         Id = compObj.getInt("id");
@@ -214,6 +207,7 @@ public class StudentActivity extends AppCompatActivity {
                         gender = compObj.getString("gender");
                         studNum = compObj.getString("studNum");
                         IDNo = compObj.getString("IDNo");
+                        macAddress = compObj.getString("macAddress");
 
 
                         StudentModel model = new StudentModel();
@@ -225,19 +219,14 @@ public class StudentActivity extends AppCompatActivity {
                         model.setInitials(initials);
                         model.setStudNum(studNum);
                         model.setSurname(surname);
+                        model.setMacAddress(macAddress);
 
                         adapter.numStudents.add(model);
                     }
-                }
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (IOException | JSONException e1) {
+                e1.printStackTrace();
             }
+
 
             return null;
         }
@@ -267,11 +256,15 @@ public class StudentActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(StudentActivity.this);
-            pDialog.setMessage("Deleting Student...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+            if (pDialog == null) {
+                Toast.makeText(StudentActivity.this, "Something went wrong, check your connection", Toast.LENGTH_LONG).show();
+            } else {
+                pDialog = new ProgressDialog(StudentActivity.this);
+                pDialog.setMessage("Deleting Student...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
         }
 
         /**

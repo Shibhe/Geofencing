@@ -146,6 +146,7 @@ public class AddStudentActivity extends AppCompatActivity {
         params.add(new BasicNameValuePair("macAddress", macAddress));
 
         hideDialog();
+
         // getting JSON Object
         // Note that create product url accepts POST method
         JSONObject json = jsonParser.makeHttpRequest("http://geoalert.000webhostapp.com/addStudent.php",
@@ -160,6 +161,8 @@ public class AddStudentActivity extends AppCompatActivity {
 
             if (success == 1) {
                 showDialog();
+
+                Toast.makeText(AddStudentActivity.this, json.getString("message") , Toast.LENGTH_SHORT).show();
                 // successfully created product
                 Intent i = new Intent(AddStudentActivity.this, DashActivity.class);
                 startActivity(i);
@@ -168,7 +171,7 @@ public class AddStudentActivity extends AppCompatActivity {
                 finish();
             } else {
                 // failed to create product
-                Toast.makeText(AddStudentActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddStudentActivity.this, json.getString("message") , Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

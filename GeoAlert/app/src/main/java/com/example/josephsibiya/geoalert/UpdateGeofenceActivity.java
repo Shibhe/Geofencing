@@ -92,11 +92,15 @@ public class UpdateGeofenceActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            if (pDialog == null) {
+                Toast.makeText(UpdateGeofenceActivity.this, "Something went wrong, check your connection", Toast.LENGTH_LONG).show();
+            } else {
                 pDialog = new ProgressDialog(UpdateGeofenceActivity.this);
                 pDialog.setMessage("Saving geofence ...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
+            }
         }
 
         /**

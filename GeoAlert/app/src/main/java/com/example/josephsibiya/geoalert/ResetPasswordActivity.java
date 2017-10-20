@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import org.apache.http.ParseException;
 //import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPasswordActivity extends AppCompatActivity {
@@ -44,9 +46,20 @@ public class ResetPasswordActivity extends AppCompatActivity {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                sendEmail();
             }
         });
+
+    }
+
+    public void sendEmail(){
+
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{inputEmail.getText().toString()});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Forgotten password");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Click the link to reset your password -> " + "http://geoalert.000webhostapp.com/updatePas.php");
+        ResetPasswordActivity.this.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 
     }
 }
