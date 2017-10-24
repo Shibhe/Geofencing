@@ -8,17 +8,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Geofence Name"
         android:id="@+id/geoName"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Geofence Longitude"
         android:id="@+id/geoLongi"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Geofence Latitude"
         android:id="@+id/geoLat"/>
 
 </LinearLayout>

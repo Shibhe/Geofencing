@@ -108,7 +108,7 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         public void bind(GeofenceLocations locations) {
             name.setText("Name: " + locations.getName());
             longitude.setText("Longitude: " +  String.valueOf(locations.getLatitude()));
-            longitude.setText("Latitude: " +  String.valueOf(locations.getLongitude()));
+            latitude.setText("Latitude: " +  String.valueOf(locations.getLongitude()));
         }
     }
 }

@@ -9,17 +9,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Student Surname"
         android:id="@+id/studSurname"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Student Initials"
         android:id="@+id/studInit"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Student Number"
         android:id="@+id/studNumber"/>
 
 </LinearLayout>

@@ -155,15 +155,12 @@ public class GeofenceActivity extends AppCompatActivity  {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (pDialog == null) {
-                Toast.makeText(GeofenceActivity.this, "No results", Toast.LENGTH_LONG).show();
-            } else {
                 pDialog = new ProgressDialog(GeofenceActivity.this);
                 pDialog.setMessage("Loading locations. Please wait...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(false);
                 pDialog.show();
-            }
+
         }
 
 
@@ -172,15 +169,12 @@ public class GeofenceActivity extends AppCompatActivity  {
 
             HttpURLConnection connection = null;
             BufferedReader bufferedReader = null;
-            // Check your log cat for JSON reponse
-            //Log.d("All Products: ", json.toString());
 
             try {
 
                 URL url = new URL("http://geoalert.000webhostapp.com/list_all_geofence.php");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                //connection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
                 connection.connect();
 
                 InputStream inputStream = connection.getInputStream();
@@ -197,20 +191,9 @@ public class GeofenceActivity extends AppCompatActivity  {
                     return null;
                 }
 
-                JSONObject geoObject = new JSONObject(buffer.toString());
+                JSONObject c = new JSONObject(buffer.toString());
 
-                // Checking for SUCCESS TAG
-                int success = geoObject.getInt("success");
-
-                if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    JSONArray geofence = geoObject.getJSONArray("tblGeofence");
-
-                    // looping through All Products
-                    for (int i = 0; i < geofence.length(); i++) {
-
-                        JSONObject c = (JSONObject) geofence.get(i);
+                    for (int i = 0; i < c.length(); i++) {
 
                         // Storing each json item in variable
                         int id = c.getInt("id");
@@ -226,15 +209,8 @@ public class GeofenceActivity extends AppCompatActivity  {
                         geofenceLocation.setId(id);
 
                     }
-                } else {
-                    Intent i = new Intent(GeofenceActivity.this,
-                            GeoMapsActivity.class);
-                    // Closing all previous activities
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                }
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
+                } catch (IOException | JSONException e1) {
+                e1.printStackTrace();
             }
 
             return null;

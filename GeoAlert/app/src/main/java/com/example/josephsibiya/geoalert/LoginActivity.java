@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity  {
               //navigate to Main Menu
               progressDialog.dismiss();
               Intent i = new Intent(LoginActivity.this, DashActivity.class);
+              i.putExtra("username", result);
               startActivity(i);
           }
           else{

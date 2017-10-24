@@ -65,9 +65,6 @@ public class StudentActivity extends AppCompatActivity {
         addStudent = (Button) findViewById(R.id.addStudent);
 
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
-        //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-
-        recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
 
         studentModels = new ArrayList<>();
         studentAdapter = new StudentAdapter(StudentActivity.this, studentModels);
@@ -130,7 +127,6 @@ public class StudentActivity extends AppCompatActivity {
 
     public class GetAllStudent extends AsyncTask<Void, Void, Void> {
 
-        ConfigClass config = new ConfigClass();
         private StudentAdapter adapter;
         private Context context;
         private ProgressDialog pDialog;
@@ -143,16 +139,14 @@ public class StudentActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (pDialog == null) {
-                Toast.makeText(StudentActivity.this, "No results", Toast.LENGTH_LONG).show();
-            } else {
+
                 pDialog = new ProgressDialog(context);
                 pDialog.setMessage("Loading students. Please wait...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(false);
                 pDialog.show();
             }
-        }
+
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -165,7 +159,6 @@ public class StudentActivity extends AppCompatActivity {
                 URL loginUrl = new URL("http://geoalert.000webhostapp.com/get_all_student.php");
                 urlConnection = (HttpURLConnection) loginUrl.openConnection();
                 urlConnection.setRequestMethod("GET");
-                //urlConnection.setRequestProperty("X-Auth-Token", "1ef07188cb3a49c48ea1ce543a8b8212");
                 urlConnection.connect();
                 InputStream stream = urlConnection.getInputStream();
                 bufferedReader = new BufferedReader(new InputStreamReader(stream));
@@ -184,11 +177,7 @@ public class StudentActivity extends AppCompatActivity {
 
                 JSONObject compObj = new JSONObject(buffer.toString());
 
-
-
                     for (int x = 0; x < compObj.length(); x++) {
-
-                        //JSONObject compObj = (JSONObject) stud.get(x);
 
                         int Id;
                         String surname;

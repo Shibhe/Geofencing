@@ -52,8 +52,8 @@ public class DashActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        //intent = getIntent();
-        //String surname = intent.getStringExtra("surname");
+        intent = getIntent();
+        String surname = intent.getStringExtra("username");
         //final String initials = intent.getStringExtra("initials");
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -66,7 +66,7 @@ public class DashActivity extends AppCompatActivity
         // SqLite database handler
 
         // Displaying the user details on the screen
-       // txtName.setText(studentModel.getSurname());
+        txtName.setText(surname);
         //txtEmail.setText(studentModel.getInitials());
 
         // Logout button click event
