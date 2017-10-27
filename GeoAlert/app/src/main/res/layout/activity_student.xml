@@ -24,12 +24,6 @@
         </FrameLayout>
 
 
-    <Button
-        android:id="@+id/addStudent"
-        android:layout_width="358dp"
-        android:layout_height="wrap_content"
-        android:text="Add Student"
-        tools:layout_editor_absoluteX="13dp"
-        tools:layout_editor_absoluteY="447dp" />
+
 
 </android.support.constraint.ConstraintLayout>

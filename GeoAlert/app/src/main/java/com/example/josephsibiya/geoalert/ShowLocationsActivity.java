@@ -64,7 +64,7 @@ public class ShowLocationsActivity extends FragmentActivity implements OnMapRead
         setContentView(R.layout.activity_show_locations);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
-        adapter = new GeofenceAdapter(locationsArrayList, ShowLocationsActivity.this);
+        adapter = new GeofenceAdapter(locationsArrayList);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {

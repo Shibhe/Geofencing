@@ -62,7 +62,6 @@ public class GeofenceActivity extends AppCompatActivity  {
     private RecyclerView recyclerView;
     private GeofenceAdapter geofenceAdapter;
     private ArrayList<GeofenceLocations> geofenceLocationsArrayList = new ArrayList<>();
-    private Button addGeofence;
     private IPAddress ipAddress;
 
     @Override
@@ -70,37 +69,23 @@ public class GeofenceActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geofence);
 
-        addGeofence = (Button) findViewById(R.id.addGeofence);
-
         recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
-        //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout1);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvGeofence);
         geofenceLocationsArrayList = new ArrayList<>();
 
 
-
-        geofenceAdapter = new GeofenceAdapter(geofenceLocationsArrayList, GeofenceActivity.this);
+        geofenceAdapter = new GeofenceAdapter(geofenceLocationsArrayList);
         recyclerView.setAdapter(geofenceAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        addGeofence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GeofenceActivity.this, GeoMapsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
+        //itemTouchHelper.attachToRecyclerView(recyclerView);
 
         new GellAllGeofence(GeofenceActivity.this, geofenceAdapter);
     }
 
-    private ItemTouchHelper.Callback CreateHelperCallBack()
+    /**private ItemTouchHelper.Callback CreateHelperCallBack()
     {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP |
                 ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
@@ -133,12 +118,11 @@ public class GeofenceActivity extends AppCompatActivity  {
         geofenceAdapter.locationsArrayList.remove(pos);
         geofenceAdapter.locationsArrayList.add(newPos, geofenceLocations);
         geofenceAdapter.notifyItemMoved(pos, newPos);
-    }
+    }**/
 
 
     public class GellAllGeofence extends AsyncTask<Void, Void, Void> {
 
-        ConfigClass config  = new ConfigClass();
         private Context context;
         private GeofenceAdapter adapter;
         private ProgressDialog pDialog;
@@ -156,7 +140,7 @@ public class GeofenceActivity extends AppCompatActivity  {
         protected void onPreExecute() {
             super.onPreExecute();
                 pDialog = new ProgressDialog(GeofenceActivity.this);
-                pDialog.setMessage("Loading locations. Please wait...");
+                pDialog.setMessage("Loading geofence locations. Please wait...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(false);
                 pDialog.show();
@@ -230,7 +214,6 @@ public class GeofenceActivity extends AppCompatActivity  {
         private Context context;
         private ArrayList<GeofenceLocations> models;
         private ProgressDialog pDialog;
-        private ConfigClass aClass;
 
         public DeleteGeofence(Context context, ArrayList<GeofenceLocations> models) {
             this.context = context;

@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -55,6 +56,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,6 +71,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class GeoMapsActivity extends FragmentActivity
@@ -87,6 +97,7 @@ public class GeoMapsActivity extends FragmentActivity
     private Button createGeofence;
     private Button clearGeofence;
     private IPAddress ipAddress;
+    ProgressDialog progressDialog;
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
 
@@ -114,7 +125,11 @@ public class GeoMapsActivity extends FragmentActivity
         createGeofence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startGeofence();
+                try {
+                    startGeofence();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -346,7 +361,7 @@ public class GeoMapsActivity extends FragmentActivity
     }
 
     // Start GeofenceSQLite creation process
-    private void startGeofence() {
+    private void startGeofence() throws IOException {
         Log.i(TAG, "startGeofence()");
         if (geoFenceMarker != null) {
             Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS);
@@ -362,12 +377,18 @@ public class GeoMapsActivity extends FragmentActivity
     private static final float GEOFENCE_RADIUS = 100.0f; // in meters
 
     // Create a GeofenceSQLite
-    private Geofence createGeofence(LatLng latLng, float radius) {
+    private Geofence createGeofence(LatLng latLng, float radius) throws IOException {
         Log.d(TAG, "createGeofence");
 
-        String name = String.valueOf(new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude).execute());
+        //String name = new GetAddressTask(GeoMapsActivity.this, latLng.latitude, latLng.longitude).execute();
 
-        registerGeofence(name, latLng.latitude, latLng.longitude);
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+        String cityName = addresses.get(0).getAddressLine(0);
+        //String stateName = addresses.get(0).getAddressLine(1);
+        //String countryName = addresses.get(0).getAddressLine(2);
+
+        registerGeofence(cityName, latLng.latitude, latLng.longitude);
 
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
@@ -492,91 +513,63 @@ public class GeoMapsActivity extends FragmentActivity
             geoFenceLimits.remove();
     }
 
-    private void registerGeofence(final String name, final Double longi, final Double lati) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_register";
+    void registerGeofence(final String name, final Double longi, final Double lati){
 
-        pDialog.setMessage("Adding ...");
-        showDialog();
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://geoalert.000webhostapp.com/addGeofence.php", new Response.Listener<String>() {
-
+        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
             @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Register Response: " + response.toString());
-                hideDialog();
+            protected String doInBackground(String... params) {
+
+                List<NameValuePair> param = new ArrayList<>();
+
+                param.add(new BasicNameValuePair("surname", name));
+                param.add(new BasicNameValuePair("latitude", lati.toString()));
+                param.add(new BasicNameValuePair("longitude", longi.toString()));
+
 
                 try {
-                    JSONObject jObj = new JSONObject(response);
-                    int error = jObj.getInt("success");
-                    if (error == 1) {
-                        // User successfully stored in MySQL
-                        // Now store the user in sqlite
-                        //String uid = jObj.getString("uid");
+                    HttpClient httpClient = new DefaultHttpClient();
 
-                        // Inserting row in users table
-                        //geofence.addUser(name, Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    HttpPost httpPost = new HttpPost("http://geoalert.000webhostapp.com/addGeofence.php");
 
-                        Toast.makeText(GeoMapsActivity.this, jObj.getString("message"), Toast.LENGTH_LONG).show();
+                    httpPost.setEntity(new UrlEncodedFormEntity(param));
 
-                        // Launch login activity
-                        Intent intent = new Intent(
-                                GeoMapsActivity.this,
-                                DashActivity.class);
-                        startActivity(intent);
-                        finish();
+                    HttpResponse httpResponse = httpClient.execute(httpPost);
 
-                    } else {
+                    HttpEntity httpEntity = httpResponse.getEntity();
 
-                        // Error occurred in registration. Get the error
-                        // message
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                } catch (IOException ignored) {
+
                 }
-
+                return "Data Inserted Successfully";
             }
-        }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
+            protected void onPostExecute(String result) {
+
+                super.onPostExecute(result);
+
+                progressDialog.dismiss();
+                Toast.makeText(GeoMapsActivity.this, "Geofence Submit Successfully", Toast.LENGTH_LONG).show();
+
             }
-        }) {
 
             @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                params.put("latitude", lati.toString());
-                params.put("longitude", longi.toString());
+            protected void onPreExecute() {
+                super.onPreExecute();
 
-                return params;
+                progressDialog = new ProgressDialog(GeoMapsActivity.this);
+                progressDialog.setMessage("Please wait while adding geofence....");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setTitle("Add Geofence");
+                progressDialog.show();
             }
+        }
 
-        };
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
 
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        sendPostReqAsyncTask.execute(name, longi.toString(), lati.toString());
     }
 
-
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 
 }

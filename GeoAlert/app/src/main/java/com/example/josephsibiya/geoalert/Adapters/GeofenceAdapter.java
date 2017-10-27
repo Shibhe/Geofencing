@@ -25,23 +25,20 @@ import static android.R.id.button1;
  * Created by josephsibiya on 2017/09/12.
  */
 
-public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.GeofenceViewHolder> implements View.OnLongClickListener{
+public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.GeofenceViewHolder>{
 
-    public ArrayList<GeofenceLocations> locationsArrayList;
-    private Context context;
+    public ArrayList<GeofenceLocations> locationsArrayList = new ArrayList<>();
 
 
-    public GeofenceAdapter(ArrayList<GeofenceLocations> locationsArrayList, Context context) {
+    public GeofenceAdapter(ArrayList<GeofenceLocations> locationsArrayList) {
         this.locationsArrayList = locationsArrayList;
-        this.context = context;
     }
 
     @Override
     public GeofenceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.geofence_cardview, parent, false);
 
-        view.setOnLongClickListener(this);
         return new GeofenceViewHolder(view);
     }
 
@@ -64,7 +61,7 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         notifyDataSetChanged();
     }
 
-    @Override
+    /**@Override
     public boolean onLongClick(View view) {
 
         PopupMenu popup = new PopupMenu(context, view);
@@ -85,7 +82,7 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
             }
     });
         return false;
-    }
+    }**/
 
 
     static class GeofenceViewHolder extends RecyclerView.ViewHolder

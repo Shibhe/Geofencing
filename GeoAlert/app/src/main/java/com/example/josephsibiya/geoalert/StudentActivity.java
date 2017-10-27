@@ -53,7 +53,6 @@ public class StudentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private StudentAdapter studentAdapter;
     private ArrayList<StudentModel> studentModels = new ArrayList<>();
-    private Button addStudent;
     private IPAddress ipAddress;
 
     @Override
@@ -62,7 +61,7 @@ public class StudentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student);
 
 
-        addStudent = (Button) findViewById(R.id.addStudent);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
 
@@ -71,17 +70,6 @@ public class StudentActivity extends AppCompatActivity {
         recyclerView.setAdapter(studentAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-        addStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudentActivity.this, AddStudentActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
         new GetAllStudent(studentAdapter, StudentActivity.this).execute();
 

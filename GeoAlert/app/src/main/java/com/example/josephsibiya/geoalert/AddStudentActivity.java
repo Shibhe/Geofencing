@@ -2,6 +2,7 @@ package com.example.josephsibiya.geoalert;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,7 +27,14 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.RequestBody;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +72,7 @@ public class AddStudentActivity extends AppCompatActivity {
     private EditText mac;
     private GetMacAddress getMacAddr;
     private JSONParser jsonParser;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +90,7 @@ public class AddStudentActivity extends AppCompatActivity {
 
         getMacAddr = new GetMacAddress(AddStudentActivity.this);
 
-        final String macAddress = getMacAddr.getMacAddress();
+        //final String macAddress = getMacAddr.getMacAddress();
         btnAddStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +100,7 @@ public class AddStudentActivity extends AppCompatActivity {
                 IDNo.setError(null);
                 gender.setError(null);
                 email.setError(null);
-                mac.setText(macAddress);
+                //mac.setText(macAddress);
 
                 if (surname.length() == 0) {
                     Toast.makeText(AddStudentActivity.this, "Surname characters must be more than 0 characters", Toast.LENGTH_SHORT).show();
@@ -111,12 +120,6 @@ public class AddStudentActivity extends AppCompatActivity {
                 if (IDNo.length() == 0 && !studNumber.getText().toString().matches(regexStr) && IDNo.length() > 13) {
                     Toast.makeText(AddStudentActivity.this, "Please enter valid ID number", Toast.LENGTH_SHORT).show();
                     view = IDNo;
-                } else {
-                    genderCode = IDNo.getText().toString().substring(6, 10);
-                    StudGender = parseInt(genderCode) < 5000 ? "Female" : "Male";
-
-                    studentModel.setGender(StudGender);
-                    gender.setText(StudGender);
                 }
 
                 if (email.length() == 0 && !email.getText().toString().matches(emailPattern)) {
@@ -125,67 +128,75 @@ public class AddStudentActivity extends AppCompatActivity {
                 } else {
 
                     registerUser(surname.getText().toString(), initials.getText().toString(), studNumber.getText().toString(), IDNo.getText().toString(), gender.getText().toString(), email.getText().toString(), mac.getText().toString());
+                    //Intent i = new Intent(AddStudentActivity.this, DashActivity.class);
+                    //startActivity(i);
+
                 }
 
             }
         });
     }
 
-
     private void registerUser(final String surn, final String ini, final String studNum, final String IDNo, final String gender,
-                              final String email, final String macAddress) {
+                              final String email, final String macAddress){
 
-        // Building Parameters
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("surname", surn));
-        params.add(new BasicNameValuePair("initials", ini));
-        params.add(new BasicNameValuePair("studNum", studNum));
-        params.add(new BasicNameValuePair("IDNo", IDNo));
-        params.add(new BasicNameValuePair("gender", gender));
-        params.add(new BasicNameValuePair("email", email));
-        params.add(new BasicNameValuePair("macAddress", macAddress));
+        class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
 
-        hideDialog();
+                List<NameValuePair> param = new ArrayList<>();
 
-        // getting JSON Object
-        // Note that create product url accepts POST method
-        JSONObject json = jsonParser.makeHttpRequest("http://geoalert.000webhostapp.com/addStudent.php",
-                "POST", params);
+                param.add(new BasicNameValuePair("surname", surn));
+                param.add(new BasicNameValuePair("initials", ini));
+                param.add(new BasicNameValuePair("studNum", studNum));
+                param.add(new BasicNameValuePair("IDNo", IDNo));
+                param.add(new BasicNameValuePair("gender", gender));
+                param.add(new BasicNameValuePair("email", email));
+                param.add(new BasicNameValuePair("macAddress", macAddress));
 
-        // check log cat fro response
-        Log.d("Create Response", json.toString());
+                try {
+                    HttpClient httpClient = new DefaultHttpClient();
 
-        // check for success tag
-        try {
-            int success = json.getInt("success");
+                    HttpPost httpPost = new HttpPost("http://geoalert.000webhostapp.com/addStudent.php");
 
-            if (success == 1) {
-                showDialog();
+                    httpPost.setEntity(new UrlEncodedFormEntity(param));
 
-                Toast.makeText(AddStudentActivity.this, json.getString("message") , Toast.LENGTH_SHORT).show();
-                // successfully created product
-                Intent i = new Intent(AddStudentActivity.this, DashActivity.class);
-                startActivity(i);
+                    HttpResponse httpResponse = httpClient.execute(httpPost);
 
-                // closing this screen
-                finish();
-            } else {
-                // failed to create product
-                Toast.makeText(AddStudentActivity.this, json.getString("message") , Toast.LENGTH_SHORT).show();
+                    HttpEntity httpEntity = httpResponse.getEntity();
+
+
+                } catch (IOException ignored) {
+
+                }
+                return "Data Inserted Successfully";
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                super.onPostExecute(result);
+
+                progressDialog.dismiss();
+                Toast.makeText(AddStudentActivity.this, "Student Submit Successfully", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = new ProgressDialog(AddStudentActivity.this);
+                progressDialog.setMessage("Please wait while adding student....");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setTitle("Adding Student");
+                progressDialog.show();
+            }
         }
-    }
 
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
 
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
+        sendPostReqAsyncTask.execute(surn, ini, studNum, IDNo, gender, email, macAddress);
     }
 
 }

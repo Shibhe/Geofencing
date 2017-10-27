@@ -27,14 +27,6 @@ public class GetAddressTask extends AsyncTask<Location, Void, String> {
     }
 
 
-    /*
-    * When the task finishes, onPostExecute() displays the address. */
-    @Override
-    protected void onPostExecute(String address) {
-        // Display the current address in the UI
-        Toast.makeText(mContext, address, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     protected String doInBackground(Location... params) {
         Geocoder geocoder =
@@ -75,7 +67,7 @@ public class GetAddressTask extends AsyncTask<Location, Void, String> {
                 // The country of the address
                 addresses.getCountryName());
         // Return the text
-        return addressText.toString();
+        return addressText;
     }
 }
 // AsyncTask class

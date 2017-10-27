@@ -31,12 +31,13 @@ public class DashActivity extends AppCompatActivity
 
     Intent intent;
     private TextView txtName;
-    private TextView txtEmail;
     private Button btnLogout;
     private LecturerModel model;
     private SessionManager session;
     private LecturerModel studentModel;
     private LecturerAdapter adapter;
+    private Button addStudent;
+    private Button addGeofence;
 
 
     @Override
@@ -59,14 +60,13 @@ public class DashActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        txtName = (TextView) findViewById(R.id.name);
-        txtEmail = (TextView) findViewById(R.id.email);
+        txtName = (TextView) findViewById(R.id.welc);
         btnLogout = (Button) findViewById(R.id.btnLogout);
-
+        addGeofence = (Button) findViewById(R.id.addGeofence);
         // SqLite database handler
 
         // Displaying the user details on the screen
-        txtName.setText(surname);
+        txtName.setText("Welcome" + surname);
         //txtEmail.setText(studentModel.getInitials());
 
         // Logout button click event
@@ -83,6 +83,26 @@ public class DashActivity extends AppCompatActivity
                 }
             }
         });
+
+        addStudent = (Button) findViewById(R.id.addStudent);
+
+        addStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashActivity.this, AddStudentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addGeofence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DashActivity.this, GeoMapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -144,7 +164,7 @@ public class DashActivity extends AppCompatActivity
         } else if (id == R.id.navigation_manage_geo) {
             intent = new Intent(DashActivity.this, GeofenceActivity.class);
             startActivity(intent);
-            return  true;
+            return true;
 
         } else if (id == R.id.nav_share) {
 
