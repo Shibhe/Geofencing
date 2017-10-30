@@ -85,7 +85,7 @@ public class GeofenceActivity extends AppCompatActivity  {
         new GellAllGeofence(GeofenceActivity.this, geofenceAdapter);
     }
 
-    /**private ItemTouchHelper.Callback CreateHelperCallBack()
+    private ItemTouchHelper.Callback CreateHelperCallBack()
     {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP |
                 ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
@@ -118,7 +118,7 @@ public class GeofenceActivity extends AppCompatActivity  {
         geofenceAdapter.locationsArrayList.remove(pos);
         geofenceAdapter.locationsArrayList.add(newPos, geofenceLocations);
         geofenceAdapter.notifyItemMoved(pos, newPos);
-    }**/
+    }
 
 
     public class GellAllGeofence extends AsyncTask<Void, Void, Void> {
