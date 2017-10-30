@@ -35,7 +35,7 @@ public class GeofenceLocations {
     }
 
     public void setName(String name) {
-        this.name = "Joseph";
+        this.name = name;
     }
 
     public double getLongitude() {

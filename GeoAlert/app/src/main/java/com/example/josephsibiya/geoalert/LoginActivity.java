@@ -127,6 +127,7 @@ public class LoginActivity extends AppCompatActivity  {
               startActivity(i);
           }
           else{
+              progressDialog.dismiss();
               Toast.makeText(LoginActivity.this, "Sorry!! Incorrect Username or Password", Toast.LENGTH_SHORT).show();
           }
       }//close onPostExecute
