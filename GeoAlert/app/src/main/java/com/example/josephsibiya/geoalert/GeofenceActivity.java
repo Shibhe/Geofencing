@@ -79,10 +79,10 @@ public class GeofenceActivity extends AppCompatActivity  {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
-        //itemTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        new GellAllGeofence(GeofenceActivity.this, geofenceAdapter);
+        new GellAllGeofence(GeofenceActivity.this, geofenceAdapter).execute();
     }
 
     private ItemTouchHelper.Callback CreateHelperCallBack()
@@ -107,8 +107,9 @@ public class GeofenceActivity extends AppCompatActivity  {
     private void deleteItem(int pos)
     {
         geofenceAdapter.locationsArrayList.remove(pos);
-        new DeleteGeofence(GeofenceActivity.this, geofenceLocationsArrayList).execute();
+       // new DeleteGeofence(GeofenceActivity.this, geofenceLocationsArrayList).execute();
         geofenceAdapter.notifyDataSetChanged();
+        Toast.makeText(GeofenceActivity.this, "Geofence has been deleted", Toast.LENGTH_LONG).show();
     }
 
 
@@ -192,6 +193,8 @@ public class GeofenceActivity extends AppCompatActivity  {
                         geofenceLocation.setName(name);
                         geofenceLocation.setId(id);
 
+                        geofenceAdapter.locationsArrayList.add(geofenceLocation);
+
                     }
                 } catch (IOException | JSONException e1) {
                 e1.printStackTrace();
@@ -204,7 +207,7 @@ public class GeofenceActivity extends AppCompatActivity  {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             pDialog.dismiss();
-            adapter.notifyDataSetChanged();
+            geofenceAdapter.notifyDataSetChanged();
         }
     }
 

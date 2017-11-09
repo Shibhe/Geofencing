@@ -61,29 +61,6 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         notifyDataSetChanged();
     }
 
-    /**@Override
-    public boolean onLongClick(View view) {
-
-        PopupMenu popup = new PopupMenu(context, view);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater().inflate(R.menu.update, popup.getMenu());
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-
-                int id = item.getItemId();
-
-                switch (id){
-                    case R.id.updat:
-                        Intent intent = new Intent(context, UpdateGeofenceActivity.class);
-                        context.startActivity(intent);
-                }
-                return false;
-            }
-    });
-        return false;
-    }**/
-
 
     static class GeofenceViewHolder extends RecyclerView.ViewHolder
     {
@@ -91,7 +68,6 @@ public class GeofenceAdapter extends RecyclerView.Adapter<GeofenceAdapter.Geofen
         private TextView name;
         private TextView longitude;
         private TextView latitude;
-       // private TextView radius;
 
         public GeofenceViewHolder(View itemView) {
             super(itemView);

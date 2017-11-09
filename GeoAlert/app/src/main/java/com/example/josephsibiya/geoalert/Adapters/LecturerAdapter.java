@@ -22,7 +22,7 @@ import java.util.List;
  * Created by reversidesoftwaresolutions on 10/10/17.
  */
 
-public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.LecturerViewHolder> implements View.OnLongClickListener{
+public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.LecturerViewHolder>{
 
     public ArrayList<LecturerModel> lecturerModels;
     private Context context;
@@ -38,7 +38,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.Lectur
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.lecturer_details, parent, false);
 
-        view.setOnLongClickListener(this);
 
         return new LecturerViewHolder(view);
     }
@@ -53,27 +52,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.Lectur
     }
 
     @Override
-    public boolean onLongClick(View view) {
-
-        PopupMenu popup = new PopupMenu(context, view);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater().inflate(R.menu.update, popup.getMenu());
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-
-                switch (id){
-                    case R.id.updat:
-                        Intent intent = new Intent(context, UpdateLecturerActivity.class);
-                        context.startActivity(intent);
-                }
-                return false;
-            }
-        });
-        return false;
-    }
-    @Override
     public int getItemCount() {
         return lecturerModels.size();
     }
@@ -85,7 +63,6 @@ public class LecturerAdapter extends RecyclerView.Adapter<LecturerAdapter.Lectur
         private TextView surname;
         private TextView initials;
         private TextView stuff;
-        // private TextView radius;
 
         public LecturerViewHolder(View itemView) {
             super(itemView);

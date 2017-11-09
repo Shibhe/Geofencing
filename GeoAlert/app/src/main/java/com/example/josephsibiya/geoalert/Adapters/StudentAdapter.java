@@ -22,10 +22,9 @@ import java.util.ArrayList;
  * Created by josephsibiya on 2017/09/12.
  */
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> implements View.OnLongClickListener {
+public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder>{
 
     private Context context;
-    //private StudentModel model;
     public ArrayList<StudentModel> numStudents;
 
     public StudentAdapter(Context context, ArrayList<StudentModel> numStudents) {
@@ -37,35 +36,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     @Override
     public StudentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context)
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.student_cardview, parent, false);
 
-        view.setOnLongClickListener(this);
         return new StudentViewHolder(view);
     }
-    @Override
-    public boolean onLongClick(View view) {
 
-        PopupMenu popup = new PopupMenu(context, view);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater().inflate(R.menu.update, popup.getMenu());
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
 
-                int id = item.getItemId();
-
-                switch (id){
-                    case R.id.updat:
-                        Intent intent = new Intent(context, UpDateActivity.class);
-                        context.startActivity(intent);
-                }
-                return false;
-
-            }
-        });
-        return false;
-    }
     @Override
     public void onBindViewHolder(StudentViewHolder holder, int position)
     {

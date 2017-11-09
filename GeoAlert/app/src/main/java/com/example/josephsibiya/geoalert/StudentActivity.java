@@ -60,9 +60,6 @@ public class StudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
 
-
-
-
         recyclerView = (RecyclerView) findViewById(R.id.rvStudent);
 
         studentModels = new ArrayList<>();
@@ -71,10 +68,10 @@ public class StudentActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        new GetAllStudent(studentAdapter, StudentActivity.this).execute();
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(CreateHelperCallBack());
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        new GetAllStudent(studentAdapter, StudentActivity.this).execute();
     }
 
     private ItemTouchHelper.Callback CreateHelperCallBack()
@@ -90,6 +87,7 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 deleteItem(viewHolder.getAdapterPosition());
+                Toast.makeText(StudentActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -99,8 +97,9 @@ public class StudentActivity extends AppCompatActivity {
     private void deleteItem(int pos)
     {
         studentAdapter.numStudents.remove(pos);
-        new DeleteStudent(StudentActivity.this, studentModels).execute();
+        //new DeleteStudent(StudentActivity.this, studentModels).execute();
         studentAdapter.notifyDataSetChanged();
+        Toast.makeText(StudentActivity.this, "Student has been deleted", Toast.LENGTH_LONG).show();
     }
 
 
@@ -198,12 +197,11 @@ public class StudentActivity extends AppCompatActivity {
                         model.setSurname(surname);
                         model.setMacAddress(macAddress);
 
-                        adapter.numStudents.add(model);
+                        studentAdapter.numStudents.add(model);
                     }
                 } catch (IOException | JSONException e1) {
                 e1.printStackTrace();
             }
-
 
             return null;
         }

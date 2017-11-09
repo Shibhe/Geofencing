@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.josephsibiya.geoalert.Adapters.LecturerAdapter;
 import com.example.josephsibiya.geoalert.Adapters.StudentAdapter;
@@ -89,15 +90,16 @@ public class DashActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        txtName = (TextView) findViewById(R.id.welc);
+        //txtName = (TextView) findViewById(R.id.welc);
         btnLogout = (Button) findViewById(R.id.btnLogout);
         addGeofence = (Button) findViewById(R.id.addGeofence);
         // SqLite database handler
 
         // Displaying the user details on the screen
-        txtName.setText("Welcome" + surname);
+        //txtName.setText("Welcome" + surname);
         //txtEmail.setText(studentModel.getInitials());
 
+        Toast.makeText(DashActivity.this, surname, Toast.LENGTH_SHORT).show();
         // Logout button click event
         btnLogout.setOnClickListener(new View.OnClickListener() {
 
