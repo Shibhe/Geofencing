@@ -3,6 +3,7 @@ package com.example.josephsibiya.geoalert;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.josephsibiya.geoalert.Adapters.LecturerAdapter;
@@ -38,6 +40,11 @@ public class DashActivity extends AppCompatActivity
     private LecturerAdapter adapter;
     private Button addStudent;
     private Button addGeofence;
+    ProgressBar myprogressBar;
+    TextView progressingTextView;
+    Handler progressHandler = new Handler();
+    int i = 0;
+
 
 
     @Override
@@ -52,6 +59,28 @@ public class DashActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        myprogressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressingTextView = (TextView) findViewById(R.id.progress_circle_text);
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (i < 100) {
+                    i += 2;
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            myprogressBar.setProgress(i);
+                            progressingTextView.setText("" + i + " %");
+                        }
+                    });
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
         intent = getIntent();
         String surname = intent.getStringExtra("username");
